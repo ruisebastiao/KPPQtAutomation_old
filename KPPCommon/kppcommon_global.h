@@ -1,0 +1,12 @@
+#ifndef KPPCOMMON_GLOBAL_H
+#define KPPCOMMON_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(KPPCOMMON_LIBRARY)
+#  define KPPCOMMONSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define KPPCOMMONSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // KPPCOMMON_GLOBAL_H

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/i18n" lang="de">
+        <file alias="translations">i18n/translations_de.qm</file>
+    </qresource>
+</RCC>
