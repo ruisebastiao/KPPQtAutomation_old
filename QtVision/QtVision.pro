@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui xml
-#CONFIG   += qxt
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,11 +21,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     actionbar.cpp \
     configurationswidget.cpp \
-    inspection.cpp \
-    kppvision.cpp \
     menustyle.cpp \
     resizableitem.cpp \
-    roi.cpp \
     settings.cpp \
     sidetreewidget.cpp \
     sidewidget.cpp \
@@ -35,8 +32,6 @@ HEADERS  += mainwindow.h \
     actionbar.h \
     configurationsframe.h \
     configurationswidget.h \
-    inspection.h \
-    kppvision.h \
     menustyle.h \
     resizableitem.h \
     roi.h \
@@ -95,3 +90,11 @@ else:unix: LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
 
 INCLUDEPATH += $$PWD/../ExternalLibs/Qxt/include
 DEPENDPATH += $$PWD/../ExternalLibs/Qxt/include
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../KPPVision/release/ -lKPPVision
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../KPPVision/debug/ -lKPPVision
+else:unix: LIBS += -L$$OUT_PWD/../KPPVision/ -lKPPVision
+
+INCLUDEPATH += $$PWD/../KPPVision
+DEPENDPATH += $$PWD/../KPPVision

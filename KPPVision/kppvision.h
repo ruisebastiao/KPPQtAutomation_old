@@ -1,9 +1,11 @@
 #ifndef KPPVISION_H
 #define KPPVISION_H
 
+#include "kppvision_global.h"
+
 #include <QtGui>
 #include <QGraphicsView>
-#include "resizableitem.h"
+
 #include "icxmlserializable.h"
 #include "inspection.h"
 
@@ -12,7 +14,7 @@ namespace Vision
 {
 
 
-class KPPVision:public icXmlSerializable
+class KPPVISIONSHARED_EXPORT KPPVision:public icXmlSerializable
 {
     Q_OBJECT
 
@@ -45,7 +47,7 @@ public slots:
 };
 
 
-class ProjectsList : public icXmlSerializable
+class KPPVISIONSHARED_EXPORT ProjectsList : public icXmlSerializable
 {
     Q_OBJECT
 public:

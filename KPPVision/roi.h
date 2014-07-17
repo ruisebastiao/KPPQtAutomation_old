@@ -1,13 +1,14 @@
 #ifndef ROI_H
 #define ROI_H
 
+#include "kppvision_global.h"
 #include <QObject>
 #include "icxmlserializable.h"
-#include "resizableitem.h"
+
 
 namespace Vision
 {
-class ROI : public icXmlSerializable
+class KPPVISIONSHARED_EXPORT ROI : public icXmlSerializable
 {
     Q_OBJECT
 public:
@@ -32,7 +33,7 @@ public slots:
 
 };
 
-    class ROIList:public icXmlSerializable
+    class KPPVISIONSHARED_EXPORT ROIList:public icXmlSerializable
     {
         Q_OBJECT
     public:

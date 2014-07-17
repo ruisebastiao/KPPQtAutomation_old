@@ -1,13 +1,14 @@
 #ifndef INSPECTION_H
 #define INSPECTION_H
 
+#include "kppvision_global.h"
 #include <QObject>
 #include <icxmlserializable.h>
 
 namespace Vision
 {
 
-class Inspection : public icXmlSerializable
+class KPPVISIONSHARED_EXPORT Inspection : public icXmlSerializable
 {
     Q_OBJECT
 public:
@@ -31,7 +32,7 @@ public slots:
 
 };
 
-    class InspectionList:public icXmlSerializable
+    class KPPVISIONSHARED_EXPORT InspectionList:public icXmlSerializable
     {
         Q_OBJECT
     public:

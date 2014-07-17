@@ -3,7 +3,8 @@ TEMPLATE = subdirs
 SUBDIRS += \
     KPPCommon \    
     icxmlserializable \
-    KPPHardware
+    KPPHardware \
+    KPPVision
 
 
 CONFIG += ordered
