@@ -10,7 +10,7 @@ TARGET = KPPHardware
 TEMPLATE = lib
 
 DEFINES += KPPHARDWARE_LIBRARY
-
+QMAKE_CXXFLAGS += /DNOMINMAX
 SOURCES += \
     camerainfo.cpp \
     idscamera.cpp \
@@ -41,8 +41,7 @@ unix|win32: LIBS += -L$$PWD/../ExternalLibs/IDS/Lib/ -luEye_api_64
 unix|win32: LIBS += -L$$PWD/../ExternalLibs/IDS/Lib/ -luEye_api
 
 INCLUDEPATH += $$PWD/../ExternalLibs/IDS/include
-
-DEFINES += NOMINMAX
+DEPENDPATH += $$PWD/../ExternalLibs/IDS/include
 
 
 QMAKE_CFLAGS_RELEASE += -Zi
@@ -62,3 +61,5 @@ DEPENDPATH += $$PWD/../icxmlserializable
 ! include( ../common.pri ) {
     error( "Couldn't find the common.pri file!" )
 }
+
+

@@ -73,22 +73,7 @@
         <number>4</number>
        </property>
        <item>
-        <widget class="SideTreeWidget" name="treeWidget">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="autoExpandDelay">
-          <number>1</number>
-         </property>
-         <property name="rootIsDecorated">
-          <bool>true</bool>
-         </property>
-         <property name="animated">
-          <bool>true</bool>
-         </property>
-         <attribute name="headerVisible">
-          <bool>false</bool>
-         </attribute>
+        <widget class="VisionTreeWidget" name="treeWidget">
          <column>
           <property name="text">
            <string notr="true">1</string>
@@ -160,6 +145,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -177,9 +169,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>SideTreeWidget</class>
+   <class>VisionTreeWidget</class>
    <extends>QTreeWidget</extends>
-   <header>sidetreewidget.h</header>
+   <header>visiontreewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

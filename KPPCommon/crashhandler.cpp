@@ -1,10 +1,13 @@
+
 #include "crashhandler.h"
 #include "crashdialog.h"
+
 #include <QxtCore/QxtLogger>
 #include <QxtCore/QxtXmlFileLoggerEngine>
 
 namespace CrashReport {
 
+   #ifdef _WIN32
 
 void windows_print_stacktrace(CONTEXT* context)
 {
@@ -210,7 +213,7 @@ LONG WINAPI windows_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
-
+#endif
 }
 
 

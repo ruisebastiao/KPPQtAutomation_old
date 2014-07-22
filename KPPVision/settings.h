@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "kppvision_global.h"
 #include <QObject>
 #include "kppvision.h"
 #include "kpphardware.h"
@@ -10,7 +11,7 @@
 using namespace Vision;
 
 
-class Settings : public icXmlSerializable
+class KPPVISIONSHARED_EXPORT Settings : public icXmlSerializable
 {
     Q_OBJECT
 public:

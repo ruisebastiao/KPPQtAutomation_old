@@ -271,6 +271,10 @@ bool ProjectsList::setData(const QModelIndex &index, const QVariant &value, int 
 
             KPPVision *vis= m_Projects.at(index.row());
             if(vis==0) return false;
+            for (int var = 0; var < m_Projects.count(); ++var) {
+                if(m_Projects[var]->getTitle()==value.toString())
+                    return false;
+            }
             vis->setTitle(value.toString());
             emit dataChanged(index, index);
             return true;
@@ -288,9 +292,7 @@ QVariant  ProjectsList::data(const QModelIndex& index, int role) const {
     // Check that the index is valid and within the correct range first:
     if (!index.isValid()) return QVariant();
 
-    //        if(role == Qt::sizeHintRole){
-    //            QVariant teste=index.data()
-    //            return QSize(100,200);
+
     //        }
     if (index.row() >= m_Projects.count())
         return QVariant();

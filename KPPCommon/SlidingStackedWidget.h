@@ -51,7 +51,7 @@ public slots:
         void setWrap(bool wrap);    //wrapping is related to slideInNext/Prev;it defines the behaviour when reaching last/first page
 
         //! The Animation / Page Change API
-        void slideInNext(int next);
+        void slideInNext(int next=-1);
         void slideInPrev(int next);
         void slideIn(SlidingStackedWidget::t_SwipeDirection SwipeDirection);
         void slideInIdx(int idx, enum t_direction direction=AUTOMATIC);

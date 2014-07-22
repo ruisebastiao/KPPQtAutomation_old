@@ -37,7 +37,7 @@ SlidingStackedWidget::SlidingStackedWidget(QWidget *parent)
         grabGesture(Qt::SwipeGesture);
         //foreach (Qt::GestureType gesture, gestures)
           //  grabGesture(gesture);
-        //setAttribute(Qt::WA_AcceptTouchEvents,true);
+        setAttribute(Qt::WA_AcceptTouchEvents,true);
         QGestureRecognizer* pRecognizer = new SwipeGestureRecognizer();
         grabGesture(QGestureRecognizer::registerRecognizer(pRecognizer));
 
@@ -158,7 +158,7 @@ void SlidingStackedWidget::setWrap(bool wrap) {
         m_wrap=wrap;
 }
 
-void SlidingStackedWidget::slideInNext(int next=-1) {
+void SlidingStackedWidget::slideInNext(int next) {
 
         int now=currentIndex();
         if (next!=-1) {

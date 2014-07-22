@@ -9,42 +9,25 @@ QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = QtVision
+TARGET = KPPAutomation
 TEMPLATE = app
 
-UI_DIR = uics
-MOC_DIR = mocs
+#UI_DIR = uics
+#MOC_DIR = mocs
 
-OBJECTS_DIR = objs
+#OBJECTS_DIR = objs
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    actionbar.cpp \
-    configurationswidget.cpp \
-    menustyle.cpp \
-    resizableitem.cpp \
-    settings.cpp \
-    sidetreewidget.cpp \
-    sidewidget.cpp \
-    SizeGripItem.cpp
+    actionbar.cpp \    
+    menustyle.cpp
 
 HEADERS  += mainwindow.h \
     actionbar.h \
-    configurationsframe.h \
-    configurationswidget.h \
     menustyle.h \
-    resizableitem.h \
-    roi.h \
-    settings.h \
-    sidetreewidget.h \
-    sidewidget.h \
-    SizeGripItem.h \
-    ui_mainwindow.h \
-    uics/ui_configurationswidget.h \
     uics/ui_mainwindow.h
 
-FORMS    +=mainwindow.ui \
-    configurationswidget.ui
+FORMS    +=mainwindow.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../KPPCommon/release/ -lKPPCommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../KPPCommon/debug/ -lKPPCommon
@@ -98,3 +81,12 @@ else:unix: LIBS += -L$$OUT_PWD/../KPPVision/ -lKPPVision
 
 INCLUDEPATH += $$PWD/../KPPVision
 DEPENDPATH += $$PWD/../KPPVision
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../icxmlserializable/release/ -licxmlserializable
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../icxmlserializable/debug/ -licxmlserializable
+else:unix: LIBS += -L$$OUT_PWD/../icxmlserializable/ -licxmlserializable
+
+INCLUDEPATH += $$PWD/../icxmlserializable
+DEPENDPATH += $$PWD/../icxmlserializable
+
+QMAKE_CXXFLAGS += /DNOMINMAX

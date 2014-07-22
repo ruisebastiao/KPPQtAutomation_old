@@ -22,12 +22,14 @@ public:
      QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const
      {
 
+         //return QStyledItemDelegate::sizeHint(option,index);
 
          QSize s;
             s = QSize(option.decorationSize.width(), option.decorationSize.height());
             //if(currentIndex == index.row())
             //{
-                s.setHeight(option.decorationSize.height()*2);
+                s.setHeight(50);
+                //s.setHeight(150);
             //}
             return s;
      }
@@ -61,7 +63,7 @@ class KPPCOMMONSHARED_EXPORT KPPAdjustableListView : public QListView
 public:
     explicit KPPAdjustableListView(QWidget *parent = 0);
     void setModel(QAbstractItemModel *model);
-
+    QSize sizeHint() const;
     void AdjustContents(int finalValue=-1, QEasingCurve animStyle=QEasingCurve::OutBack);
 
 private:
@@ -75,7 +77,7 @@ protected:
 
 
     //void show();
-    QSize sizeHint() const;
+
 
 
     void rowsInserted(const QModelIndex &parent, int start, int end);
@@ -90,6 +92,10 @@ private slots:
     void AnimationFinished();
 public slots:
 
+
+    // QAbstractItemView interface
+public:
+    int sizeHintForRow(int row) const;
 };
 
 #endif // KPPADJUSTABLELISTVIEW_H

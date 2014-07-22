@@ -14,10 +14,10 @@ using namespace Vision;
 using namespace IDS;
 
 namespace Ui {
-class ConfigurationsWidget;
+class KPPVISIONSHARED_EXPORT ConfigurationsWidget;
 }
 
-class ConfigurationsWidget : public QWidget
+class KPPVISIONSHARED_EXPORT ConfigurationsWidget : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(State)

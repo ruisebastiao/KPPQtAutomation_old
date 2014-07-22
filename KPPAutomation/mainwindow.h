@@ -1,12 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 #include "kppvision.h"
 #include "configurationswidget.h"
 #include "QToolButton"
 //#include "kppvisionhardware.h"
-#include "uEye.h"
+//#include "uEye.h"
+
+
 using namespace Vision;
 
 namespace Ui {
@@ -26,6 +27,10 @@ private slots:
     void bt_Cliked();
 
 
+
+    void on_pushButton_clicked();
+
+    void on_treeWidget_clicked(const QModelIndex &index);
 
 public slots:
     void focusChanged(QWidget* old, QWidget* now);

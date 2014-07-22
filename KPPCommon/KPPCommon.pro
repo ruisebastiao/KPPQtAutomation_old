@@ -4,13 +4,15 @@
 #
 #-------------------------------------------------
 
-QT       += widgets
+QT       += gui widgets
 #CONFIG   += qxt
 
 TARGET = KPPCommon
 TEMPLATE = lib
 
 DEFINES += KPPCOMMON_LIBRARY
+
+win32:QMAKE_CXXFLAGS += /DNOMINMAX
 
 SOURCES += kppcommon.cpp \
     kppeditbox.cpp \
@@ -20,13 +22,14 @@ SOURCES += kppcommon.cpp \
     slidewidget.cpp \
     SlidingStackedWidget.cpp \
     swipegesturerecognizer.cpp \
+    kppadjustablelistview.cpp \
+    kpptreewidgetitem.cpp
 
     kppadjustablelistview.cpp
 
-win32{
+
   SOURCES += crashhandler.cpp
-    SOURCES += crashdialog.cpp
-}
+   SOURCES += crashdialog.cpp
 
 
 HEADERS += kppcommon.h\
@@ -38,27 +41,22 @@ HEADERS += kppcommon.h\
     slidewidget.h \
     SlidingStackedWidget.h \
     swipegesturerecognizer.h \
+    kppadjustablelistview.h \
+    kpptreewidgetitem.h
 
     kppadjustablelistview.h
 
-win32{
+
    HEADERS += crashhandler.h
    HEADERS += crashdialog.h
-}
 
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
 
-win32: LIBS += -L$$PWD/../ExternalLibs/dbghelp/lib/ -ldbghelp
 
-INCLUDEPATH += $$PWD/../ExternalLibs/dbghelp/include
-DEPENDPATH += $$PWD/../ExternalLibs/dbghelp/include
+
 
 QMAKE_CFLAGS_RELEASE += -Zi
-QMAKE_CXXFLAGS_RELEASE += -Zi
-QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
+win32:QMAKE_CXXFLAGS_RELEASE += -Zi
+win32:QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
 
 
 
@@ -69,9 +67,10 @@ FORMS += \
     error( "Couldn't find the common.pri file!" )
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCored
-else:unix,android: LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
+! include( kppcommon.pri ) {
+    error( "Couldn't find the kppcommon.pri file!" )
+}
 
-INCLUDEPATH += $$PWD/../ExternalLibs/Qxt/include
-DEPENDPATH += $$PWD/../ExternalLibs/Qxt/include
+
+
+

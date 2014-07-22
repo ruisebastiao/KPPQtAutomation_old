@@ -6,7 +6,7 @@
 #include <QtGui>
 #include <QGraphicsView>
 
-#include "icxmlserializable.h"
+#include <icxmlserializable.h>
 #include "inspection.h"
 
 
@@ -64,10 +64,11 @@ public:
     QList<KPPVision *> getProjects();
     void removeProject(KPPVision *project);
     void addProject(KPPVision *project, QObject *parent);
-    KPPVision *getProjectAt(int pos) const;
+    //KPPVision *getProjectAt(int pos) const;
     KPPVision *selectedPoject() const;
     void setSelectedPoject(KPPVision *selectedPoject);
-
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
 private:
     QString m_title;
 
@@ -75,8 +76,7 @@ private:
 
     QList<KPPVision*>   m_Projects;
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+
 
     virtual bool serialize();
     virtual bool deserialize();

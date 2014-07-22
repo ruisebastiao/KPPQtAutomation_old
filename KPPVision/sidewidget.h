@@ -1,6 +1,7 @@
 #ifndef SIDEWIDGET_H
 #define SIDEWIDGET_H
 
+#include "kppvision_global.h"
 #include <QWidget>
 #include <QPropertyAnimation>
 #include <QStyleOption>
@@ -8,7 +9,7 @@
 #include <QPainter>
 
 
-class SideWidget : public QWidget
+class KPPVISIONSHARED_EXPORT SideWidget : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(State)

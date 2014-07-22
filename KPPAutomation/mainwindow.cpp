@@ -49,14 +49,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     configs= new ConfigurationsWidget (this);
 
-    ui->treeWidget->getListViewProjects()->setModel(Settings::AppSettings->Projects());
+    ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
+    //ui->treeWidget->getListViewProjects()->setModel(Settings::AppSettings->Projects());
 //    IDSCameraConfig *teste= new IDSCameraConfig(this);
 //    teste->show();
 
    // camera=new IDSCamera(this);
-
-
-
 
 
 }
@@ -118,3 +116,15 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now)
 //    }
 }
 
+
+void MainWindow::on_pushButton_clicked()
+{
+
+    ui->treeWidget->collapseAll();
+
+}
+
+void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
+{
+
+}

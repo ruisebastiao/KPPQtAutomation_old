@@ -4,7 +4,7 @@
 #include "kpphardware_global.h"
 #include "QObject"
 #include "QWindow"
-#include <uEye.h>
+#include "uEye.h"
 #include "idseventsthandler.h"
 #include "QThread"
 #include "QAbstractItemModel"

@@ -7,8 +7,9 @@ SUBDIRS += \
     KPPVision
 
 
+
 CONFIG += ordered
-SUBDIRS += QtVision
+SUBDIRS += KPPAutomation
 
 #CONFIG += ordered
 
