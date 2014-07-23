@@ -86,7 +86,7 @@
          <enum>QFrame::NoFrame</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <widget class="SlideWidget" name="HardwarePage">
          <property name="sizePolicy">
@@ -671,7 +671,7 @@
                      </sizepolicy>
                     </property>
                     <property name="text">
-                     <string>Inspections List</string>
+                     <string>Request List</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -679,7 +679,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="KPPAdjustableListView" name="list_inspections">
+                   <widget class="KPPAdjustableListView" name="list_req">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
                       <horstretch>0</horstretch>
@@ -700,16 +700,16 @@
                   <number>2</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="bt_addinsp">
+                  <widget class="QPushButton" name="bt_addreq">
                    <property name="text">
-                    <string>Add Inspection</string>
+                    <string>Add Request</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="KPPPushbutton" name="bt_removeinsp">
+                  <widget class="KPPPushbutton" name="bt_removereq">
                    <property name="text">
-                    <string>Remove Inspection</string>
+                    <string>Remove Request</string>
                    </property>
                   </widget>
                  </item>

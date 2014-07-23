@@ -20,7 +20,9 @@ SOURCES += kppvision.cpp \
     SizeGripItem.cpp \
     settings.cpp \
     visiontreewidget.cpp \
-    kppstyleditemdelegate.cpp
+    kppstyleditemdelegate.cpp \
+    kppvisionlist.cpp \
+    request.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -31,7 +33,9 @@ HEADERS += kppvision.h\
     settings.h \
     uics/ui_configurationswidget.h \
     visiontreewidget.h \
-    kppstyleditemdelegate.h
+    kppstyleditemdelegate.h \
+    kppvisionlist.h \
+    request.h
 
 
 

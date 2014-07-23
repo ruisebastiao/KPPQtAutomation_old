@@ -4,10 +4,10 @@ using namespace Vision;
 
 
 Inspection::Inspection(QObject *parent):
- icXmlSerializable(parent)
+    icXmlSerializable(parent)
 {
 
-    m_title="New Inspection";
+    m_Name="New Inspection";
 
 }
 
@@ -16,31 +16,31 @@ Inspection::~Inspection()
 
 }
 
-QString Inspection::getTitle() const
+QString Inspection::getName() const
 {
-    return m_title;
+    return m_Name;
 }
 
-void Inspection::setTitle(const QString &title)
+void Inspection::setName(const QString &name)
 {
-    m_title = title;
+    m_Name = name;
 }
 
 
 
- // icXmlSerializable interface
+// icXmlSerializable interface
 
 bool Inspection::serialize()
 {
-     setSerialProperty("title", m_title);
+    setSerialProperty("Name", m_Name);
 
-     return true;
+    return true;
 
 }
 
 bool Inspection::deserialize()
 {
-    m_title = getSerialProperty("title").toString();
+    m_Name = getSerialProperty("Name").toString();
 
 
     return  true;
@@ -50,7 +50,7 @@ bool Inspection::deserialize()
 
 
 
-
+/*
 
 InspectionList::InspectionList(QObject *parent):
     icXmlSerializable(parent)
@@ -83,6 +83,7 @@ Inspection *InspectionList::getProjectAt(int pos) const{
 
 
 Inspection *InspectionList::AddInspection(const QString& name,QObject* parent){
+
     Inspection *insp = 0;
 
     for (int var = 0; var < m_Inspections.count(); ++var) {
@@ -95,6 +96,7 @@ Inspection *InspectionList::AddInspection(const QString& name,QObject* parent){
     insp->setTitle(name);
 
     AddInspection(insp,parent);
+
 
     return insp;
 }
@@ -109,6 +111,15 @@ void InspectionList::AddInspection( Inspection *inspection,QObject* parent){
 
 }
 
+QStringList *InspectionList::getInspectionNames(){
+    QStringList *namesList=new QStringList();
+
+    for (int var = 0; var < this->m_Inspections.count(); ++var) {
+        namesList->append(m_Inspections.at(var)->getTitle());
+    }
+
+    return namesList;
+}
 
 Qt::ItemFlags InspectionList::flags(const QModelIndex &index) const
 {
@@ -166,6 +177,19 @@ int InspectionList::rowCount(const QModelIndex& parent) const {
 
 
 
+ void InspectionList::removeInspection(Inspection *insp){
+     int position=m_Inspections.indexOf(insp);
+     if(position>=0){
+         beginRemoveRows(QModelIndex(), position, position);
+         m_Inspections.removeOne(insp);
+                 delete insp;
+         endRemoveRows();
+     }
+
+
+
+ }
+
 
 // icXmlSerializable interface
 
@@ -197,3 +221,4 @@ bool InspectionList::serialize()
 
     return true;
 }
+*/

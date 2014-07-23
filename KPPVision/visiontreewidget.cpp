@@ -33,15 +33,15 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
     addTopLevelItem(projectsitem);
     this->setItemWidget(projectsitem,0,bt_project);
 
-    inspectionsitem=new KPPTreeWidgetItem(0);
-    bt_inspect= new QPushButton(this);
-    connect(bt_inspect,SIGNAL(clicked()),this,SLOT(bt_InspectionClicked()));
-    bt_inspect->setText(tr("Inspections"));
-    bt_inspect->setEnabled(false);
+    RequestsItem=new KPPTreeWidgetItem(0);
+    bt_request= new QPushButton(this);
+    connect(bt_request,SIGNAL(clicked()),this,SLOT(bt_RequestClicked()));
+    bt_request->setText(tr("Requests"));
+    bt_request->setEnabled(false);
 
-    addTopLevelItem(inspectionsitem);
-    bt_inspect->setAutoFillBackground(true);
-    this->setItemWidget(inspectionsitem,0,bt_inspect);
+    addTopLevelItem(RequestsItem);
+    bt_request->setAutoFillBackground(true);
+    this->setItemWidget(RequestsItem,0,bt_request);
 
 
     m_selectedProject=0;
@@ -90,16 +90,16 @@ void VisionTreeWidget::VisionProjectsrowsInserted(QModelIndex modelindex,int sta
 }
 
 
-void VisionTreeWidget::InspectionsrowsAboutToBeInserted(QModelIndex modelindex,int start,int end){
+void VisionTreeWidget::RequestsrowsAboutToBeInserted(QModelIndex modelindex,int start,int end){
 
-    QSize newsize=itemWidget(inspectionssubitem,0)->contentsRect().size();
-    newsize.setHeight(newsize.height()+list_inspections->sizeHintForRow(0));
-    inspectionssubitem->setSizeHint(0,newsize);
+    QSize newsize=itemWidget(RequestSubItem,0)->contentsRect().size();
+    newsize.setHeight(newsize.height()+list_requests->sizeHintForRow(0));
+    RequestSubItem->setSizeHint(0,newsize);
 
 }
 
 
-void VisionTreeWidget::InspectionsrowsInserted(QModelIndex modelindex,int start,int end){
+void VisionTreeWidget::RequestsrowsInserted(QModelIndex modelindex,int start,int end){
 
     updatelayouttimer->start();
 }
@@ -110,11 +110,11 @@ void VisionTreeWidget::bt_projectClicked(){
 }
 
 
-void VisionTreeWidget::bt_InspectionClicked(){
-    inspectionsitem->setExpanded(!inspectionsitem->isExpanded());
+void VisionTreeWidget::bt_RequestClicked(){
+    RequestsItem->setExpanded(!RequestsItem->isExpanded());
 }
 
-void VisionTreeWidget::AddVisionProjectsModel(ProjectsList *VisionProjects){
+void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionProjects){
 
 
     connect(VisionProjects,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this,SLOT(VisionProjectsdataChanged(QModelIndex,QModelIndex)));
@@ -159,7 +159,12 @@ void VisionTreeWidget::AddVisionProjectsModel(ProjectsList *VisionProjects){
         list_projects= new KPPAdjustableListView();
         list_projects->setModel(VisionProjects);
         connect(list_projects,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(SelectionChanged(QItemSelection,QItemSelection)));
+
+
         lay->addWidget(list_projects);
+
+        //QSpacerItem *space=new QSpacerItem(10,10);
+        lay->addSpacing(2);
         frame->setLayout(lay);
 
         frame->setAutoFillBackground(true);
@@ -171,18 +176,18 @@ void VisionTreeWidget::AddVisionProjectsModel(ProjectsList *VisionProjects){
     }
 
 
-    inspectionsitem->setData(0,Qt::UserRole,1); // parent item
+    RequestsItem->setData(0,Qt::UserRole,1); // parent item
 
-    inspectionssubitem=new QTreeWidgetItem(0);
-    inspectionssubitem->setData(0,Qt::UserRole,2); // child
+    RequestSubItem=new QTreeWidgetItem(0);
+    RequestSubItem->setData(0,Qt::UserRole,2); // child
 
-    inspectionsitem->addChild(inspectionssubitem);
+    RequestsItem->addChild(RequestSubItem);
 
-    inspectionsitem->setDisabled(true);
+    RequestsItem->setDisabled(true);
 
-    inspectionssubitem->setDisabled(true);
+    RequestSubItem->setDisabled(true);
 
-    //Inspections
+    //Requests
     {
         QFrame *frame=new QFrame(this);
         frame->setFrameShape(Shape::Box);
@@ -192,20 +197,22 @@ void VisionTreeWidget::AddVisionProjectsModel(ProjectsList *VisionProjects){
         lay->setContentsMargins(1,1,1,1);
         lay->setSpacing(2);
 
-        list_inspections= new KPPAdjustableListView();
+        list_requests= new KPPAdjustableListView();
         //list_projects->setModel(VisionProjects);
 
-        lay->addWidget(list_inspections);
+        lay->addWidget(list_requests);
         frame->setLayout(lay);
 
         frame->setAutoFillBackground(true);
-        this->setItemWidget(inspectionssubitem,0,frame);
+        this->setItemWidget(RequestSubItem,0,frame);
 
-        QSize newsize=itemWidget(inspectionssubitem,0)->contentsRect().size();
+        QSize newsize=itemWidget(RequestSubItem,0)->contentsRect().size();
 
-        int list_height=list_inspections->sizeHint().height();
+        int list_height=list_requests->sizeHint().height();
         newsize.setHeight(newsize.height()+list_height);
-        inspectionssubitem->setSizeHint(0,newsize);
+        RequestSubItem->setSizeHint(0,newsize);
+
+        lay->addSpacing(2);
     }
 }
 
@@ -218,10 +225,10 @@ void VisionTreeWidget::SelectionChanged(QItemSelection , QItemSelection){
         else
             setSelectedProject(0);
     }
-    else if(sender()->objectName()==list_inspections->objectName()){
-        //        QModelIndexList selectedlist= ui->list_inspections->selectionModel()->selectedRows();
+    else if(sender()->objectName()==list_requests->objectName()){
+//        QModelIndexList selectedlist= ui->->selectionModel()->selectedRows();
 
-        //        setSelectedInspection(selectedlist.at(0).data(Qt::UserRole).value<Inspection*>());
+//        setSelectedInspection(selectedlist.at(0).data(Qt::UserRole).value<Inspection*>());
     }
 }
 
@@ -230,26 +237,28 @@ void VisionTreeWidget::setSelectedProject(KPPVision *value)
 {
 
     if(m_selectedProject!=0){
-        disconnect(m_selectedProject->inspectionList(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,0);
-        disconnect(m_selectedProject->inspectionList(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,0);
+        disconnect(m_selectedProject->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,0);
+        disconnect(m_selectedProject->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,0);
     }
 
 
     if (value!=0) {
-        bt_inspect->setEnabled(true);
-        list_inspections->setModel(value->inspectionList());
+        bt_request->setEnabled(true);
+        list_requests->setModel(value->Requests());
 
-
-
-        connect(value->inspectionList(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,SLOT(InspectionsrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
-        connect(value->inspectionList(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(InspectionsrowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+        connect(value->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+        connect(value->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
 
 
     }
     else{
-        bt_inspect->setEnabled(false);
-        inspectionsitem->setExpanded(false);
+        bt_request->setEnabled(false);
+        RequestsItem->setExpanded(false);
     }
 
     m_selectedProject=value;
+    QSize newsize=itemWidget(RequestSubItem,0)->contentsRect().size();
+    newsize.setHeight(list_requests->sizeHint().height());
+    RequestSubItem->setSizeHint(0,newsize);
+    updatelayouttimer->start();
 }

@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include "kppadjustablelistview.h"
 #include "kppvision.h"
+#include "kppvisionlist.h"
 #include "kpptreewidgetitem.h"
 
 
@@ -18,17 +19,17 @@ public:
 
 
 
-    void AddVisionProjectsModel(Vision::ProjectsList *VisionProjects);
+    void AddVisionProjectsModel(Vision::KPPVisionList<Vision::KPPVision> *VisionProjects);
 private:
      QTreeWidgetItem *projectsitem;
      QPushButton *bt_project;
      QTreeWidgetItem* projectssubitem;
      KPPAdjustableListView* list_projects;
 
-     KPPTreeWidgetItem *inspectionsitem;
-     QPushButton *bt_inspect;
-     QTreeWidgetItem* inspectionssubitem;
-     KPPAdjustableListView* list_inspections;
+     KPPTreeWidgetItem *RequestsItem;
+     QPushButton *bt_request;
+     QTreeWidgetItem* RequestSubItem;
+     KPPAdjustableListView* list_requests;
 
     QTimer *updatelayouttimer;
     Vision::KPPVision* m_selectedProject;
@@ -49,11 +50,11 @@ private slots:
      void VisionProjectsrowsInserted(QModelIndex modelindex, int start, int end);  
      void VisionProjectsrowsAboutToBeRemoved(QModelIndex modelindex, int start, int end);
      void VisionProjectsrowsRemoved(QModelIndex modelindex, int start, int end);
-     void bt_InspectionClicked();
+     void bt_RequestClicked();
 
      void SelectionChanged(QItemSelection, QItemSelection);
-     void InspectionsrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
-     void InspectionsrowsInserted(QModelIndex modelindex, int start, int end);
+     void RequestsrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
+     void RequestsrowsInserted(QModelIndex modelindex, int start, int end);
 public slots:
 
 

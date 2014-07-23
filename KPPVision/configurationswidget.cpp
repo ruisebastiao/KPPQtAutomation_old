@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include "idseventsthandler.h"
 #include "qexception.h"
+#include "kppvisionlist.cpp"
 
 using namespace Vision;
 using namespace IDS;
@@ -60,8 +61,8 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     ui->bt_initializecam->setChecked(false);
     ui->check_morecameraoptions->setVisible(false);
 
-    ui->list_inspections->connect(ui->list_inspections,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
-    ui->bt_removeinsp->setVisible(false);
+    ui->list_req->connect(ui->list_req,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
+    ui->bt_removereq->setVisible(false);
 
 
 
@@ -192,15 +193,15 @@ void ConfigurationsWidget::on_bt_save_settings_clicked()
 void ConfigurationsWidget::on_bt_addproj_clicked()
 {
     QString projectname=tr("Projecto 1");
-    for (int var = 0; var < Settings::AppSettings->Projects()->getProjects().count(); var++) {
+    for (int var = 0; var < Settings::AppSettings->Projects()->rowCount(QModelIndex()); var++) {
         QString newprojname=tr("Projecto ").append("%1").arg(var+2);
 
-        if(!Settings::AppSettings->Projects()->getProjectNameList().contains(newprojname)){
+        if(!Settings::AppSettings->Projects()->getItemsNameList().contains(newprojname)){
             projectname=newprojname;
             break;
         }
     }
-    Settings::AppSettings->Projects()->addProject(projectname);
+    Settings::AppSettings->Projects()->AddItem(projectname);
 }
 
 void ConfigurationsWidget::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -211,15 +212,22 @@ void ConfigurationsWidget::selectionChanged(const QItemSelection &selected, cons
         QString projectname="";
         if (selectedlist.count()>0) {
             projectname=selectedlist.at(0).data().toString();
+            setSelectedProject(Settings::AppSettings->Projects()->getItemByName(projectname));
         }
+        else
+            setSelectedProject(0);
 
-        setSelectedProject(Settings::AppSettings->Projects()->getProject(projectname));
+
     }
-    else if(sender()->objectName()==ui->list_inspections->objectName()){
-        QModelIndexList selectedlist= ui->list_inspections->selectionModel()->selectedRows();
+    else if(sender()->objectName()==ui->list_req->objectName()){
+        QModelIndexList selectedlist= ui->list_req->selectionModel()->selectedRows();
 
-        setSelectedInspection(selectedlist.at(0).data(Qt::UserRole).value<Inspection*>());
-
+        if (selectedlist.count()>0) {
+            setSelectedRequest(selectedlist.at(0).data(Qt::UserRole).value<Request*>());
+        }
+        else{
+            setSelectedRequest(0);
+        }
 
 
     }
@@ -241,7 +249,7 @@ void ConfigurationsWidget::on_bt_removeproj_clicked()
     QModelIndexList selectedlist= ui->list_projects->selectionModel()->selectedRows();
     KPPVision* project=selectedlist.at(0).data(Qt::UserRole).value<KPPVision*>();
 
-    Settings::AppSettings->Projects()->removeProject(project);
+    Settings::AppSettings->Projects()->removeItem(project);
 }
 KPPVision *ConfigurationsWidget::getSelectedProject() const
 {
@@ -260,10 +268,10 @@ void ConfigurationsWidget::setSelectedProject(KPPVision *value)
         ui->bt_removeproj->setVisible(true);
 
 
-        ui->lbl_projname->setText(selectedProject->getTitle());
-        ui->list_inspections->setModel(selectedProject->inspectionList());
+        ui->lbl_projname->setText(selectedProject->getName());
+        ui->list_req->setModel(selectedProject->Requests());
 
-        //ui->bt_removeinsp->setVisible(false);
+        ui->bt_removereq->setVisible(false);
     }
     else{
         ui->inspectionspage->setDisplayed(false);
@@ -273,22 +281,23 @@ void ConfigurationsWidget::setSelectedProject(KPPVision *value)
         }
         ui->lbl_projname->setText(tr("No Project Selected"));
 
-        ui->list_inspections->setModel(0);
+        ui->list_req->setModel(0);
     }
-}
-Inspection *ConfigurationsWidget::SelectedInspection() const
-{
-    return m_SelectedInspection;
 }
 
-void ConfigurationsWidget::setSelectedInspection(Inspection *SelectedInspection)
+Request *ConfigurationsWidget::SelectedRequest() const
 {
-    m_SelectedInspection = SelectedInspection;
-    if(m_SelectedInspection!=0){
-        ui->bt_removeinsp->setVisible(true);
+    return m_SelectedRequest;
+}
+
+void ConfigurationsWidget::setSelectedRequest(Request* SelectedRequest)
+{
+    m_SelectedRequest= SelectedRequest;
+    if(m_SelectedRequest!=0){
+        ui->bt_removereq->setVisible(true);
     }
     else{
-        ui->bt_removeinsp->setVisible(false);
+        ui->bt_removereq->setVisible(false);
     }
 }
 
@@ -352,25 +361,25 @@ void ConfigurationsWidget::IDSCameraStateChanged(IDSCamera::CameraState NewState
 {
     try
     {
-    ui->bt_initializecam->setEnabled(true);
-    if(NewState==IDSCamera::Started){
-        ui->bt_initializecam->setText(tr("Stop Camera"));
-        ui->bt_initializecam->setChecked(true);
-        ui->bt_snap->show();
-        ui->bt_cont_capture->show();
-        m_PixmapItem->setPixmap(QPixmap(selectedcam->ImageWidth(),selectedcam->ImageHeigth()));
-        ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
-       // teste->getUi()->comboBox->setModel(selectedcam->ImageAOIs());
-        //teste->show();
-    }
-    else{
-        ui->bt_initializecam->setText(tr("Start Camera"));
-        m_PixmapItem->setPixmap(QPixmap());
-        ui->bt_initializecam->setChecked(false);
-        ui->bt_snap->hide();
-        ui->bt_cont_capture->hide();
+        ui->bt_initializecam->setEnabled(true);
+        if(NewState==IDSCamera::Started){
+            ui->bt_initializecam->setText(tr("Stop Camera"));
+            ui->bt_initializecam->setChecked(true);
+            ui->bt_snap->show();
+            ui->bt_cont_capture->show();
+            m_PixmapItem->setPixmap(QPixmap(selectedcam->ImageWidth(),selectedcam->ImageHeigth()));
+            ui->graphicsView->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+            // teste->getUi()->comboBox->setModel(selectedcam->ImageAOIs());
+            //teste->show();
+        }
+        else{
+            ui->bt_initializecam->setText(tr("Start Camera"));
+            m_PixmapItem->setPixmap(QPixmap());
+            ui->bt_initializecam->setChecked(false);
+            ui->bt_snap->hide();
+            ui->bt_cont_capture->hide();
 
-    }
+        }
     } catch (...) {
         qDebug()<<"Except:";
     }
@@ -450,7 +459,34 @@ void ConfigurationsWidget::on_check_morecameraoptions_stateChanged(int arg1)
     }
 }
 
-void ConfigurationsWidget::on_bt_addinsp_clicked()
+
+void ConfigurationsWidget::on_bt_addreq_clicked()
 {
-    selectedProject->inspectionList()->AddInspection("Nova inspecção");
+
+    QString requestname=tr("Request 1");
+    for (int var = 0; var < selectedProject->Requests()->rowCount(QModelIndex()); var++) {
+        QString request_name=tr("Request ").append("%1").arg(var+2);
+
+        if(!selectedProject->Requests()->getItemsNameList().contains(request_name)){
+            requestname=request_name;
+            break;
+        }
+    }
+
+
+    selectedProject->Requests()->AddItem(requestname);
+}
+
+void ConfigurationsWidget::on_bt_removereq_clicked()
+{
+    QModelIndexList selectedlist= ui->list_req->selectionModel()->selectedRows();
+
+    if(selectedlist.count()>0){
+
+        Request* req=selectedlist.at(0).data(Qt::UserRole).value<Request*>();
+
+        selectedProject->Requests()->removeItem(req);
+
+
+    }
 }

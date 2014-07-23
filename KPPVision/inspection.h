@@ -5,6 +5,7 @@
 #include <QObject>
 #include <icxmlserializable.h>
 
+
 namespace Vision
 {
 
@@ -17,20 +18,22 @@ public:
 
 
 
-    QString getTitle() const;
-    void setTitle(const QString &title);
+    QString getName() const;
+    void setName(const QString &name);
 
 private:
     virtual bool serialize();
     virtual bool deserialize();
 
-    QString m_title;
+    QString m_Name;
 
 signals:
 
 public slots:
 
 };
+
+/*
 
     class KPPVISIONSHARED_EXPORT InspectionList:public icXmlSerializable
     {
@@ -61,6 +64,10 @@ public slots:
 
         Inspection *AddInspection(const QString &name, QObject *parent=0);
         void AddInspection(Inspection *inspection, QObject *parent=0);
+        QStringList *getInspectionNames();
+        void removeInspection(Inspection *insp);
     };
+
+    */
 }
 #endif // INSPECTION_H

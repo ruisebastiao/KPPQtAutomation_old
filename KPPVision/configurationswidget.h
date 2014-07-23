@@ -72,11 +72,12 @@ private slots:
     void on_bt_initializecam_clicked();
 
 
-
-
     void on_check_morecameraoptions_stateChanged(int arg1);
 
-    void on_bt_addinsp_clicked();
+
+    void on_bt_addreq_clicked();
+
+    void on_bt_removereq_clicked();
 
 public slots:
 
@@ -93,7 +94,7 @@ private:
     QPoint offset;
     Ui::ConfigurationsWidget *ui;
     KPPVision *selectedProject;
-    Inspection *m_SelectedInspection;
+    Request *m_SelectedRequest;
 
 
     // QWidget interface
@@ -104,8 +105,8 @@ protected:
 public:
 
 
-    Inspection *SelectedInspection() const;
-    void setSelectedInspection(Inspection *SelectedInspection);
+    Request *SelectedRequest() const;
+    void setSelectedRequest(Request *SelectedRequest);
 };
 
 #endif // CONFIGURATIONSWIDGET_H

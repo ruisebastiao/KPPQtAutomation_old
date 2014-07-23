@@ -9,7 +9,7 @@ Settings::Settings(QObject *parent,QString RootId) :
   m_ProjectsFilePath="";
   AppSettings=this;
   m_hardware= new KPPHardware(this);
-  m_Projects=new ProjectsList(this);
+  m_Projects=new KPPVisionList<KPPVision>(this,"Projects");
 }
 QString Settings::ProjectsFilePath() const
 {
@@ -24,8 +24,9 @@ KPPHardware *Settings::Hardware() const
 {
     return m_hardware;
 }
-ProjectsList *Settings::Projects() const
+KPPVisionList<KPPVision> *Settings::Projects() const
 {
+
     return m_Projects;
 }
 

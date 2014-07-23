@@ -5,6 +5,7 @@
 #include <QObject>
 #include "kppvision.h"
 #include "kpphardware.h"
+#include "kppvisionlist.h"
 
 #include "icxmlserializable.h"
 
@@ -26,13 +27,13 @@ public:
     KPPHardware *Hardware() const;
     //void setHardware(KPPHardware *hardware);
 
-    ProjectsList *Projects() const;
+    KPPVisionList<KPPVision> *Projects() const;
     //void setProjects(ProjectsList *Projects);
 
 private:
     QString m_ProjectsFilePath;
     KPPHardware *m_hardware;
-    ProjectsList *m_Projects;
+    KPPVisionList<KPPVision> *m_Projects;
     virtual bool    serialize();
     virtual bool    deserialize();
 signals:
