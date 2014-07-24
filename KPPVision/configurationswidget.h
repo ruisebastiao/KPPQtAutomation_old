@@ -79,11 +79,15 @@ private slots:
 
     void on_bt_removereq_clicked();
 
+    void on_bt_addinsp_clicked();
+
+    void on_bt_removeinsp_clicked();
+
 public slots:
 
 
 private:
-    void setSelectedProject(KPPVision *value);
+
     QGraphicsProxyWidget *Graphicswidget_image_holder;
     QWidget *widget_image_holder;
     IDSCamera *selectedcam;
@@ -93,11 +97,16 @@ private:
     State m_state;
     QPoint offset;
     Ui::ConfigurationsWidget *ui;
-    KPPVision *selectedProject;
+    KPPVision *m_SelectedProject;
     Request *m_SelectedRequest;
+    Inspection* m_SelectedInspection;
 
 
-    // QWidget interface
+    Request *SelectedRequest() const;
+
+    void setSelectedProject(KPPVision *value);
+    void setSelectedInspection(Inspection *SelectedInspection);
+    void setSelectedRequest(Request *SelectedRequest);
 protected:
     void showEvent(QShowEvent *);
 
@@ -105,8 +114,7 @@ protected:
 public:
 
 
-    Request *SelectedRequest() const;
-    void setSelectedRequest(Request *SelectedRequest);
+
 };
 
 #endif // CONFIGURATIONSWIDGET_H

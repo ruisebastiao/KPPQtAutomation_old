@@ -214,6 +214,9 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
 
         lay->addSpacing(2);
     }
+
+
+
 }
 
 void VisionTreeWidget::SelectionChanged(QItemSelection , QItemSelection){

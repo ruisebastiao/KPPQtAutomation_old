@@ -32,6 +32,7 @@ private slots:
 
     void on_treeWidget_clicked(const QModelIndex &index);
 
+    void LoadDone(QObject *Sender);
 public slots:
     void focusChanged(QWidget* old, QWidget* now);
 protected:

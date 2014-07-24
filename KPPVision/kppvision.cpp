@@ -21,7 +21,7 @@ KPPVision::~KPPVision()
 
 
 
-QString KPPVision::getName() const
+QString KPPVision::getName()
 {
     return m_Name;
 }

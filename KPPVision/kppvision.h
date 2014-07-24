@@ -14,7 +14,7 @@ namespace Vision
 {
 
 
-class KPPVISIONSHARED_EXPORT KPPVision:public icXmlSerializable
+class KPPVISIONSHARED_EXPORT KPPVision:public icXmlSerializable,public IListViewItem
 {
     Q_OBJECT
 
@@ -26,7 +26,7 @@ public:
     QGraphicsView *getView() const;
     void setView(QGraphicsView *value);
 
-    QString getName() const;
+    QString getName();
     void setName(const QString& name);
 
 

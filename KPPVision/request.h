@@ -3,8 +3,14 @@
 
 #include "kppvision_global.h"
 #include "icxmlserializable.h"
+#include "ilistviewitem.h"
+#include "kppvisionlist.h"
+#include "inspection.h"
 
-class KPPVISIONSHARED_EXPORT Request : public icXmlSerializable
+namespace Vision {
+
+
+class KPPVISIONSHARED_EXPORT Request :public icXmlSerializable, public IListViewItem
 {
     Q_OBJECT
 public:
@@ -12,6 +18,7 @@ public:
 
 private:
     QString m_Name;
+    KPPVisionList<Inspection> *m_Inspections;
 signals:
 
 public slots:
@@ -25,10 +32,9 @@ protected:
     // IVisionListItem interface
 public:
     QString getName();
-
-    // IVisionListItem interface
-public:
     void setName(const QString &name);
-};
+    KPPVisionList<Inspection> *Inspections() const;
 
+};
+}
 #endif // REQUEST_H

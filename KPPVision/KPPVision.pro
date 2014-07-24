@@ -22,7 +22,8 @@ SOURCES += kppvision.cpp \
     visiontreewidget.cpp \
     kppstyleditemdelegate.cpp \
     kppvisionlist.cpp \
-    request.cpp
+    request.cpp \
+    ilistviewitem.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -35,7 +36,8 @@ HEADERS += kppvision.h\
     visiontreewidget.h \
     kppstyleditemdelegate.h \
     kppvisionlist.h \
-    request.h
+    request.h \
+    ilistviewitem.h
 
 
 

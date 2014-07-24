@@ -49,7 +49,9 @@ class ICXMLSERIALIZABLESHARED_EXPORT icXmlSerializable: public QAbstractListMode
       QVariant data(const QModelIndex &index, int role) const;
 
 
+signals:
 
+      void Loaded(QObject *sender);
 
 protected:
 

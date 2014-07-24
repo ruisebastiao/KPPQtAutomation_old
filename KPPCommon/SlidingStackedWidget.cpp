@@ -169,7 +169,11 @@ void SlidingStackedWidget::slideInNext(int next) {
             QWidget* next_widget=widget(now+1);
             SlideWidget *widg=qobject_cast<SlideWidget*>(next_widget);
 
-            if(widg==0) return;
+            if(widg==0){
+
+                slideInNext(now+1);
+                return;
+            }
 
             if (widg->Displayed()==false) {
                 slideInNext(now+1);

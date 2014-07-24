@@ -12,6 +12,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = KPPAutomation
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++11
+
+
 #UI_DIR = uics
 #MOC_DIR = mocs
 

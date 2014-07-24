@@ -43,6 +43,10 @@ protected:
     // QAbstractButton interface
 protected:
 
+
+    // QWidget interface
+protected:
+    void showEvent(QShowEvent *);
 };
 
 

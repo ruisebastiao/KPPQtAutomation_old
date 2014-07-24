@@ -5,6 +5,8 @@
 #include "qlineedit.h"
 #include "settings.h"
 #include "crashdialog.h"
+#include "kppvisionlist.h"
+#include "type_traits"
 
 using namespace Vision;
 
@@ -42,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->actionlayout->addWidget(actionBar);
 
+    connect(Settings::AppSettings->Projects(),SIGNAL(Loaded(QObject*)),this,SLOT(LoadDone(QObject*)));
 
     Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath());
 
@@ -49,17 +52,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     configs= new ConfigurationsWidget (this);
 
-    ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
-    //ui->treeWidget->getListViewProjects()->setModel(Settings::AppSettings->Projects());
-//    IDSCameraConfig *teste= new IDSCameraConfig(this);
-//    teste->show();
-
-   // camera=new IDSCamera(this);
 
 
 }
 
+void MainWindow::LoadDone(QObject* Sender){
 
+
+    if (dynamic_cast<KPPVisionList<KPPVision>*>(Sender)) {
+        ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
+    }
+
+}
 
 
 MainWindow::~MainWindow()

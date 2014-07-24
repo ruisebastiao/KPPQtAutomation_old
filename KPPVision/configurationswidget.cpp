@@ -37,7 +37,7 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     ui->edit_projsloc->setText(Settings::AppSettings->ProjectsFilePath());
     ui->list_projects->connect(ui->list_projects,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
     ui->list_projects->setModel(Settings::AppSettings->Projects());
-    ui->mainpage->setDisplayed(true);
+    ui->ProjectsPage->setDisplayed(true);
     ui->HardwarePage->setDisplayed(true);
 
     ui->stackedWidget->setCurrentIndex(1);
@@ -65,8 +65,15 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     ui->bt_removereq->setVisible(false);
 
 
+    connect(ui->list_insp,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
 
+   setSelectedProject(0);
+
+
+//    ui->frame_4->layout()->addWidget(ui->stackedWidget);
+//    ui->ProjectsPage->setDisplayed(false);
+//    ui->frame_5->layout()->addWidget(ui->configframe_projects);
 
 }
 
@@ -185,6 +192,10 @@ void ConfigurationsWidget::on_bt_save_settings_clicked()
     Settings::AppSettings->Projects()->Save();
 
 
+//    ui->frame_5->layout()->addWidget(ui->stackedWidget);
+//    ui->ProjectsPage->setDisplayed(true);
+//    ui->ProjectsPage->layout()->addWidget(ui->configframe_projects);
+
 }
 
 
@@ -231,57 +242,84 @@ void ConfigurationsWidget::selectionChanged(const QItemSelection &selected, cons
 
 
     }
+    else if(sender()->objectName()==ui->list_insp->objectName()){
+        QModelIndexList selectedlist= ui->list_insp->selectionModel()->selectedRows();
 
+        if (selectedlist.count()>0) {
+            setSelectedInspection(selectedlist.at(0).data(Qt::UserRole).value<Inspection*>());
+        }
+        else{
+            setSelectedInspection(0);
+        }
+
+
+    }
 
 }
 
 
+void ConfigurationsWidget::setSelectedInspection(Inspection* SelectedInspection)
+{
+    m_SelectedInspection= SelectedInspection;
+    if(m_SelectedInspection!=0){
+        ui->bt_removeinsp->setVisible(true);
+    }
+    else{
+            ui->bt_removeinsp->setVisible(false);
+    }
+
+
+
+}
 
 void ConfigurationsWidget::showEvent(QShowEvent *e)
 {
-    ui->bt_removeproj->setVisible(ui->list_projects->selectionModel()->selectedRows().count()>0);
     QWidget::showEvent(e);
+    //setSelectedProject(0);
+
 }
 
 
 void ConfigurationsWidget::on_bt_removeproj_clicked()
 {
     QModelIndexList selectedlist= ui->list_projects->selectionModel()->selectedRows();
-    KPPVision* project=selectedlist.at(0).data(Qt::UserRole).value<KPPVision*>();
+    if(selectedlist.count()>0){
+        KPPVision* project=selectedlist.at(0).data(Qt::UserRole).value<KPPVision*>();
+        Settings::AppSettings->Projects()->removeItem(project);
+    }
 
-    Settings::AppSettings->Projects()->removeItem(project);
+
 }
 KPPVision *ConfigurationsWidget::getSelectedProject() const
 {
-    return selectedProject;
+    return m_SelectedProject;
 }
 
 void ConfigurationsWidget::setSelectedProject(KPPVision *value)
 {
-    selectedProject = value;
+    m_SelectedProject = value;
 
 
 
-    if (selectedProject!=0) {
+    if (m_SelectedProject!=0) {
 
-        ui->inspectionspage->setDisplayed(true);
+        ui->requestspage->setDisplayed(true);
         ui->bt_removeproj->setVisible(true);
 
 
-        ui->lbl_projname->setText(selectedProject->getName());
-        ui->list_req->setModel(selectedProject->Requests());
+        ui->lbl_projname->setText(m_SelectedProject->getName());
+        ui->list_req->setModel(m_SelectedProject->Requests());
 
-        ui->bt_removereq->setVisible(false);
+
     }
     else{
-        ui->inspectionspage->setDisplayed(false);
-        if(ui->bt_removeproj->isVisible())
-        {
-            ui->bt_removeproj->setVisible(false);
-        }
+        setSelectedRequest(0);
+        ui->requestspage->setDisplayed(false);
+
+        ui->bt_removeproj->setVisible(false);
+
         ui->lbl_projname->setText(tr("No Project Selected"));
 
-        ui->list_req->setModel(0);
     }
 }
 
@@ -295,10 +333,19 @@ void ConfigurationsWidget::setSelectedRequest(Request* SelectedRequest)
     m_SelectedRequest= SelectedRequest;
     if(m_SelectedRequest!=0){
         ui->bt_removereq->setVisible(true);
+        ui->inspectionspage->setDisplayed(true);
+        ui->lbl_insp->setText(m_SelectedProject->getName().append(" : ").append(m_SelectedRequest->getName()));
+        ui->list_insp->setModel(m_SelectedRequest->Inspections());
     }
     else{
         ui->bt_removereq->setVisible(false);
+        ui->inspectionspage->setDisplayed(false);
+        ui->list_insp->setModel(0);
+        setSelectedInspection(0);
     }
+
+
+
 }
 
 
@@ -464,17 +511,17 @@ void ConfigurationsWidget::on_bt_addreq_clicked()
 {
 
     QString requestname=tr("Request 1");
-    for (int var = 0; var < selectedProject->Requests()->rowCount(QModelIndex()); var++) {
+    for (int var = 0; var < m_SelectedProject->Requests()->rowCount(QModelIndex()); var++) {
         QString request_name=tr("Request ").append("%1").arg(var+2);
 
-        if(!selectedProject->Requests()->getItemsNameList().contains(request_name)){
+        if(!m_SelectedProject->Requests()->getItemsNameList().contains(request_name)){
             requestname=request_name;
             break;
         }
     }
 
 
-    selectedProject->Requests()->AddItem(requestname);
+    m_SelectedProject->Requests()->AddItem(requestname);
 }
 
 void ConfigurationsWidget::on_bt_removereq_clicked()
@@ -485,7 +532,37 @@ void ConfigurationsWidget::on_bt_removereq_clicked()
 
         Request* req=selectedlist.at(0).data(Qt::UserRole).value<Request*>();
 
-        selectedProject->Requests()->removeItem(req);
+        m_SelectedProject->Requests()->removeItem(req);
+
+
+    }
+}
+
+void ConfigurationsWidget::on_bt_addinsp_clicked()
+{
+    QString default_inspname=tr("Inspeção 1");
+    for (int var = 0; var < m_SelectedRequest->Inspections()->rowCount(QModelIndex()); var++) {
+        QString insp_name=tr("Inspeção ").append("%1").arg(var+2);
+
+        if(!m_SelectedRequest->Inspections()->getItemsNameList().contains(insp_name)){
+            default_inspname=insp_name;
+            break;
+        }
+    }
+
+
+    m_SelectedRequest->Inspections()->AddItem(default_inspname);
+}
+
+void ConfigurationsWidget::on_bt_removeinsp_clicked()
+{
+    QModelIndexList selectedlist= ui->list_insp->selectionModel()->selectedRows();
+
+    if(selectedlist.count()>0){
+
+        Inspection* insp=selectedlist.at(0).data(Qt::UserRole).value<Inspection*>();
+
+        m_SelectedRequest->Inspections()->removeItem(insp);
 
 
     }

@@ -141,7 +141,7 @@ bool icXmlSerializable::Load(QString fileName){
     }
 
 
-
+    emit Loaded(this);
     return true;
 }
 

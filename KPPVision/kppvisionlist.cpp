@@ -6,6 +6,10 @@ template<class T>
 KPPVisionList<T>::KPPVisionList(QObject *parent, QString RootId) :
     icXmlSerializable(parent,RootId)
 {
+//    QString objname("KPPVisionList::");
+//    objname.append(T.objectName());
+//    this->setObjectName(objname);
+
 }
 template<class T>
 QString KPPVisionList<T>::getName() const

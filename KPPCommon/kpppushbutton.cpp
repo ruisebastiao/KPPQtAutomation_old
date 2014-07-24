@@ -10,6 +10,7 @@ KPPPushbutton::KPPPushbutton(QWidget *parent) :
     ishover=false;
     defaultSize=0;
     m_visible=false;
+    setVisible(true);
 
     this->setStyleSheet("QPushButton {\
                                 border: 1px solid #6593cf;\
@@ -136,3 +137,11 @@ void KPPPushbutton::leaveEvent(QEvent *e)
 
 
 
+
+
+void KPPPushbutton::showEvent(QShowEvent *)
+{
+    if(m_visible){
+
+    }
+}
