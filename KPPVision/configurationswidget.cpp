@@ -4,6 +4,7 @@
 #include "idseventsthandler.h"
 #include "qexception.h"
 #include "kppvisionlist.cpp"
+#include "qdesktopwidget.h"
 
 using namespace Vision;
 using namespace IDS;
@@ -11,10 +12,9 @@ using namespace IDS;
 
 
 ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent),    
     ui(new Ui::ConfigurationsWidget)
 {
-
 
     //    QGestureRecognizer* pRecognizer = new SwipeGestureRecognizer();
     //    grabGesture(QGestureRecognizer::registerRecognizer(pRecognizer));
@@ -23,7 +23,7 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     ui->setupUi(this);
 
     // setStyleSheet(parentWidget()->styleSheet());
-    setWindowFlags(Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowTitleHint) ;
+    setWindowFlags(Qt::FramelessWindowHint|Qt::WindowTitleHint) ;
     this->setWindowOpacity(0);
     setWindowModality(Qt::WindowModal);
     setWindowTitle(tr("Configurations"));
@@ -40,8 +40,9 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     ui->ProjectsPage->setDisplayed(true);
     ui->HardwarePage->setDisplayed(true);
 
-    ui->stackedWidget->setCurrentIndex(1);
 
+
+    ui->stackedWidget->setCurrentIndex(1);
 
     IDSCameraInfo *idscamera=Settings::AppSettings->Hardware()->idsCameraInfo();
 
@@ -68,12 +69,15 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     connect(ui->list_insp,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
 
-   setSelectedProject(0);
+    setSelectedProject(0);
 
 
-//    ui->frame_4->layout()->addWidget(ui->stackedWidget);
-//    ui->ProjectsPage->setDisplayed(false);
-//    ui->frame_5->layout()->addWidget(ui->configframe_projects);
+
+    QDesktopWidget *desktop = QApplication::desktop();
+
+    QRect r = frameGeometry();
+    r.moveCenter(desktop->availableGeometry().center());
+    move(r.topLeft());
 
 }
 
@@ -192,9 +196,9 @@ void ConfigurationsWidget::on_bt_save_settings_clicked()
     Settings::AppSettings->Projects()->Save();
 
 
-//    ui->frame_5->layout()->addWidget(ui->stackedWidget);
-//    ui->ProjectsPage->setDisplayed(true);
-//    ui->ProjectsPage->layout()->addWidget(ui->configframe_projects);
+    //    ui->frame_5->layout()->addWidget(ui->stackedWidget);
+    //    ui->ProjectsPage->setDisplayed(true);
+    //    ui->ProjectsPage->layout()->addWidget(ui->configframe_projects);
 
 }
 
@@ -258,19 +262,6 @@ void ConfigurationsWidget::selectionChanged(const QItemSelection &selected, cons
 }
 
 
-void ConfigurationsWidget::setSelectedInspection(Inspection* SelectedInspection)
-{
-    m_SelectedInspection= SelectedInspection;
-    if(m_SelectedInspection!=0){
-        ui->bt_removeinsp->setVisible(true);
-    }
-    else{
-            ui->bt_removeinsp->setVisible(false);
-    }
-
-
-
-}
 
 void ConfigurationsWidget::showEvent(QShowEvent *e)
 {
@@ -295,13 +286,15 @@ KPPVision *ConfigurationsWidget::getSelectedProject() const
     return m_SelectedProject;
 }
 
+
 void ConfigurationsWidget::setSelectedProject(KPPVision *value)
 {
     m_SelectedProject = value;
 
 
-
     if (m_SelectedProject!=0) {
+
+        ui->list_projects->setCurrentIndex(Settings::AppSettings->Projects()->getItemModelIndex(value));
 
         ui->requestspage->setDisplayed(true);
         ui->bt_removeproj->setVisible(true);
@@ -331,7 +324,11 @@ Request *ConfigurationsWidget::SelectedRequest() const
 void ConfigurationsWidget::setSelectedRequest(Request* SelectedRequest)
 {
     m_SelectedRequest= SelectedRequest;
+
+
+
     if(m_SelectedRequest!=0){
+        ui->list_req->setCurrentIndex(m_SelectedProject->Requests()->getItemModelIndex(SelectedRequest));
         ui->bt_removereq->setVisible(true);
         ui->inspectionspage->setDisplayed(true);
         ui->lbl_insp->setText(m_SelectedProject->getName().append(" : ").append(m_SelectedRequest->getName()));
@@ -349,6 +346,23 @@ void ConfigurationsWidget::setSelectedRequest(Request* SelectedRequest)
 }
 
 
+void ConfigurationsWidget::setSelectedInspection(Inspection* SelectedInspection)
+{
+    m_SelectedInspection= SelectedInspection;
+
+
+
+    if(m_SelectedInspection!=0){
+        ui->bt_removeinsp->setVisible(true);
+        ui->list_insp->setCurrentIndex(m_SelectedRequest->Inspections()->getItemModelIndex(SelectedInspection));
+    }
+    else{
+        ui->bt_removeinsp->setVisible(false);
+    }
+
+
+
+}
 
 
 

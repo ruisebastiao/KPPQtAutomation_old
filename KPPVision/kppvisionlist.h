@@ -49,6 +49,7 @@ public:
     // QAbstractItemModel interface
 public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
+    QModelIndex getItemModelIndex(T *Item);
 };
 
 }

@@ -14,6 +14,7 @@ KPPVisionList<T>::KPPVisionList(QObject *parent, QString RootId) :
 template<class T>
 QString KPPVisionList<T>::getName() const
 {
+
     return m_Name;
 }
 
@@ -52,6 +53,23 @@ T *KPPVisionList<T>::getItemByName(const QString& name) const{
     return 0;
 }
 
+
+template<class T>
+QModelIndex KPPVisionList<T>::getItemModelIndex(T* Item){
+    QModelIndex modelIndex;
+    QModelIndexList Items =match(
+                index(0, 0),
+                Qt::DisplayRole,
+                QVariant::fromValue(Item->getName()),
+                2, // look *
+                Qt::MatchRecursive); // look *
+    if(Items.count()>0){
+        modelIndex=index(Items.at(0).row(),0);
+    }
+
+    return modelIndex;
+}
+
 template<class T>
 T *KPPVisionList<T>::AddItem(const QString& name,QObject* parent){
     T *item = 0;
@@ -85,6 +103,7 @@ void KPPVisionList<T>::removeItem(T *item)
                 delete item;
         endRemoveRows();
     }
+
 
 
 

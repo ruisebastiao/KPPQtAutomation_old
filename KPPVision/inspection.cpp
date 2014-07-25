@@ -8,7 +8,7 @@ Inspection::Inspection(QObject *parent):
 {
 
     m_Name="New Inspection";
-
+    m_capture=0;
 }
 
 Inspection::~Inspection()
@@ -34,6 +34,7 @@ bool Inspection::serialize()
 {
     setSerialProperty("Name", m_Name);
 
+
     return true;
 
 }
@@ -41,9 +42,19 @@ bool Inspection::serialize()
 bool Inspection::deserialize()
 {
     m_Name = getSerialProperty("Name").toString();
-
+    //getSerialObject("CaptureSource");
 
     return  true;
 
 }
+CaptureSource *Inspection::Capture() const
+{
+    return m_capture;
+}
+
+void Inspection::setCapture(CaptureSource *capture)
+{
+    m_capture= capture;
+}
+
 

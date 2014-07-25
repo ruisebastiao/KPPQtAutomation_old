@@ -21,51 +21,72 @@ public:
 
     void AddVisionProjectsModel(Vision::KPPVisionList<Vision::KPPVision> *VisionProjects);
 private:
-     QTreeWidgetItem *projectsitem;
-     QPushButton *bt_project;
-     QTreeWidgetItem* projectssubitem;
-     KPPAdjustableListView* list_projects;
-
-     KPPTreeWidgetItem *RequestsItem;
-     QPushButton *bt_request;
-     QTreeWidgetItem* RequestSubItem;
-     KPPAdjustableListView* list_requests;
-
     QTimer *updatelayouttimer;
+
+    QTreeWidgetItem *Projectsitem;
+    QPushButton *bt_Projects;
+    QTreeWidgetItem* ProjectsSubItem;
+    KPPAdjustableListView* list_Projects;
+
     Vision::KPPVision* m_selectedProject;
-    void setSelectedProject(Vision::KPPVision *value);
+    void setSelectedProject(Vision::KPPVision* value);
+
+
+    KPPTreeWidgetItem *RequestsItem;
+    QPushButton *bt_Request;
+    QTreeWidgetItem* RequestsSubItem;
+    KPPAdjustableListView* list_Requests;
+
+    Vision::Request* m_selectedRequest;
+    void setSelectedRequest(Vision::Request* value);
+
+
+    KPPTreeWidgetItem *InspectionsItem;
+    QPushButton *bt_Inspections;
+    QTreeWidgetItem* InspectionsSubItem;
+    KPPAdjustableListView* list_Inspections;
+
+    Vision::Inspection* m_selectedInspection;
+    void setSelectedInspection(Vision::Inspection* value);
+
 protected:
 
 
 
 signals:
-
+    void ListSelectionChanged(QObject*);
 public slots:
-     void bt_projectClicked();
+    void bt_projectClicked();
 private slots:
 
 
-     void VisionProjectsdataChanged(QModelIndex, QModelIndex);
-     void VisionProjectsrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
-     void VisionProjectsrowsInserted(QModelIndex modelindex, int start, int end);  
-     void VisionProjectsrowsAboutToBeRemoved(QModelIndex modelindex, int start, int end);
-     void VisionProjectsrowsRemoved(QModelIndex modelindex, int start, int end);
-     void bt_RequestClicked();
+    void VisionProjectsDataChanged(QModelIndex, QModelIndex);
+    void VisionProjectsRowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
+    void VisionProjectsRowsInserted(QModelIndex modelindex, int start, int end);
+    void VisionProjectsRowsAboutToBeRemoved(QModelIndex modelindex, int start, int end);
+    void VisionProjectsRowsRemoved(QModelIndex modelindex, int start, int end);
+    void bt_RequestClicked();
 
-     void SelectionChanged(QItemSelection, QItemSelection);
-     void RequestsrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
-     void RequestsrowsInserted(QModelIndex modelindex, int start, int end);
+    void SelectionChanged(QItemSelection, QItemSelection);
+    void RequestsRowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
+    void RequestsRowsInserted(QModelIndex modelindex, int start, int end);
+    void InspectionrowsAboutToBeRemoved(QModelIndex modelindex, int start, int end);
+    void InspectionsRowsRemoved(QModelIndex modelindex, int start, int end);
+    void InspectionrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
+    void InspectionrowsRowsInserted(QModelIndex modelindex, int start, int end);
+    void bt_InspectionsClicked();
+    void RequestsRowsRemoved(QModelIndex modelindex, int start, int end);
 public slots:
 
 
 
 
 
-     // QTreeView interface
+    // QTreeView interface
 protected:
-   //  void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const;
+    //  void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const;
 
-     // QTreeView interface
+    // QTreeView interface
 protected:
     // void drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const;
 };

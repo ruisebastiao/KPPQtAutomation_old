@@ -35,6 +35,9 @@ public:
     State ToogleState();
     KPPVision *getSelectedProject() const;
 
+    void setSelectedProject(KPPVision *value);
+    void setSelectedInspection(Inspection *SelectedInspection);
+    void setSelectedRequest(Request *SelectedRequest);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -83,6 +86,8 @@ private slots:
 
     void on_bt_removeinsp_clicked();
 
+
+
 public slots:
 
 
@@ -104,9 +109,7 @@ private:
 
     Request *SelectedRequest() const;
 
-    void setSelectedProject(KPPVision *value);
-    void setSelectedInspection(Inspection *SelectedInspection);
-    void setSelectedRequest(Request *SelectedRequest);
+
 protected:
     void showEvent(QShowEvent *);
 

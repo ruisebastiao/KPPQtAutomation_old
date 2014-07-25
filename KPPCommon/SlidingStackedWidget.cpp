@@ -114,17 +114,6 @@ SlidingStackedWidget::swipeTriggered(QSwipeGesture* pSwipe)
    return false;
 }
 
-//bool
-//SlidingStackedWidget::OnGestureEvent(QGestureEvent* pEvent)
-//{
-//   QGesture *pSwipe = pEvent->gesture(Qt::SwipeGesture);
-//   if (pSwipe != NULL) {
-//      return OnSwipeGesture(static_cast<QSwipeGesture*>(pSwipe));
-//   } else {
-//      qDebug("Unexpected gesture detected. We only grab Qt::SwipeGesture ");
-//      return QWidget::event(pEvent);
-//   }
-//}
 
 
 

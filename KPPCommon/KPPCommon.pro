@@ -23,7 +23,8 @@ SOURCES += kppcommon.cpp \
     SlidingStackedWidget.cpp \
     swipegesturerecognizer.cpp \
     kppadjustablelistview.cpp \
-    kpptreewidgetitem.cpp
+    kpptreewidgetitem.cpp \
+    kpproottreepushbutton.cpp
 
     kppadjustablelistview.cpp
 
@@ -42,7 +43,8 @@ HEADERS += kppcommon.h\
     SlidingStackedWidget.h \
     swipegesturerecognizer.h \
     kppadjustablelistview.h \
-    kpptreewidgetitem.h
+    kpptreewidgetitem.h \
+    kpproottreepushbutton.h
 
     kppadjustablelistview.h
 

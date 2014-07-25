@@ -23,7 +23,10 @@ SOURCES += kppvision.cpp \
     kppstyleditemdelegate.cpp \
     kppvisionlist.cpp \
     request.cpp \
-    ilistviewitem.cpp
+    ilistviewitem.cpp \
+    inspectiontreewidget.cpp \
+    capturesource.cpp \
+    imagefilecapture.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -37,7 +40,10 @@ HEADERS += kppvision.h\
     kppstyleditemdelegate.h \
     kppvisionlist.h \
     request.h \
-    ilistviewitem.h
+    ilistviewitem.h \
+    inspectiontreewidget.h \
+    capturesource.h \
+    imagefilecapture.h
 
 
 

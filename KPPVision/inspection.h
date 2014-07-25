@@ -5,6 +5,7 @@
 #include <QObject>
 #include <icxmlserializable.h>
 #include "ilistviewitem.h"
+#include "capturesource.h"
 
 namespace Vision
 {
@@ -21,10 +22,13 @@ public:
     QString getName();
     void setName(const QString &name);
 
+    CaptureSource *Capture() const;
+    void setCapture(CaptureSource *capture);
+
 private:
     virtual bool serialize();
     virtual bool deserialize();
-
+    CaptureSource *m_capture;
     QString m_Name;
 
 signals:

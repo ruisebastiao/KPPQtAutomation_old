@@ -33,6 +33,7 @@ private slots:
     void on_treeWidget_clicked(const QModelIndex &index);
 
     void LoadDone(QObject *Sender);
+    void VisionTreeListSelectionChanged(QObject *);
 public slots:
     void focusChanged(QWidget* old, QWidget* now);
 protected:
@@ -41,7 +42,7 @@ private:
     Ui::MainWindow *ui;
     ConfigurationsWidget *configs;
     KPPVision *vision;
-
+    bool FirstRun;
     //IDSCamera *camera;
 
     void SetupSideMenu();
