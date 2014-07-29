@@ -10,6 +10,7 @@ KPPVisionList<T>::KPPVisionList(QObject *parent) :
 //    objname.append(T.objectName());
 //    this->setObjectName(objname);
 
+    teste="teste";
 }
 template<class T>
 QString KPPVisionList<T>::getName() const
@@ -170,6 +171,5 @@ bool KPPVisionList<T>::setData(const QModelIndex &index, const QVariant &value, 
     }
     return false;
 }
-
 
 

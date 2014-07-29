@@ -72,8 +72,17 @@ public:
         ar >> make_nvp(varname.c_str(), stdStr);
         s.setStringValue(QString::fromStdString(stdStr));
     }
+    template<class Archive>
+    inline  void load(Archive & ar, const unsigned int version)
+       {
 
+    }
 
+    template<class Archive>
+    inline  void save(Archive & ar, const unsigned int version)
+       {
+
+    }
 
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)

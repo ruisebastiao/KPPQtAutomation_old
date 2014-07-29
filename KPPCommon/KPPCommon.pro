@@ -44,8 +44,7 @@ HEADERS += kppcommon.h\
     swipegesturerecognizer.h \
     kppadjustablelistview.h \
     kpptreewidgetitem.h \
-    kpproottreepushbutton.h \
-    kppserializable.h
+    kpproottreepushbutton.h
 
     kppadjustablelistview.h
 

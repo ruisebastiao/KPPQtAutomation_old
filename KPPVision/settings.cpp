@@ -104,14 +104,34 @@ bool Settings::Load(QString location){
     template<class Archive>
     void Settings::serialize(Archive & ar, const unsigned int  file_version ){
 
-        KPPVision teste();
 
-        BOOST_SERIALIZATION_NVP(teste);
+
+        ar &   BOOST_SERIALIZATION_NVP(m_Projects);
         boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_ProjectsFilePath),&m_ProjectsFilePath), file_version);
 
 
     }
 
+
+    //---------------------------------------------------------------------------
+            /// Saves a QList object to a collection
+            template<class Archive, class U >
+            inline void save(Archive &ar, const QList< U > &t, const uint /* file_version */ )
+            {
+                boost::serialization::stl::save_collection< Archive, QList<U> >(ar, t);
+            }
+
+            //---------------------------------------------------------------------------
+            /// Loads a QList object from a collection
+            template<class Archive, class U>
+            inline void load(Archive &ar, QList<U > &t, const uint /* file_version */ )
+            {
+                    boost::serialization::stl::load_collection<
+                        Archive,
+                        QList<U>,
+                        boost::serialization::stl::archive_input_seq<Archive, QList<U> >,
+                        boost::serialization::stl::no_reserve_imp< QList<U> > >(ar, t);
+            }
 
 
     BOOST_SERIALIZATION_COLLECTION_TRAITS(QList)
