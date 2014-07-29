@@ -4,11 +4,11 @@
 
 using namespace Vision;
 
-KPPVision::KPPVision(QObject *parent, QString RootId) :
-    icXmlSerializable(parent,RootId)
+KPPVision::KPPVision(QObject *parent) :
+    QObject(parent)
 {
 
-    m_Requests=new KPPVisionList<Request>(this,"Request List");
+    m_Requests=new KPPVisionList<Request>(this);
 
 }
 
@@ -112,35 +112,5 @@ void KPPVision::setView(QGraphicsView *value)
 
 }
 
-bool    KPPVision::serialize(){
-
-    //---------------
-    //To serialize int, QString, float, bool, long, QDateTime
-    //just call setSerialProperty
-    //---------------
 
 
-    setSerialProperty("Name", m_Name);
-    if(m_Requests->rowCount(QModelIndex())>0)
-        setSerialObject("Requests", m_Requests);
-
-
-    return true;
-}
-
-bool    KPPVision::deserialize()
-{
-
-    //---------------
-    //To deserialize int, QString, float, bool, long, QDateTime
-    //just call getSerialProperty (returns a QVariant)
-    //---------------
-
-    m_Name = getSerialProperty("Name").toString();
-
-    getSerialObject("Requests",m_Requests);
-//    //return false;
-
-
-    return true;
-}

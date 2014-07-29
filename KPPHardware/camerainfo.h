@@ -2,29 +2,24 @@
 #define CAMERAINFO_H
 
 #include "kpphardware_global.h"
-#include "icxmlserializable.h"
+#include "QAbstractListModel"
 
 namespace IDS {
 
 
 
-class KPPHARDWARESHARED_EXPORT CameraInfo:public icXmlSerializable
+class KPPHARDWARESHARED_EXPORT CameraInfo:public QAbstractListModel
 {
     Q_OBJECT
 
 public:
    // virtual operator QString() { return name; }
     //virtual void InitCamera();
-    explicit CameraInfo(QObject *parent = 0, QString RootId="Camera");
+    explicit CameraInfo(QObject *parent = 0);
 private:
     QString name;
 
 
-
-    // icXmlSerializable interface
-protected:
-    bool deserialize();
-    bool serialize();
 };
 }
 #endif // CAMERAINFO_H

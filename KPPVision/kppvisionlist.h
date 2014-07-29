@@ -2,18 +2,19 @@
 #define KPPVISIONLIST_H
 
 #include "kppvision_global.h"
-#include "icxmlserializable.h"
+#include "qabstractitemmodel.h"
+
 
 namespace Vision {
 
 
 
 template<class T>
-class KPPVISIONSHARED_EXPORT KPPVisionList : public icXmlSerializable
+class KPPVISIONSHARED_EXPORT KPPVisionList :public QAbstractListModel
 {
 
 public:
-    explicit KPPVisionList(QObject *parent = 0,QString RootId="");
+    explicit KPPVisionList(QObject *parent = 0);
 
     QString getName() const;
     void setName(const QString &getName);
@@ -36,10 +37,6 @@ public slots:
 public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    // icXmlSerializable interface
-protected:
-    bool deserialize();
-    bool serialize();
 
     // QAbstractItemModel interface
 public:

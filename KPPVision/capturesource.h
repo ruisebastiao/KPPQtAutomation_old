@@ -2,11 +2,11 @@
 #define CAPTURESOURCE_H
 
 #include "kppvision_global.h"
-#include "icxmlserializable.h"
+#include <QMetaEnum>
 
 #include <QObject>
 
-class KPPVISIONSHARED_EXPORT CaptureSource:public icXmlSerializable
+class KPPVISIONSHARED_EXPORT CaptureSource:public QObject
 {
     Q_ENUMS(CaptureSourceTypes)
     Q_OBJECT
@@ -27,10 +27,6 @@ signals:
 public slots:
 
 
-      // icXmlSerializable interface
-protected:
-      virtual bool deserialize()=0;
-      virtual bool serialize()=0;
 };
 
 #endif // CAPTURESOURCE_H

@@ -193,7 +193,8 @@ void ConfigurationsWidget::on_bt_save_settings_clicked()
 
     Settings::AppSettings->Save();
 
-    Settings::AppSettings->Projects()->Save();
+
+  //  Settings::AppSettings->Projects()->Save();
 
 
     //    ui->frame_5->layout()->addWidget(ui->stackedWidget);

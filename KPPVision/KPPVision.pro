@@ -74,9 +74,4 @@ INCLUDEPATH += $$PWD/../KPPHardware
 DEPENDPATH += $$PWD/../KPPHardware
 INCLUDEPATH += $$PWD/../ExternalLibs/IDS/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../icxmlserializable/release/ -licxmlserializable
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../icxmlserializable/debug/ -licxmlserializable
-else:unix: LIBS += -L$$OUT_PWD/../icxmlserializable/ -licxmlserializable
 
-INCLUDEPATH += $$PWD/../icxmlserializable
-DEPENDPATH += $$PWD/../icxmlserializable

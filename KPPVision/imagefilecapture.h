@@ -13,10 +13,7 @@ public:
 private:
 
 
-    // icXmlSerializable interface
-protected:
-    bool deserialize();
-    bool serialize();
+
 };
 
 #endif // IMAGEFILECAPTURE_H

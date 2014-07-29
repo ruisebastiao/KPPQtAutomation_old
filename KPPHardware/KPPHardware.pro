@@ -50,14 +50,6 @@ QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
 
 
 
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../icxmlserializable/release/ -licxmlserializable
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../icxmlserializable/debug/ -licxmlserializable
-else:unix|android: LIBS += -L$$PWD/../icxmlserializable/ -licxmlserializable
-
-INCLUDEPATH += $$PWD/../icxmlserializable
-DEPENDPATH += $$PWD/../icxmlserializable
-
 ! include( ../common.pri ) {
     error( "Couldn't find the common.pri file!" )
 }

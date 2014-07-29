@@ -15,12 +15,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    // Serializer serializer;
+
     ui->setupUi(this);
 
-    Settings::AppSettings= new Settings(this);
+    new Settings(this);
+    //Seet
 
-    Settings::AppSettings->Load(qApp->applicationDirPath()+"/settings.cfg");
+    if(!(Settings::AppSettings->Load(qApp->applicationDirPath().append("/settings.cfg")))){
+       Settings::AppSettings->Save();
+    }
+
+    //QString teste=Settings::AppSettings->ProjectsFilePath();
 
     ui->actionlayout->setMargin(0);
     ui->actionlayout->setSizeConstraint(QLayout::SetNoConstraint);
@@ -47,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(Settings::AppSettings->Projects(),SIGNAL(Loaded(QObject*)),this,SLOT(LoadDone(QObject*)));
 
-    Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath());
+    //Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath());
 
 
 

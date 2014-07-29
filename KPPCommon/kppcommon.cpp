@@ -2,6 +2,7 @@
 #include "qfile.h"
 #include "QTextStream.h"
 
+
 KPPCommon::KPPCommon()
 {
 }
@@ -26,4 +27,30 @@ QString KPPCommon::loadStyleSheet(const QString &aliasname) {
     }
 
     return "";
+}
+
+
+QStringSerializable::QStringSerializable(QString QStringName, QString *QStringValue)
+{
+    m_QStringValue=QStringValue;
+    m_QStringName=QString(QStringName);
+}
+
+QString *QStringSerializable::getQStringValue() const
+{
+    return m_QStringValue;
+}
+
+void QStringSerializable::setStringValue(QString &value) const
+{
+    *m_QStringValue=value;
+}
+
+std::string QStringSerializable::getQStringName() const
+{
+
+    return m_QStringName.toStdString();
+
+
+
 }

@@ -6,8 +6,8 @@
 using namespace IDS;
 
 
-KPPHardware::KPPHardware(QObject *parent, QString RootId):
-    icXmlSerializable(parent,RootId)
+KPPHardware::KPPHardware(QObject *parent):
+    QObject(parent)
 {
 
 
@@ -30,15 +30,4 @@ IDSCameraInfo *KPPHardware::idsCameraInfo() const
 
 
 
-
-bool KPPHardware::deserialize()
-{
-
-    return true;
-}
-
-bool KPPHardware::serialize()
-{
-    return true;
-}
 

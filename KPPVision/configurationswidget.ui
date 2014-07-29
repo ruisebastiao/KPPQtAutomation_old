@@ -142,7 +142,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>1</number>
              </property>
              <widget class="SlideWidget" name="HardwarePage">
               <property name="sizePolicy">
@@ -697,8 +697,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>91</width>
-                       <height>97</height>
+                       <width>641</width>
+                       <height>366</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -858,8 +858,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>91</width>
-                          <height>97</height>
+                          <width>607</width>
+                          <height>412</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_18">

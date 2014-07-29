@@ -2,7 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     KPPCommon \    
-    icxmlserializable \
     KPPHardware \
     KPPVision
 

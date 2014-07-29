@@ -1,15 +1,18 @@
+
 #include "settings.h"
 
+using namespace Vision;
 
 Settings* Settings::AppSettings;
 
-Settings::Settings(QObject *parent,QString RootId) :
-    icXmlSerializable(parent,RootId)
+
+Settings::Settings(QObject *parent) :
+    QObject(parent)
 {
-  m_ProjectsFilePath="";
-  AppSettings=this;
-  m_hardware= new KPPHardware(this);
-  m_Projects=new KPPVisionList<KPPVision>(this,"Projects");
+    m_ProjectsFilePath="teste";
+    AppSettings=this;
+    m_hardware= new KPPHardware(this);
+    m_Projects=new KPPVisionList<KPPVision>(this);
 }
 QString Settings::ProjectsFilePath() const
 {
@@ -31,62 +34,98 @@ KPPVisionList<KPPVision> *Settings::Projects() const
 }
 
 
-//void Settings::setHardware(KPPHardware *hardware)
-//{
-//    m_hardware = hardware;
-//}
 
 
+bool Settings::Load(){
 
-
-//bool Settings::rowCount(const QModelIndex &parent) const{
-//    return true;
-//}
-
-//QVariant Settings::data(const QModelIndex &index, int role) const{
-//    return QVariant();
-//}
-
-
-
-//----------------------------------------------------
-//STEP 3: implements serialize & deserialize methods
-//----------------------------------------------------
-
-bool    Settings::serialize(){
-
-    //---------------
-    //To serialize int, QString, float, bool, long, QDateTime
-    //just call setSerialProperty
-    //---------------
-    setSerialProperty("ProjectsFilePath", m_ProjectsFilePath);
-    setSerialObject("Hardware",m_hardware);
-   // setSerialProperty("price", m_price);
-    //setSerialProperty("title", m_title);
-    //setSerialProperty("author", m_author);
-    //setSerialProperty("date", m_date);
-
-    return true;
+    return Load(m_location);
 }
 
-bool    Settings::deserialize(){
+bool Settings::Save(){
 
-    //---------------
-    //To deserialize int, QString, float, bool, long, QDateTime
-    //just call getSerialProperty (returns a QVariant)
-    //---------------
-    m_ProjectsFilePath = getSerialProperty("ProjectsFilePath").toString();
-    //m_hardware = new hardware(this);
-    //getSerialObject("hardware",m_hardware);
+    return Save(m_location);
+}
 
-//    m_price = getSerialProperty("price").toFloat();
-//    m_title = getSerialProperty("title").toString();
-//    m_author = getSerialProperty("author").toString();
-//    m_date = getSerialProperty("date").toDateTime();
+
+bool Settings::Load(QString location){
+
+    Settings *settings=this;
+    try{
+        m_location=location;
+
+
+        std::ifstream ifs(location.toUtf8().data());
+        if(!ifs.good()){
+
+            return false;
+        }
+        boost::archive::xml_iarchive ia(ifs);
+
+        // restore the schedule from the archive
+        ia >> BOOST_SERIALIZATION_NVP(settings);
+
+    }catch(...){
+        return false;
+
+    }
 
     return true;
+
 }
 
 
 
+    template<class Archive>
+    inline void load( Archive& ar,const QStringSerializable& s, const unsigned int /*version*/ )
+    {
+        using boost::serialization::make_nvp;
 
+        std::string varname;
+        varname=s.getQStringName();
+        std::string stdStr;
+        ar >> make_nvp(varname.c_str(), stdStr);
+        s.setStringValue(QString::fromStdString(stdStr));
+    }
+
+
+
+    template<class Archive>
+    inline void save( Archive& ar,QStringSerializable s, const unsigned int /*version*/ )
+    {
+        using boost::serialization::make_nvp;
+
+        std::string varname;
+        varname=s.getQStringName();
+        QString* str=s.getQStringValue();
+        ar << make_nvp(varname.c_str(), str->toStdString());
+    }
+
+
+    template<class Archive>
+    void Settings::serialize(Archive & ar, const unsigned int  file_version ){
+
+        KPPVision teste();
+
+        BOOST_SERIALIZATION_NVP(teste);
+        boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_ProjectsFilePath),&m_ProjectsFilePath), file_version);
+
+
+    }
+
+
+
+    BOOST_SERIALIZATION_COLLECTION_TRAITS(QList)
+
+bool Settings::Save(QString location){
+    // make an archive
+    Settings *settings=this;
+        std::ofstream ofs(location.toUtf8().data());
+        if(!ofs.good()){
+
+            return false;
+        }
+        boost::archive::xml_oarchive oa(ofs);
+        oa << BOOST_SERIALIZATION_NVP(settings);
+
+    return true;
+}

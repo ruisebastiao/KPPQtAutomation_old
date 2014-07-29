@@ -3,14 +3,13 @@
 
 #include "kppvision_global.h"
 #include <QObject>
-#include <icxmlserializable.h>
 #include "ilistviewitem.h"
 #include "capturesource.h"
 
 namespace Vision
 {
 
-class KPPVISIONSHARED_EXPORT Inspection : public icXmlSerializable,public IListViewItem
+class KPPVISIONSHARED_EXPORT Inspection :public QObject
 {
     Q_OBJECT
 public:
@@ -26,14 +25,15 @@ public:
     void setCapture(CaptureSource *capture);
 
 private:
-    virtual bool serialize();
-    virtual bool deserialize();
+
     CaptureSource *m_capture;
     QString m_Name;
 
 signals:
 
 public slots:
+
+
 
 };
 

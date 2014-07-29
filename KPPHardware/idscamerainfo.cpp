@@ -2,8 +2,8 @@
 
 using namespace IDS;
 
-IDSCameraInfo::IDSCameraInfo(QObject *parent, QString RootId):
-    CameraInfo(parent,RootId)
+IDSCameraInfo::IDSCameraInfo(QObject *parent):
+    CameraInfo(parent)
 {
     m_ListCameras=0;
     UpdateCamerasList();

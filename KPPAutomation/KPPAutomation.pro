@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = KPPAutomation
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++11
+
 
 
 #UI_DIR = uics
@@ -58,18 +58,6 @@ RESOURCES += \
     resources/res.qrc
 
 
-
-
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../icxmlserializable/release/ -licxmlserializable
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../icxmlserializable/debug/ -licxmlserializable
-else:unix: LIBS += -L$$PWD/../icxmlserializable/ -licxmlserializable
-
-INCLUDEPATH += $$PWD/../icxmlserializable
-DEPENDPATH += $$PWD/../icxmlserializable
-
-
-
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCored
 else:unix: LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
@@ -85,11 +73,7 @@ else:unix: LIBS += -L$$OUT_PWD/../KPPVision/ -lKPPVision
 INCLUDEPATH += $$PWD/../KPPVision
 DEPENDPATH += $$PWD/../KPPVision
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../icxmlserializable/release/ -licxmlserializable
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../icxmlserializable/debug/ -licxmlserializable
-else:unix: LIBS += -L$$OUT_PWD/../icxmlserializable/ -licxmlserializable
-
-INCLUDEPATH += $$PWD/../icxmlserializable
-DEPENDPATH += $$PWD/../icxmlserializable
+INCLUDEPATH += C:/boost/boost_1_55_0/
+LIBS += -LC:/boost/boost_1_55_0/stage/lib/
 
 QMAKE_CXXFLAGS += /DNOMINMAX

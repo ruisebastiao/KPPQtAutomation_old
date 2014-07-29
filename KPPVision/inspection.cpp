@@ -4,7 +4,7 @@ using namespace Vision;
 
 
 Inspection::Inspection(QObject *parent):
-    icXmlSerializable(parent)
+    QObject(parent)
 {
 
     m_Name="New Inspection";
@@ -28,25 +28,6 @@ void Inspection::setName(const QString &name)
 
 
 
-// icXmlSerializable interface
-
-bool Inspection::serialize()
-{
-    setSerialProperty("Name", m_Name);
-
-
-    return true;
-
-}
-
-bool Inspection::deserialize()
-{
-    m_Name = getSerialProperty("Name").toString();
-    //getSerialObject("CaptureSource");
-
-    return  true;
-
-}
 CaptureSource *Inspection::Capture() const
 {
     return m_capture;

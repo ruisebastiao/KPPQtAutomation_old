@@ -13,7 +13,7 @@ class KPPHARDWARESHARED_EXPORT IDSCameraInfo:public CameraInfo
 
 public:
 
-    explicit IDSCameraInfo(QObject *parent = 0, QString RootId="Camera");
+    explicit IDSCameraInfo(QObject *parent = 0);
     void InitCamera(int CameraId);
 
     //static void setCameras(UEYE_CAMERA_LIST *Cameras);

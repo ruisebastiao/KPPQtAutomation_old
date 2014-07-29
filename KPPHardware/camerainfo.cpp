@@ -2,18 +2,8 @@
 
 using namespace IDS;
 
-CameraInfo::CameraInfo(QObject *parent, QString RootId):
-    icXmlSerializable(parent,RootId)
+CameraInfo::CameraInfo(QObject *parent):
+    QAbstractListModel(parent)
 {
 
-}
-
-bool CameraInfo::deserialize()
-{
-    return true;
-}
-
-bool CameraInfo::serialize()
-{
-    return true;
 }
