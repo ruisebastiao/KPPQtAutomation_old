@@ -3,7 +3,7 @@
 #include <QFileDialog>
 #include "idseventsthandler.h"
 #include "qexception.h"
-#include "kppvisionlist.cpp"
+
 #include "qdesktopwidget.h"
 
 using namespace Vision;
@@ -194,7 +194,7 @@ void ConfigurationsWidget::on_bt_save_settings_clicked()
     Settings::AppSettings->Save();
 
 
-  //  Settings::AppSettings->Projects()->Save();
+    Settings::AppSettings->Projects()->Save();
 
 
     //    ui->frame_5->layout()->addWidget(ui->stackedWidget);
@@ -217,6 +217,7 @@ void ConfigurationsWidget::on_bt_addproj_clicked()
             break;
         }
     }
+
     Settings::AppSettings->Projects()->AddItem(projectname);
 }
 

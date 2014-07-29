@@ -1,6 +1,6 @@
 #include "kppvision.h"
 #include "QDebug"
-#include "kppvisionlist.cpp"
+
 
 using namespace Vision;
 
@@ -113,4 +113,36 @@ void KPPVision::setView(QGraphicsView *value)
 }
 
 
+template<class Archive>
+inline void save( Archive& ar,const QStringSerializable& s, const unsigned int /*version*/ )
+{
+    using boost::serialization::make_nvp;
 
+    std::string varname;
+    varname=s.getQStringName();
+    QString* str=s.getQStringValue();
+    ar << make_nvp(varname.c_str(), str->toStdString());
+}
+
+template<class Archive>
+inline void load( Archive& ar,const QStringSerializable& s, const unsigned int /*version*/ )
+{
+    using boost::serialization::make_nvp;
+
+     std::string varname;
+     varname=s.getQStringName();
+     std::string stdStr;
+    ar >> make_nvp(varname.c_str(), stdStr);
+    s.setStringValue(QString::fromStdString(stdStr));
+}
+template<class Archive>
+inline  void load(Archive & ar, const unsigned int version)
+   {
+
+}
+
+template<class Archive>
+inline  void save(Archive & ar, const unsigned int version)
+   {
+
+}

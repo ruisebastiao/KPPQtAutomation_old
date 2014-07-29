@@ -4,8 +4,9 @@
 #include "kppvision.h"
 #include "configurationswidget.h"
 #include "QToolButton"
-//#include "kppvisionhardware.h"
-//#include "uEye.h"
+
+
+
 
 
 using namespace Vision;

@@ -19,6 +19,7 @@
 #include <boost/archive/xml_oarchive.hpp>
 #include <string>
 #include <fstream>
+
 using namespace Vision;
 
 
@@ -40,7 +41,7 @@ public:
     KPPHardware *Hardware() const;
 
 
-    KPPVisionList<KPPVision> *Projects() const;
+    KPPVisionList<KPPVision> *Projects();
 
 
 

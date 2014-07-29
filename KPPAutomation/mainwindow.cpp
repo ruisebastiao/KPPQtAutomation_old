@@ -5,9 +5,10 @@
 #include "qlineedit.h"
 #include "settings.h"
 #include "crashdialog.h"
-#include "kppvisionlist.h"
+
 #include "type_traits"
 #include "QDesktopWidget"
+
 
 using namespace Vision;
 
@@ -19,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     new Settings(this);
+
+
     //Seet
 
     if(!(Settings::AppSettings->Load(qApp->applicationDirPath().append("/settings.cfg")))){
@@ -50,10 +53,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->actionlayout->addWidget(actionBar);
 
-    connect(Settings::AppSettings->Projects(),SIGNAL(Loaded(QObject*)),this,SLOT(LoadDone(QObject*)));
+    //connect(Settings::AppSettings->Projects(),SIGNAL(Loaded(QObject*)),this,SLOT(LoadDone(QObject*)));
 
-    //Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath());
 
+    if(!Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath())){
+        Settings::AppSettings->Projects()->Save();
+    }
+
+
+    //Settings::AppSettings->Projects()->AddItem("asd");
 
 
     configs= new ConfigurationsWidget (this);

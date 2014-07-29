@@ -43,7 +43,8 @@ HEADERS += kppvision.h\
     ilistviewitem.h \
     inspectiontreewidget.h \
     capturesource.h \
-    imagefilecapture.h
+    imagefilecapture.h \
+    BoostDef.h
 
 
 
