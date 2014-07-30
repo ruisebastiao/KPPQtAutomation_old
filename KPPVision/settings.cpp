@@ -35,15 +35,6 @@ KPPVisionList<KPPVision> *Settings::Projects()
 }
 
 
-template<class Archive>
-inline void load_construct_data(
-    Archive & ar, Settings * t, const unsigned int file_version
-){
-    // retrieve data from archive required to construct new instance
-
-    // invoke inplace constructor to initialize instance of my_class
-    ::new(t)Settings();
-}
 
     template<class Archive>
     void Settings::serialize(Archive & ar, const unsigned int  file_version ){

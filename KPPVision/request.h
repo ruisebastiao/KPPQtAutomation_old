@@ -15,10 +15,20 @@ class KPPVISIONSHARED_EXPORT Request:public QObject
     Q_OBJECT
 public:
     explicit Request(QObject *parent = 0);
-
+    friend class boost::serialization::access;
+    friend std::ostream & operator<<(std::ostream &os, const Request &req);
 private:
     QString m_Name;
     KPPVisionList<Inspection> *m_Inspections;
+
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int file_version)
+    {
+        boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_Name),&m_Name), file_version);
+        ar & boost::serialization::make_nvp("Inspections", m_Inspections);
+    }
+
 signals:
 
 public slots:
