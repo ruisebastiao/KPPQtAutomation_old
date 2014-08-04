@@ -1,6 +1,7 @@
 #ifndef BOOSTDEF_H
 #define BOOSTDEF_H
 
+#include "kppcommon.h"
 
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/nvp.hpp>
@@ -11,13 +12,16 @@
 #include <boost/archive/tmpdir.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
-#include "kppcommon.h"
 
-namespace boost { namespace serialization {
+namespace boost
+{
+
+namespace serialization
+{
 
 
 template<class Archive>
-inline void save( Archive& ar,const QStringSerializable &s, const unsigned int /*version*/ )
+void save( Archive& ar,const QStringSerializable &s, const unsigned int /*version*/ )
 {
     using boost::serialization::make_nvp;
 
@@ -28,7 +32,7 @@ inline void save( Archive& ar,const QStringSerializable &s, const unsigned int /
 }
 
 template<class Archive>
-inline void load( Archive& ar,const QStringSerializable& s, const unsigned int /*version*/ )
+void load( Archive& ar,const QStringSerializable& s, const unsigned int /*version*/ )
 {
     using boost::serialization::make_nvp;
 
@@ -41,6 +45,6 @@ inline void load( Archive& ar,const QStringSerializable& s, const unsigned int /
 
 }
 
-                }
+}
 
 #endif // BOOSTDEF_H

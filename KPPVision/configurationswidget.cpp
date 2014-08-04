@@ -357,6 +357,7 @@ void ConfigurationsWidget::setSelectedInspection(Inspection* SelectedInspection)
     if(m_SelectedInspection!=0){
         ui->bt_removeinsp->setVisible(true);
         ui->list_insp->setCurrentIndex(m_SelectedRequest->Inspections()->getItemModelIndex(SelectedInspection));
+        ui->tree_inspections->setInspection(m_SelectedInspection);
     }
     else{
         ui->bt_removeinsp->setVisible(false);

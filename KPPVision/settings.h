@@ -19,6 +19,7 @@
 #include <boost/archive/xml_oarchive.hpp>
 #include <string>
 #include <fstream>
+#include "BoostDef.h"
 
 using namespace Vision;
 
@@ -53,7 +54,7 @@ public:
 
 
 
-     template<class Archive>
+    template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version);
 private:
     QString m_location;
@@ -66,6 +67,7 @@ signals:
 public slots:
 
 };
+
 
 
 

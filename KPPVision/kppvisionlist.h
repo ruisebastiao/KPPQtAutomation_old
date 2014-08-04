@@ -6,8 +6,19 @@
 #include <string>
 #include <fstream>
 #include "kppcommon.h"
-#include "BoostDef.h"
 #include "qdebug.h"
+
+
+
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/nvp.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/version.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/archive/tmpdir.hpp>
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
 
 //BOOST_SERIALIZATION_SPLIT_FREE(QStringSerializable)
 
@@ -206,7 +217,7 @@ public:
 
         m_location=location;
         // make an archive
-      //  KPPVisionList *VisionList=this;
+        //  KPPVisionList *VisionList=this;
         std::ofstream ofs(location.toUtf8().data());
         if(!ofs.good()){
 
@@ -225,7 +236,7 @@ public:
     bool Load(QString location)
     {
         m_location=location;
-       // KPPVisionList *VisionList=this;
+        // KPPVisionList *VisionList=this;
         try{
             m_location=location;
 
@@ -252,22 +263,11 @@ public:
     }
 
 
-//        template<class Archive, class U >
-//            void serialize(Archive &ar, QList<U> &t, const uint file_version )
-//            {
-//                boost::serialization::split_free( ar, t, file_version);
-//            }
-
-
     template<class Archive>
     void serialize(Archive & ar,const unsigned int file_version){
 
-        //ar.register_type(static_cast<T*>(NULL));
-        //ar  & BOOST_SERIALIZATION_NVP(m_InnerList);
-      // boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_Name),&m_Name), file_version);
         boost::serialization::split_free(ar,m_InnerList, file_version);
     }
-
 
 
 
@@ -305,34 +305,37 @@ BOOST_SERIALIZATION_COLLECTION_TRAITS(QList)
 
 
 
-namespace boost { namespace serialization {
-
-
-
-//---------------------------------------------------------------------------
-/// Saves a QList object to a collection
-template<class Archive, class U >
-inline void save(Archive &ar, const QList< U* > &t, const uint /* file_version */ )
+namespace boost
 {
+    namespace serialization
+    {
 
-    boost::serialization::stl::save_collection< Archive, QList<U*> >(ar, t);
+
+
+    //---------------------------------------------------------------------------
+    /// Saves a QList object to a collection
+    template<class Archive, class U >
+    inline void save(Archive &ar, const QList< U* > &t, const uint /* file_version */ )
+    {
+
+        boost::serialization::stl::save_collection< Archive, QList<U*> >(ar, t);
+    }
+
+    //---------------------------------------------------------------------------
+    /// Loads a QList object from a collection
+    template<class Archive, class U>
+    inline void load(Archive &ar, QList<U *> &t, const uint /* file_version */ )
+    {
+
+        boost::serialization::stl::load_collection<
+                Archive,
+                QList<U*>,
+                boost::serialization::stl::archive_input_seq<Archive, QList<U*> >,
+                boost::serialization::stl::no_reserve_imp< QList<U*> > >(ar, t);
+
+    }
+    }
 }
-
-//---------------------------------------------------------------------------
-/// Loads a QList object from a collection
-template<class Archive, class U>
-inline void load(Archive &ar, QList<U *> &t, const uint /* file_version */ )
-{
-
-    boost::serialization::stl::load_collection<
-            Archive,
-            QList<U*>,
-            boost::serialization::stl::archive_input_seq<Archive, QList<U*> >,
-            boost::serialization::stl::no_reserve_imp< QList<U*> > >(ar, t);
-
-}
-}
-                }
 //BOOST_SERIALIZATION_SPLIT_FREE(QStringSerializable)
 
 

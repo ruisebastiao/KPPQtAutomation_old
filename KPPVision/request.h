@@ -22,6 +22,7 @@ private:
     KPPVisionList<Inspection> *m_Inspections;
 
 
+
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
     {

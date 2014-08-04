@@ -3,17 +3,27 @@
 
 #include "kppvision_global.h"
 #include "capturesource.h"
-
+#include "kpptreepushbutton.h"
+#include "BoostDef.h"
+#include "kpplineedit.h"
 class KPPVISIONSHARED_EXPORT ImageFileCapture : public CaptureSource
 {
     Q_OBJECT
 public:
     explicit ImageFileCapture(QObject *parent=0);
-    //virtual ImageFileCapture* clone() const { return new CaptureSource(*this); }
+    friend class boost::serialization::access;
+
+        template<typename Archive>
+    void serialize(Archive & ar, const unsigned int file_version);
+private slots:
+    void bt_image_loc_clicked();
 private:
-
-
+    KPPRootTreePushButton* bt_imgloc;
+    QString m_imagepath;
+    KPPLineEdit* edit_img_path;
 
 };
+
+
 
 #endif // IMAGEFILECAPTURE_H

@@ -1,4 +1,4 @@
-#include "kpproottreepushbutton.h"
+#include "kpptreepushbutton.h"
 
 KPPRootTreePushButton::KPPRootTreePushButton(QString text,QTreeWidgetItem *widgetitem,QWidget *parent) :
     QPushButton(text,parent)
@@ -23,11 +23,14 @@ QTreeWidgetItem *KPPRootTreePushButton::widgetItem() const
 void KPPRootTreePushButton::ButtonClickedSlot(){
 
 
-    QList<KPPRootTreePushButton *> allKPPRootTreePushButton = m_widgetItem->treeWidget()->findChildren<KPPRootTreePushButton *>();
+    //QList<KPPRootTreePushButton *> allKPPRootTreePushButton = m_widgetItem->->tafindChildren<KPPRootTreePushButton *>();
 
-    for (int var = 0; var < allKPPRootTreePushButton.count(); ++var) {
-        if(allKPPRootTreePushButton[var]->objectName()!=objectName()){
-            allKPPRootTreePushButton[var]->widgetItem()->setExpanded(false);
+    if(m_widgetItem->parent()!=0){
+        for (int var = 0; var < m_widgetItem->parent()->childCount();++var) {
+
+            if(m_widgetItem->parent()->child(var)!=m_widgetItem){
+                m_widgetItem->parent()->child(var)->setExpanded(false);
+            }
         }
     }
 

@@ -1,6 +1,17 @@
 
 #include "settings.h"
-#include <BoostDef.h>
+
+
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/nvp.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/version.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/archive/tmpdir.hpp>
+#include <boost/archive/xml_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+
 
 using namespace Vision;
 
@@ -36,13 +47,12 @@ KPPVisionList<KPPVision> *Settings::Projects()
 
 
 
+
     template<class Archive>
     void Settings::serialize(Archive & ar, const unsigned int  file_version ){
 
-        const QStringSerializable teste(BOOST_STRINGIZE(m_ProjectsFilePath),&m_ProjectsFilePath);
-
-        //ar &   BOOST_SERIALIZATION_NVP(m_Projects);
-        boost::serialization::split_free(ar,teste, file_version);
+               //ar &   BOOST_SERIALIZATION_NVP(m_Projects);
+        boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_ProjectsFilePath),&m_ProjectsFilePath), file_version);
 
 
     }
@@ -102,4 +112,3 @@ bool Settings::Load(QString location){
     return true;
 
 }
-

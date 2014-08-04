@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>669</width>
+    <width>734</width>
     <height>562</height>
    </rect>
   </property>
@@ -142,7 +142,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>3</number>
              </property>
              <widget class="SlideWidget" name="HardwarePage">
               <property name="sizePolicy">
@@ -697,8 +697,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>641</width>
-                       <height>366</height>
+                       <width>91</width>
+                       <height>97</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -858,8 +858,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>607</width>
-                          <height>412</height>
+                          <width>91</width>
+                          <height>97</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -904,7 +904,7 @@
               </layout>
              </widget>
              <widget class="SlideWidget" name="inspectionspage">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <layout class="QVBoxLayout" name="verticalLayout_25">
                <property name="spacing">
                 <number>2</number>
                </property>
@@ -1003,7 +1003,7 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>607</width>
+                          <width>672</width>
                           <height>412</height>
                          </rect>
                         </property>
@@ -1011,74 +1011,160 @@
                          <item>
                           <layout class="QHBoxLayout" name="horizontalLayout_9">
                            <item>
-                            <layout class="QVBoxLayout" name="verticalLayout_26">
-                             <item>
-                              <widget class="KPPAdjustableListView" name="list_insp">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="maximumSize">
-                                <size>
-                                 <width>200</width>
-                                 <height>16777215</height>
-                                </size>
-                               </property>
-                               <property name="resizeMode">
-                                <enum>QListView::Adjust</enum>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <spacer name="verticalSpacer_3">
-                               <property name="orientation">
-                                <enum>Qt::Vertical</enum>
-                               </property>
-                               <property name="sizeType">
-                                <enum>QSizePolicy::Expanding</enum>
-                               </property>
-                               <property name="sizeHint" stdset="0">
-                                <size>
-                                 <width>20</width>
-                                 <height>10</height>
-                                </size>
-                               </property>
-                              </spacer>
-                             </item>
-                            </layout>
+                            <widget class="QFrame" name="frame_7">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>150</width>
+                               <height>0</height>
+                              </size>
+                             </property>
+                             <property name="frameShape">
+                              <enum>QFrame::NoFrame</enum>
+                             </property>
+                             <property name="frameShadow">
+                              <enum>QFrame::Plain</enum>
+                             </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_22">
+                              <property name="spacing">
+                               <number>1</number>
+                              </property>
+                              <property name="leftMargin">
+                               <number>1</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>1</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>1</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>1</number>
+                              </property>
+                              <item>
+                               <widget class="KPPAdjustableListView" name="list_insp">
+                                <property name="sizePolicy">
+                                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+                                  <horstretch>0</horstretch>
+                                  <verstretch>0</verstretch>
+                                 </sizepolicy>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>16666666</width>
+                                  <height>16777215</height>
+                                 </size>
+                                </property>
+                                <property name="resizeMode">
+                                 <enum>QListView::Adjust</enum>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="verticalSpacer_3">
+                                <property name="orientation">
+                                 <enum>Qt::Vertical</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>20</width>
+                                  <height>40</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </widget>
                            </item>
                            <item>
-                            <widget class="InspectionTreeWidget" name="treeWidget">
-                             <property name="showDropIndicator" stdset="0">
-                              <bool>true</bool>
+                            <widget class="QFrame" name="frame_6">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
                              </property>
-                             <property name="rootIsDecorated">
-                              <bool>false</bool>
+                             <property name="minimumSize">
+                              <size>
+                               <width>100</width>
+                               <height>0</height>
+                              </size>
                              </property>
-                             <property name="animated">
-                              <bool>true</bool>
+                             <property name="frameShape">
+                              <enum>QFrame::NoFrame</enum>
                              </property>
-                             <property name="columnCount">
-                              <number>2</number>
+                             <property name="frameShadow">
+                              <enum>QFrame::Plain</enum>
                              </property>
-                             <attribute name="headerVisible">
-                              <bool>false</bool>
-                             </attribute>
-                             <attribute name="headerDefaultSectionSize">
-                              <number>150</number>
-                             </attribute>
-                             <column>
-                              <property name="text">
-                               <string notr="true">1</string>
+                             <layout class="QVBoxLayout" name="verticalLayout_16">
+                              <property name="spacing">
+                               <number>1</number>
                               </property>
-                             </column>
-                             <column>
-                              <property name="text">
-                               <string notr="true">2</string>
+                              <property name="sizeConstraint">
+                               <enum>QLayout::SetMinimumSize</enum>
                               </property>
-                             </column>
+                              <property name="leftMargin">
+                               <number>1</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>1</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>1</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>1</number>
+                              </property>
+                              <item>
+                               <widget class="InspectionTreeWidget" name="tree_inspections">
+                                <property name="sizePolicy">
+                                 <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+                                  <horstretch>0</horstretch>
+                                  <verstretch>0</verstretch>
+                                 </sizepolicy>
+                                </property>
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>400</width>
+                                  <height>0</height>
+                                 </size>
+                                </property>
+                                <property name="showDropIndicator" stdset="0">
+                                 <bool>true</bool>
+                                </property>
+                                <property name="rootIsDecorated">
+                                 <bool>false</bool>
+                                </property>
+                                <property name="animated">
+                                 <bool>true</bool>
+                                </property>
+                                <property name="columnCount">
+                                 <number>2</number>
+                                </property>
+                                <attribute name="headerVisible">
+                                 <bool>false</bool>
+                                </attribute>
+                                <attribute name="headerDefaultSectionSize">
+                                 <number>150</number>
+                                </attribute>
+                                <column>
+                                 <property name="text">
+                                  <string notr="true">1</string>
+                                 </property>
+                                </column>
+                                <column>
+                                 <property name="text">
+                                  <string notr="true">2</string>
+                                 </property>
+                                </column>
+                               </widget>
+                              </item>
+                             </layout>
                             </widget>
                            </item>
                           </layout>

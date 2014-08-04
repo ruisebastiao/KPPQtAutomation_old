@@ -1,5 +1,5 @@
 #include "inspection.h"
-
+#include "capturesource.h"
 using namespace Vision;
 
 
@@ -8,7 +8,8 @@ Inspection::Inspection(QObject *parent):
 {
 
     m_Name="New Inspection";
-    m_capture=0;
+    m_capture=new CaptureSource();
+
 }
 
 Inspection::~Inspection()
@@ -35,7 +36,12 @@ CaptureSource *Inspection::Capture() const
 
 void Inspection::setCapture(CaptureSource *capture)
 {
-    m_capture= capture;
+    if(capture!=m_capture){
+        emit CaptureSourceChanging();
+        delete m_capture;
+        m_capture= capture;
+        emit CaptureSourceChanged();
+    }
 }
 
 

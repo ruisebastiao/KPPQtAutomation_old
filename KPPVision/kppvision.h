@@ -19,6 +19,7 @@
 #include <fstream>
 #include "kppcommon.h"
 #include "kppvisionlist.h"
+#include "BoostDef.h"
 
 namespace Vision
 {
@@ -53,10 +54,12 @@ public:
 
 
 
+
+
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
     {
-        boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_Name),&m_Name), file_version);
+       boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_Name),&m_Name), file_version);
         ar & boost::serialization::make_nvp("Requests", m_Requests);
     }
 
@@ -76,6 +79,7 @@ public slots:
 
 
 }
+
 
 
 #endif // KPPVISION_H

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>570</width>
-    <height>257</height>
+    <height>282</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,7 +49,20 @@
     </widget>
    </item>
    <item>
-    <widget class="KPPAdjustableListView" name="listView"/>
+    <widget class="KPPAdjustableListView" name="listView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>175</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

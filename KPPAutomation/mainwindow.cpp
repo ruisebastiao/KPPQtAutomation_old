@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if(!Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath())){
         Settings::AppSettings->Projects()->Save();
     }
-
+    ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
 
     //Settings::AppSettings->Projects()->AddItem("asd");
 
