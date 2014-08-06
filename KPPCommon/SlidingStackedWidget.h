@@ -40,6 +40,8 @@ public:
 
         //! The Constructor and Destructor
         SlidingStackedWidget(QWidget *parent=0);
+        bool event(QEvent *event);
+
         ~SlidingStackedWidget(void);
 
 
@@ -69,7 +71,7 @@ protected:
         //! this is used for internal purposes in the class engine
         void slideInWgt(QWidget * widget, enum t_direction direction=AUTOMATIC);
 
-        QWidget *m_mainwindow;
+        //QWidget *m_mainwindow;
 
         int m_speed;
         enum QEasingCurve::Type m_animationtype;
@@ -84,7 +86,6 @@ protected:
        // bool event(QEvent *event);
         //void childEvent(QChildEvent *event);
         //bool eventFilter(QObject *, QEvent *);        
-        bool event(QEvent *event);
 
 private:
         bool gestureEvent(QGestureEvent *event);

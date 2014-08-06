@@ -8,7 +8,7 @@
 #include "kppvision.h"
 #include "kppvisionlist.h"
 #include "kpptreewidgetitem.h"
-
+#include "kppswipebutton.h"
 
 class KPPVISIONSHARED_EXPORT VisionTreeWidget : public QTreeWidget
 {
@@ -33,7 +33,7 @@ private:
 
 
     KPPTreeWidgetItem *RequestsItem;
-    QPushButton *bt_Request;
+    KPPSwipeButton *bt_Request;
     QTreeWidgetItem* RequestsSubItem;
     KPPAdjustableListView* list_Requests;
 
@@ -76,6 +76,9 @@ private slots:
     void InspectionrowsRowsInserted(QModelIndex modelindex, int start, int end);
     void bt_InspectionsClicked();
     void RequestsRowsRemoved(QModelIndex modelindex, int start, int end);
+
+    void RequestPressed(QModelIndex);
+
 public slots:
 
 

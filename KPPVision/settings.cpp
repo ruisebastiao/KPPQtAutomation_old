@@ -15,8 +15,8 @@
 
 using namespace Vision;
 
-Settings* Settings::AppSettings;
-
+Settings* Settings::AppSettings=0;
+QWidget* Settings::mainwidget=0;
 
 Settings::Settings(QObject *parent) :
     QObject(parent)

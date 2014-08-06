@@ -7,7 +7,7 @@
 #include "qstyleditemdelegate.h"
 #include "kppeditbox.h"
 #include "qeasingcurve.h"
-
+#include "QSwipeGesture"
 
 class KPPCOMMONSHARED_EXPORT QAdjustableListItemDelegate : public QStyledItemDelegate
 {
@@ -69,9 +69,12 @@ public:
 private:
 
 
+    bool gestureEvent(QGestureEvent *event);
+    void swipeTriggered(QSwipeGesture *gesture);
 signals:
     void selectionChangedSignal(const QItemSelection &selected, const QItemSelection &deselected);
-
+    void SwipedLeft();
+    void SwipedRight();
 protected:
 
 
@@ -87,6 +90,7 @@ protected:
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
     //void ro
+
 private slots:
     void rowsRemoved(const QModelIndex &parent, int first, int last);
     void AnimationFinished();
@@ -95,7 +99,13 @@ public slots:
 
     // QAbstractItemView interface
 public:
+    //bool event(QEvent *event);
     int sizeHintForRow(int row) const;
+
+    // QObject interface
+public:
+    bool event(QEvent *);
+    void setGrabEnable(bool enable);
 };
 
 #endif // KPPADJUSTABLELISTVIEW_H

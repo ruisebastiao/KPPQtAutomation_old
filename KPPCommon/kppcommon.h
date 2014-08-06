@@ -3,6 +3,7 @@
 
 #include "kppcommon_global.h"
 #include "QString"
+#include "QMetaEnum"
 
 #define ENUM_TO_STRING(c, e, v) \
     (c::staticMetaObject.enumerator(c::staticMetaObject.indexOfEnumerator(#e)).valueToKey(v))

@@ -8,7 +8,7 @@
 
 #include "type_traits"
 #include "QDesktopWidget"
-
+#include "swipegesturerecognizer.h"
 
 using namespace Vision;
 
@@ -19,7 +19,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+
+    if(QTouchDevice::devices().count()==0){
+        QGestureRecognizer* pRecognizer = new SwipeGestureRecognizer();
+        grabGesture(QGestureRecognizer::registerRecognizer(pRecognizer));
+    }
+
     new Settings(this);
+
 
 
     //Seet
@@ -70,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->treeWidget,SIGNAL(ListSelectionChanged(QObject*)),this,SLOT(VisionTreeListSelectionChanged(QObject*)));
 
+     Settings::mainwidget=this;
 }
 
 void MainWindow::VisionTreeListSelectionChanged(QObject* newselection){

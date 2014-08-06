@@ -4,7 +4,8 @@
 #include "QDebug"
 #include "QPropertyAnimation"
 #include "qevent.h"
-
+#include "qapplication.h"
+#include "kppcommon.h"
 
 KPPAdjustableListView::KPPAdjustableListView(QWidget *parent) :
     QListView(parent)
@@ -16,8 +17,64 @@ KPPAdjustableListView::KPPAdjustableListView(QWidget *parent) :
     sizePolicy().setHorizontalPolicy(QSizePolicy::Maximum);
     sizePolicy().setVerticalPolicy(QSizePolicy::Maximum);
     AdjustContents(0);
+
+
+
+
+     setAttribute(Qt::WA_AcceptTouchEvents,true);
 }
 
+void KPPAdjustableListView::setGrabEnable(bool enable){
+    if(enable){
+        grabGesture(Qt::SwipeGesture);
+    }
+    else
+        ungrabGesture(Qt::SwipeGesture);
+
+}
+
+bool KPPAdjustableListView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture/*|| event->type()==QEvent::GestureOverride*/){
+
+
+        gestureEvent(static_cast<QGestureEvent*>(event));
+
+    }
+
+    return QListView::event(event);
+    //return false;//
+}
+
+bool KPPAdjustableListView::gestureEvent(QGestureEvent *event)
+{
+    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+
+    return true;
+}
+
+void KPPAdjustableListView::swipeTriggered(QSwipeGesture *gesture)
+{
+//    int index = QObject::staticQtMetaObject.indexOfEnumerator("GestureState");
+//    QMetaEnum metaEnum = QObject::staticQtMetaObject.enumerator(index);
+//    QString temp= metaEnum.valueToKey(gesture->state());
+
+//      qDebug()<<"KPPAdjustableListView state:"<<temp;
+    if (gesture->state() == Qt::GestureFinished) {
+
+        if (gesture->horizontalDirection() == QSwipeGesture::Left)
+        {
+            emit SwipedLeft();
+        }
+        else
+        {
+            emit SwipedRigt();
+        }
+
+        update();
+    }
+}
 
 void KPPAdjustableListView::AdjustContents(int finalValue,QEasingCurve animStyle){
 

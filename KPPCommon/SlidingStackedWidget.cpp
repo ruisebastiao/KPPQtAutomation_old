@@ -9,13 +9,13 @@
 SlidingStackedWidget::SlidingStackedWidget(QWidget *parent)
     : QStackedWidget(parent)
 {
-    if (parent!=0) {
-            m_mainwindow=parent;
-        }
-        else {
-            m_mainwindow=this;
-            qDebug()<<"ATTENTION: untested mainwindow case !";
-        }
+//    if (parent!=0) {
+//            m_mainwindow=parent;
+//        }
+//        else {
+//            //m_mainwindow=this;
+//            qDebug()<<"ATTENTION: untested mainwindow case !";
+//        }
         //parent should not be 0; not tested for any other case yet !!
 #ifdef Q_OS_SYMBIAN
 #ifndef __S60_50__
@@ -34,12 +34,14 @@ SlidingStackedWidget::SlidingStackedWidget(QWidget *parent)
         m_active=false;
         //setAttribute( Qt::WA_TransparentForMouseEvents );
         //installEventFilter(this);
-        grabGesture(Qt::SwipeGesture);
+       // QStackedWidget::grabGesture(Qt::SwipeGesture);
         //foreach (Qt::GestureType gesture, gestures)
           //  grabGesture(gesture);
+        grabGesture(Qt::SwipeGesture);
         setAttribute(Qt::WA_AcceptTouchEvents,true);
-        QGestureRecognizer* pRecognizer = new SwipeGestureRecognizer();
-        grabGesture(QGestureRecognizer::registerRecognizer(pRecognizer));
+
+
+
 
 
 }
@@ -47,15 +49,17 @@ SlidingStackedWidget::SlidingStackedWidget(QWidget *parent)
 bool SlidingStackedWidget::event(QEvent *event)
 {
 
-    if (event->type() == QEvent::Gesture){
+    if (event->type() == QEvent::Gesture/*|| event->type()==QEvent::GestureOverride*/){
 
+        if(event->type()==QEvent::GestureOverride)
+            event->setAccepted(true);
 
         return gestureEvent(static_cast<QGestureEvent*>(event));
 
     }
-    event->ignore();
+   // event->ignore();
 
-    return QWidget::event(event);
+    return QStackedWidget::event(event);
 }
 
 bool SlidingStackedWidget::gestureEvent(QGestureEvent *event)
@@ -64,25 +68,14 @@ bool SlidingStackedWidget::gestureEvent(QGestureEvent *event)
 
 
      if (QGesture *swipe = event->gesture(Qt::SwipeGesture)){
-        bool ret= swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-         event->setAccepted(Qt::SwipeGesture,ret);
-         return ret;
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+
 
 
      }
-//     else if (QGesture *pan = event->gesture(Qt::PanGesture))
-//         panTriggered(static_cast<QPanGesture *>(pan));
-//     if (QGesture *pinch = event->gesture(Qt::PinchGesture))
-//         pinchTriggered(static_cast<QPinchGesture *>(pinch));
-//     if (QGesture *tap = event->gesture(Qt::TapGesture))
-//         tapTriggered(static_cast<QTapGesture *>(tap));
-//     if (QGesture *tapandhold = event->gesture(Qt::TapAndHoldGesture))
-//     {
-//         //tapandholdTriggered(static_cast<QTapAndHoldGesture *>(tapandhold));
-//      }
 
 
-     return false;
+     return true;
  }
 
 
@@ -90,6 +83,12 @@ bool
 SlidingStackedWidget::swipeTriggered(QSwipeGesture* pSwipe)
 {
 
+
+//    int index = QObject::staticQtMetaObject.indexOfEnumerator("GestureState");
+//    QMetaEnum metaEnum = QObject::staticQtMetaObject.enumerator(index);
+//    QString temp= metaEnum.valueToKey(pSwipe->state());
+
+//    qDebug()<<"SlidingStackedWidget state:"<<temp;
 
     if (pSwipe->state() == Qt::GestureFinished) {
 

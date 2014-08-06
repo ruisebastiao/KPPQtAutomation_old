@@ -20,6 +20,7 @@
 #include <string>
 #include <fstream>
 #include "BoostDef.h"
+#include "qwidget.h"
 
 using namespace Vision;
 
@@ -31,7 +32,7 @@ public:
     explicit Settings(QObject *parent = 0);
 
     static Settings *AppSettings;
-
+    static QWidget* mainwidget;
     friend class boost::serialization::access;
     friend std::ostream & operator<<(std::ostream &os, const Settings &sett);
 

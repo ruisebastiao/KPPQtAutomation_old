@@ -4,6 +4,11 @@
 #include "kppvision.h"
 #include "settings.h"
 #include "kppadjustablelistview.h"
+#include "kppanimatedframe.h"
+#include "qapplication.h"
+#include "qmainwindow.h"
+
+
 
 using namespace Vision;
 
@@ -36,7 +41,7 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
 
 
     RequestsItem=new KPPTreeWidgetItem(0);
-    bt_Request= new QPushButton(this);
+    bt_Request= new KPPSwipeButton(this);
     connect(bt_Request,SIGNAL(clicked()),this,SLOT(bt_RequestClicked()));
     bt_Request->setText(tr("Requests"));
     bt_Request->setEnabled(false);
@@ -135,6 +140,22 @@ void VisionTreeWidget::RequestsRowsRemoved(QModelIndex modelindex,int start,int 
     updatelayouttimer->start();
 }
 
+void VisionTreeWidget::RequestPressed(QModelIndex e)
+{
+
+    if(QApplication::mouseButtons()==Qt::RightButton){
+        QWidget* t=Settings::mainwidget;
+        QRect wt=list_Requests->visualRect(e);
+
+        QRect mappedrect=QRect(list_Requests->mapTo(t,wt.topLeft()),list_Requests->mapTo(t,wt.bottomRight()));
+
+        KPPAnimatedFrame* teste=new KPPAnimatedFrame(t,Qt::Popup|Qt::FramelessWindowHint,mappedrect);
+        teste->show();
+        teste->setFocus();
+
+    }
+}
+
 
 void VisionTreeWidget::InspectionrowsAboutToBeRemoved(QModelIndex modelindex,int start,int end){
 
@@ -176,6 +197,9 @@ void VisionTreeWidget::bt_projectClicked(){
 
 void VisionTreeWidget::bt_RequestClicked(){
     RequestsItem->setExpanded(!RequestsItem->isExpanded());
+
+
+
 }
 
 void VisionTreeWidget::bt_InspectionsClicked(){
@@ -295,6 +319,7 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
 
 
         connect(list_Requests,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(SelectionChanged(QItemSelection,QItemSelection)));
+        connect(list_Requests,SIGNAL(pressed(QModelIndex)),this,SLOT(RequestPressed(QModelIndex)));
 
     }
 
@@ -344,12 +369,20 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
 
 
 
+
     }
 
 
 }
 
-void VisionTreeWidget::SelectionChanged(QItemSelection , QItemSelection){
+/*
+ *
+    QWidget* t=Settings::mainwidget;
+    KPPAnimatedFrame* teste=new KPPAnimatedFrame(t,Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint,bt_Request);
+    teste->show();
+*/
+
+void VisionTreeWidget:: SelectionChanged(QItemSelection , QItemSelection){
 
     if(sender()->objectName()==list_Projects->objectName()){
         QModelIndexList selectedlist= list_Projects->selectionModel()->selectedRows();
