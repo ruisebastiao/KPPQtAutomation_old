@@ -68,6 +68,9 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
 
 
 
+    m_requestmenu=new RequestMenu(Settings::mainwidget);
+    m_inspectionmenu=new InspectionMenu(Settings::mainwidget);
+
 }
 
 
@@ -140,18 +143,38 @@ void VisionTreeWidget::RequestsRowsRemoved(QModelIndex modelindex,int start,int 
     updatelayouttimer->start();
 }
 
-void VisionTreeWidget::RequestPressed(QModelIndex e)
+void VisionTreeWidget::ListItemPressed(QModelIndex e)
 {
 
-    if(QApplication::mouseButtons()==Qt::RightButton){
-        QWidget* t=Settings::mainwidget;
+
+
+    if(sender()->objectName()==list_Requests->objectName()){
         QRect wt=list_Requests->visualRect(e);
+        QRect mappedrect=QRect(list_Requests->mapTo(Settings::mainwidget,wt.topLeft()),list_Requests->mapTo(Settings::mainwidget,wt.bottomRight()));
+        m_requestmenu->setAlignmentRect(mappedrect);
+    }
+    else if(sender()->objectName()==list_Inspections->objectName()){
+        QRect wt=list_Inspections->visualRect(e);
+        QRect mappedrect=QRect(list_Inspections->mapTo(Settings::mainwidget,wt.topLeft()),list_Inspections->mapTo(Settings::mainwidget,wt.bottomRight()));
+        m_inspectionmenu->setAlignmentRect(mappedrect);
+    }
 
-        QRect mappedrect=QRect(list_Requests->mapTo(t,wt.topLeft()),list_Requests->mapTo(t,wt.bottomRight()));
 
-        KPPAnimatedFrame* teste=new KPPAnimatedFrame(t,Qt::Popup|Qt::FramelessWindowHint,mappedrect);
-        teste->show();
-        teste->setFocus();
+    //  }
+}
+
+void VisionTreeWidget::ListItemSwipeRight()
+{
+    if(sender()->objectName()==list_Requests->objectName()){
+        m_requestmenu->setSelectedRequest(m_selectedRequest);
+
+        m_requestmenu->show();
+
+    }
+    else  if(sender()->objectName()==list_Inspections->objectName()){
+        m_inspectionmenu->setSelectedInspection(m_selectedInspection);
+
+        m_inspectionmenu->show();
 
     }
 }
@@ -262,7 +285,7 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
         lay->addWidget(list_Projects);
 
 
-       QSpacerItem* verticalSpacer = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        QSpacerItem* verticalSpacer = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         lay->addSpacerItem(verticalSpacer);
         frame->setLayout(lay);
@@ -300,10 +323,12 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
         list_Requests= new KPPAdjustableListView();
         list_Requests->setObjectName("list_requests");
 
+        list_Requests->setGrabEnable(true);
+
         lay->addWidget(list_Requests);
         QSpacerItem* verticalSpacer = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-         lay->addSpacerItem(verticalSpacer);
+        lay->addSpacerItem(verticalSpacer);
 
         frame->setLayout(lay);
 
@@ -319,7 +344,8 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
 
 
         connect(list_Requests,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(SelectionChanged(QItemSelection,QItemSelection)));
-        connect(list_Requests,SIGNAL(pressed(QModelIndex)),this,SLOT(RequestPressed(QModelIndex)));
+        connect(list_Requests,SIGNAL(pressed(QModelIndex)),this,SLOT(ListItemPressed(QModelIndex)));
+        connect(list_Requests,SIGNAL(SwipedRight()),this,SLOT(ListItemSwipeRight()));
 
     }
 
@@ -352,7 +378,7 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
         lay->addWidget(list_Inspections);
         QSpacerItem* verticalSpacer = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-         lay->addSpacerItem(verticalSpacer);
+        lay->addSpacerItem(verticalSpacer);
         frame->setLayout(lay);
 
         frame->setAutoFillBackground(true);
@@ -364,8 +390,11 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
         newsize.setHeight(newsize.height()+list_height);
         InspectionsSubItem->setSizeHint(0,newsize);
 
+        list_Inspections->setGrabEnable(true);
 
         connect(list_Inspections,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(SelectionChanged(QItemSelection,QItemSelection)));
+        connect(list_Inspections,SIGNAL(pressed(QModelIndex)),this,SLOT(ListItemPressed(QModelIndex)));
+        connect(list_Inspections,SIGNAL(SwipedRight()),this,SLOT(ListItemSwipeRight()));
 
 
 
@@ -422,7 +451,7 @@ void VisionTreeWidget::setSelectedProject(KPPVision *value)
         disconnect(m_selectedProject->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,0);
         disconnect(m_selectedProject->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,0);
         disconnect(m_selectedProject->Requests(),SIGNAL(rowsRemoved(QModelIndex,int,int)),
-                this,0);
+                   this,0);
     }
 
 
@@ -466,7 +495,7 @@ void VisionTreeWidget::setSelectedRequest(Request *value)
                    this,0);
 
         disconnect(m_selectedRequest->Inspections(),SIGNAL(rowsRemoved(QModelIndex,int,int)),
-                this,0);
+                   this,0);
     }
 
 
@@ -502,33 +531,33 @@ void VisionTreeWidget::setSelectedInspection(Inspection *value)
 {
 
 
-        if(m_selectedInspection!=0){
-//            disconnect(m_selectedInspection->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,0);
-//            disconnect(m_selectedInspection->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,0);
-        }
+    if(m_selectedInspection!=0){
+        //            disconnect(m_selectedInspection->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,0);
+        //            disconnect(m_selectedInspection->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,0);
+    }
 
 
-        if (value!=0) {
-//            bt_request->setEnabled(true);
-//            list_requests->setModel(value->Requests());
+    if (value!=0) {
+        //            bt_request->setEnabled(true);
+        //            list_requests->setModel(value->Requests());
 
-//            connect(value->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
-//            connect(value->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+        //            connect(value->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+        //            connect(value->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
 
 
-        }
-        else{
-//            bt_request->setEnabled(false);
-//            RequestsItem->setExpanded(false);
-        }
+    }
+    else{
+        //            bt_request->setEnabled(false);
+        //            RequestsItem->setExpanded(false);
+    }
 
-       m_selectedInspection=value;
+    m_selectedInspection=value;
 
-        QSize newsize=itemWidget(InspectionsSubItem,0)->contentsRect().size();
-        newsize.setHeight(list_Inspections->sizeHint().height());
-        InspectionsSubItem->setSizeHint(0,newsize);
+    QSize newsize=itemWidget(InspectionsSubItem,0)->contentsRect().size();
+    newsize.setHeight(list_Inspections->sizeHint().height());
+    InspectionsSubItem->setSizeHint(0,newsize);
 
-        updatelayouttimer->start();
+    updatelayouttimer->start();
 
-        emit ListSelectionChanged(m_selectedInspection);
+    emit ListSelectionChanged(m_selectedInspection);
 }

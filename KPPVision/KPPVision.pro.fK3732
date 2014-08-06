@@ -27,8 +27,7 @@ SOURCES += kppvision.cpp \
     inspectiontreewidget.cpp \
     capturesource.cpp \
     imagefilecapture.cpp \
-    requestmenu.cpp \
-    inspectionmenu.cpp
+    requestmenu.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -47,8 +46,7 @@ HEADERS += kppvision.h\
     capturesource.h \
     imagefilecapture.h \
     BoostDef.h \
-    requestmenu.h \
-    inspectionmenu.h
+    requestmenu.h
 
 
 
@@ -63,8 +61,7 @@ unix {
 
 FORMS += \
     configurationswidget.ui \
-    requestmenu.ui \
-    inspectionmenu.ui
+    requestmenu.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../KPPCommon/release/ -lKPPCommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../KPPCommon/debug/ -lKPPCommon

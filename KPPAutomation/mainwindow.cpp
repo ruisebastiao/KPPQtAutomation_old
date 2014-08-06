@@ -78,6 +78,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->treeWidget,SIGNAL(ListSelectionChanged(QObject*)),this,SLOT(VisionTreeListSelectionChanged(QObject*)));
 
      Settings::mainwidget=this;
+
+
+     for(KPPVision *project : Settings::AppSettings->Projects()->getList()) {
+         for(Request *request: project->Requests()->getList()) {
+
+             for(Inspection *inspection: request->Inspections()->getList()) {
+
+                 inspection->setView(ui->graphicsView);
+
+             }
+
+         }
+
+     }
 }
 
 void MainWindow::VisionTreeListSelectionChanged(QObject* newselection){

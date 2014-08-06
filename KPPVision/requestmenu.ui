@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>KPPAnimatedFrame</class>
- <widget class="QFrame" name="KPPAnimatedFrame">
+ <class>RequestMenu</class>
+ <widget class="QFrame" name="RequestMenu">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>198</width>
-    <height>46</height>
+    <width>237</width>
+    <height>29</height>
    </rect>
-  </property>
-  <property name="focusPolicy">
-   <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
@@ -42,12 +39,9 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="bt_processrequest">
      <property name="text">
-      <string>PushButton</string>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
+      <string>Process</string>
      </property>
     </widget>
    </item>

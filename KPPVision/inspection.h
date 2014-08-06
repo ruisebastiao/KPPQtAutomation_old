@@ -5,6 +5,7 @@
 #include <QObject>
 #include "ilistviewitem.h"
 #include "capturesource.h"
+#include "qgraphicsview.h"
 
 #include "BoostDef.h"
 
@@ -26,7 +27,9 @@ public:
 
     CaptureSource *Capture() const;
     void setCapture(CaptureSource *capture);
-
+    void Process();
+    void setView(QGraphicsView *view);
+    QGraphicsView *getView() const;
 private:
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
@@ -36,7 +39,7 @@ private:
     }
 
 
-
+    QGraphicsView* m_view;
 
     CaptureSource *m_capture;
     QString m_Name;

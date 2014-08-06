@@ -9,6 +9,8 @@
 #include "kppvisionlist.h"
 #include "kpptreewidgetitem.h"
 #include "kppswipebutton.h"
+#include "requestmenu.h"
+#include "inspectionmenu.h"
 
 class KPPVISIONSHARED_EXPORT VisionTreeWidget : public QTreeWidget
 {
@@ -49,6 +51,9 @@ private:
     Vision::Inspection* m_selectedInspection;
     void setSelectedInspection(Vision::Inspection* value);
 
+    RequestMenu *m_requestmenu;
+    InspectionMenu *m_inspectionmenu;
+
 protected:
 
 
@@ -77,7 +82,8 @@ private slots:
     void bt_InspectionsClicked();
     void RequestsRowsRemoved(QModelIndex modelindex, int start, int end);
 
-    void RequestPressed(QModelIndex);
+    void ListItemPressed(QModelIndex);
+    void ListItemSwipeRight();
 
 public slots:
 

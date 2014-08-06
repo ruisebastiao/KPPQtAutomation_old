@@ -38,7 +38,7 @@ bool KPPAdjustableListView::event(QEvent *event)
     if (event->type() == QEvent::Gesture/*|| event->type()==QEvent::GestureOverride*/){
 
 
-        gestureEvent(static_cast<QGestureEvent*>(event));
+        return gestureEvent(static_cast<QGestureEvent*>(event));
 
     }
 
@@ -69,10 +69,10 @@ void KPPAdjustableListView::swipeTriggered(QSwipeGesture *gesture)
         }
         else
         {
-            emit SwipedRigt();
+            emit SwipedRight();
         }
 
-        update();
+        //update();
     }
 }
 

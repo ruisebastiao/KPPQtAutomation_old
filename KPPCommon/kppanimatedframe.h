@@ -5,25 +5,27 @@
 #include "kppcommon_global.h"
 #include "qpropertyanimation.h"
 #include "qparallelanimationgroup.h"
-
-namespace Ui {
-class KPPCOMMONSHARED_EXPORT KPPAnimatedFrame;
-}
+#include"qsequentialanimationgroup.h"
 
 class KPPCOMMONSHARED_EXPORT KPPAnimatedFrame : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit KPPAnimatedFrame(QWidget *parent = 0, Qt::WindowFlags f = 0,QRect alignmentRect=QRect());
+    explicit KPPAnimatedFrame(QWidget *parent = 0);
     ~KPPAnimatedFrame();
 
+    QRect AlignmentRect() const;
+    void setAlignmentRect(const QRect &alignmentRect);
+
 private:
-    Ui::KPPAnimatedFrame *ui;
+
     QRect m_alignmentRect;
     QPropertyAnimation * animate_opacity;
-    QPropertyAnimation *animate_width ;
-    QParallelAnimationGroup* animation;
+    QPropertyAnimation *animate_geometry ;
+    QPropertyAnimation *animate_finalgeometry ;
+    QParallelAnimationGroup* parallel_animations;
+    QSequentialAnimationGroup* seq_animations;
     bool m_visible;
     // QWidget interface
 public slots:
@@ -39,6 +41,10 @@ protected:
     void focusOutEvent(QFocusEvent *);
 private slots:
     void AnimationFinished();
+
+    // QWidget interface
+protected:
+    void hideEvent(QHideEvent *);
 };
 
 #endif // KPPANIMATEDFRAME_H

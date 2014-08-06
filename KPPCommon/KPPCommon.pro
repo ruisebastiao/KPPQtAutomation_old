@@ -69,8 +69,7 @@ win32:QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
 
 
 FORMS += \
-    crashdialog.ui \
-    kppanimatedframe.ui
+    crashdialog.ui
 
 ! include( ../common.pri ) {
     error( "Couldn't find the common.pri file!" )

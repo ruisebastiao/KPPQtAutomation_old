@@ -45,3 +45,20 @@ void Inspection::setCapture(CaptureSource *capture)
 }
 
 
+void Inspection::setView(QGraphicsView* view)
+{
+    m_view=view;
+}
+
+QGraphicsView *Inspection::getView() const
+{
+    return m_view;
+}
+
+
+void Inspection::Process()
+{
+
+}
+
+
