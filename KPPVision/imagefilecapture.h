@@ -22,6 +22,10 @@ private:
     QString m_imagepath;
     KPPLineEdit* edit_img_path;
 
+
+    // CaptureSource interface
+public:
+    IplImage *GetImage();
 };
 
 

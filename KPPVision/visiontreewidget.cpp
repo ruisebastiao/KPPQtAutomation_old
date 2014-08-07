@@ -61,11 +61,21 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
     bt_Inspections->setAutoFillBackground(true);
     this->setItemWidget(InspectionsItem,0,bt_Inspections);
 
+    ROIItem=new KPPTreeWidgetItem(0);
+    bt_ROI= new QPushButton(this);
+    connect(bt_ROI,SIGNAL(clicked()),this,SLOT(bt_ROIClicked()));
+    bt_ROI->setText(tr("ROIS"));
+    bt_ROI->setEnabled(false);
+
+    addTopLevelItem(ROIItem);
+    bt_ROI->setAutoFillBackground(true);
+    this->setItemWidget(ROIItem,0,bt_ROI);
+
 
     m_selectedProject=0;
     m_selectedRequest=0;
     m_selectedInspection=0;
-
+    m_selectedROI=0;
 
 
     m_requestmenu=new RequestMenu(Settings::mainwidget);
@@ -166,7 +176,7 @@ void VisionTreeWidget::ListItemPressed(QModelIndex e)
 void VisionTreeWidget::ListItemSwipeRight()
 {
     if(sender()->objectName()==list_Requests->objectName()){
-        m_requestmenu->setSelectedRequest(m_selectedRequest);
+
 
         m_requestmenu->show();
 
@@ -227,6 +237,10 @@ void VisionTreeWidget::bt_RequestClicked(){
 
 void VisionTreeWidget::bt_InspectionsClicked(){
     InspectionsItem->setExpanded(!InspectionsItem->isExpanded());
+}
+
+void VisionTreeWidget::bt_ROIClicked(){
+    ROIItem->setExpanded(!ROIItem->isExpanded());
 }
 
 void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionProjects){
@@ -401,6 +415,58 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
 
     }
 
+    // ROIS
+    {
+
+
+        ROIItem->setData(0,Qt::UserRole,1); // parent item
+
+        ROISubItem=new QTreeWidgetItem(0);
+        ROISubItem->setData(0,Qt::UserRole,2); // child
+
+        ROIItem->addChild(ROISubItem);
+
+        ROIItem->setDisabled(true);
+
+        ROISubItem->setDisabled(true);
+
+        QFrame *frame=new QFrame(this);
+        frame->setFrameShape(Shape::Box);
+        frame->setFrameShadow(Shadow::Plain);
+        frame->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
+        QVBoxLayout *lay=new QVBoxLayout(frame);
+        lay->setContentsMargins(1,1,1,1);
+
+
+        list_ROIS= new KPPAdjustableListView();
+        list_ROIS->setObjectName("list_ROIS");
+
+        lay->addWidget(list_ROIS);
+        QSpacerItem* verticalSpacer = new QSpacerItem(20, 2, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        lay->addSpacerItem(verticalSpacer);
+        frame->setLayout(lay);
+
+        frame->setAutoFillBackground(true);
+        this->setItemWidget(ROISubItem,0,frame);
+
+        QSize newsize=itemWidget(ROISubItem,0)->contentsRect().size();
+
+        int list_height=list_ROIS->sizeHint().height();
+        newsize.setHeight(newsize.height()+list_height);
+        ROISubItem->setSizeHint(0,newsize);
+
+        list_ROIS->setGrabEnable(true);
+
+        connect(list_ROIS,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(SelectionChanged(QItemSelection,QItemSelection)));
+        connect(list_ROIS,SIGNAL(pressed(QModelIndex)),this,SLOT(ListItemPressed(QModelIndex)));
+        connect(list_ROIS,SIGNAL(SwipedRight()),this,SLOT(ListItemSwipeRight()));
+
+
+
+
+    }
+
 
 }
 
@@ -437,6 +503,15 @@ void VisionTreeWidget:: SelectionChanged(QItemSelection , QItemSelection){
             setSelectedInspection(selectedlist.at(0).data(Qt::UserRole).value<Inspection*>());
         else
             setSelectedInspection(0);
+
+
+    }
+    else if(sender()->objectName()==list_ROIS->objectName()){
+        QModelIndexList selectedroi= list_ROIS->selectionModel()->selectedRows();
+        if(selectedroi.count()>0)
+            setSelectedROI(selectedroi.at(0).data(Qt::UserRole).value<ROI*>());
+        else
+            setSelectedROI(0);
 
 
     }
@@ -532,26 +607,40 @@ void VisionTreeWidget::setSelectedInspection(Inspection *value)
 
 
     if(m_selectedInspection!=0){
-        //            disconnect(m_selectedInspection->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,0);
-        //            disconnect(m_selectedInspection->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,0);
+        disconnect(m_selectedInspection->ROIs(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
+                   this,0);
+        disconnect(m_selectedInspection->ROIs(),SIGNAL(rowsInserted(QModelIndex,int,int)),
+                   this,0);
+
+        disconnect(m_selectedInspection->ROIs(),SIGNAL(rowsRemoved(QModelIndex,int,int)),
+                   this,0);
     }
 
 
     if (value!=0) {
-        //            bt_request->setEnabled(true);
-        //            list_requests->setModel(value->Requests());
+        bt_ROI->setEnabled(true);
+        list_ROIS->setModel(value->ROIs());
 
-        //            connect(value->Requests(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
-        //            connect(value->Requests(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(RequestsrowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
-
+        connect(value->ROIs(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
+                this,SLOT(InspectionrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+        connect(value->ROIs(),SIGNAL(rowsInserted(QModelIndex,int,int)),
+                this,SLOT(InspectionrowsRowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+        connect(value->ROIs(),SIGNAL(rowsRemoved(QModelIndex,int,int)),
+                this,SLOT(InspectionsRowsRemoved(QModelIndex,int,int)));
 
     }
     else{
-        //            bt_request->setEnabled(false);
-        //            RequestsItem->setExpanded(false);
+        bt_ROI->setEnabled(false);
+        ROIItem->setExpanded(false);
     }
 
-    m_selectedInspection=value;
+     m_selectedInspection=value;
+
+     if(m_selectedInspection!=0){
+
+         m_selectedInspection->UpdateScene();
+
+     }
 
     QSize newsize=itemWidget(InspectionsSubItem,0)->contentsRect().size();
     newsize.setHeight(list_Inspections->sizeHint().height());
@@ -560,4 +649,19 @@ void VisionTreeWidget::setSelectedInspection(Inspection *value)
     updatelayouttimer->start();
 
     emit ListSelectionChanged(m_selectedInspection);
+}
+
+void VisionTreeWidget::setSelectedROI(ROI *value)
+{
+    m_selectedROI=value;
+
+
+
+   QSize newsize=itemWidget(ROISubItem,0)->contentsRect().size();
+   newsize.setHeight(list_ROIS->sizeHint().height());
+   ROISubItem->setSizeHint(0,newsize);
+
+   updatelayouttimer->start();
+
+   emit ListSelectionChanged(m_selectedROI);
 }

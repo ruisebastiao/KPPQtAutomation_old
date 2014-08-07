@@ -21,6 +21,7 @@ Vision::Inspection *InspectionMenu::SelectedInspection()
 void InspectionMenu::setSelectedInspection(Vision::Inspection *SelectedInspection)
 {
     m_SelectedInspection = SelectedInspection;
+
 }
 
 void InspectionMenu::on_pushButton_clicked()

@@ -5,6 +5,7 @@
 #include "QVBoxLayout"
 #include "qlineedit.h"
 #include "qfiledialog.h"
+#include <boost/filesystem.hpp>
 
 
 BOOST_CLASS_EXPORT(ImageFileCapture);
@@ -99,3 +100,13 @@ void ImageFileCapture::serialize(Archive &ar, const unsigned int file_version)
         edit_img_path->setText(m_imagepath);
 }
 
+
+
+IplImage *ImageFileCapture::GetImage()
+{
+
+    if(boost::filesystem::exists(m_imagepath.toStdString().c_str()))
+     return cvLoadImage(m_imagepath.toStdString().c_str());
+    else
+        return 0;
+}

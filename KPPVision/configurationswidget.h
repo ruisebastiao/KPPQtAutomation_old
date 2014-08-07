@@ -89,6 +89,10 @@ private slots:
 
 
 
+    void on_bt_addroi_clicked();
+
+    void on_bt_removeroi_clicked();
+
 public slots:
 
 
@@ -106,11 +110,12 @@ private:
     KPPVision *m_SelectedProject;
     Request *m_SelectedRequest;
     Inspection* m_SelectedInspection;
-
+    ROI* m_SelectedROI;
 
     Request *SelectedRequest() const;
 
 
+    void setSelectedROI(ROI *SelectedROI);
 protected:
     void showEvent(QShowEvent *);
 

@@ -51,6 +51,16 @@ private:
     Vision::Inspection* m_selectedInspection;
     void setSelectedInspection(Vision::Inspection* value);
 
+
+    KPPTreeWidgetItem *ROIItem;
+    QPushButton *bt_ROI;
+    QTreeWidgetItem* ROISubItem;
+    KPPAdjustableListView* list_ROIS;
+
+    Vision::ROI* m_selectedROI;
+    void setSelectedROI(Vision::ROI* value);
+
+
     RequestMenu *m_requestmenu;
     InspectionMenu *m_inspectionmenu;
 
@@ -85,6 +95,7 @@ private slots:
     void ListItemPressed(QModelIndex);
     void ListItemSwipeRight();
 
+    void bt_ROIClicked();
 public slots:
 
 

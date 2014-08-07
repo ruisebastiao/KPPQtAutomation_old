@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
      for(KPPVision *project : Settings::AppSettings->Projects()->getList()) {
          for(Request *request: project->Requests()->getList()) {
-
+             connect(request->Inspections(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(InspectionInserted(QModelIndex,int,int)));
              for(Inspection *inspection: request->Inspections()->getList()) {
 
                  inspection->setView(ui->graphicsView);
@@ -92,6 +92,9 @@ MainWindow::MainWindow(QWidget *parent) :
          }
 
      }
+
+     ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+        ui->graphicsView->setCacheMode(QGraphicsView::CacheNone);
 }
 
 void MainWindow::VisionTreeListSelectionChanged(QObject* newselection){
@@ -105,6 +108,15 @@ void MainWindow::VisionTreeListSelectionChanged(QObject* newselection){
     else if (dynamic_cast<Inspection*>(newselection)) {
         configs->setSelectedInspection(dynamic_cast<Inspection*>(newselection));
     }
+}
+
+void MainWindow::InspectionInserted(QModelIndex index, int start, int end)
+{
+
+
+    Inspection* insp=index.data(Qt::UserRole).value<Inspection*>();
+    if(insp!=0)
+        insp->setView(ui->graphicsView);
 }
 
 void MainWindow::LoadDone(QObject* Sender){

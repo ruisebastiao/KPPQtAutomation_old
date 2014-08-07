@@ -35,6 +35,9 @@ private slots:
 
     void LoadDone(QObject *Sender);
     void VisionTreeListSelectionChanged(QObject *);
+
+    void InspectionInserted(QModelIndex,int,int);
+
 public slots:
     void focusChanged(QWidget* old, QWidget* now);
 protected:

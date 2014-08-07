@@ -2,7 +2,6 @@
 #define REQUEST_H
 
 #include "kppvision_global.h"
-#include "ilistviewitem.h"
 #include "kppvisionlist.h"
 #include "inspection.h"
 

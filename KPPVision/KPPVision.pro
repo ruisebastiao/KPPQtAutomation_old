@@ -28,7 +28,8 @@ SOURCES += kppvision.cpp \
     capturesource.cpp \
     imagefilecapture.cpp \
     requestmenu.cpp \
-    inspectionmenu.cpp
+    inspectionmenu.cpp \
+    kpproi.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -48,7 +49,8 @@ HEADERS += kppvision.h\
     imagefilecapture.h \
     BoostDef.h \
     requestmenu.h \
-    inspectionmenu.h
+    inspectionmenu.h \
+    kpproi.h
 
 
 
@@ -82,3 +84,10 @@ DEPENDPATH += $$PWD/../KPPHardware
 INCLUDEPATH += $$PWD/../ExternalLibs/IDS/include
 
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249 -lopencv_imgproc249 -lopencv_highgui249
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249d -lopencv_imgproc249d -lopencv_highgui249d
+else:unix: LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249
+
+INCLUDEPATH += $$PWD/../ExternalLibs/OpenCV/include
+DEPENDPATH += $$PWD/../ExternalLibs/OpenCV/include

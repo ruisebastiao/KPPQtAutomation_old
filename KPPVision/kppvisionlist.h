@@ -31,7 +31,7 @@ namespace Vision {
 template<class T>
 class KPPVISIONSHARED_EXPORT KPPVisionList :public QAbstractListModel
 {
-
+    //Q_OBJECT
 public:
     friend class boost::serialization::access;
     friend std::ostream & operator<<(std::ostream &os, const KPPVisionList &sett);
@@ -118,8 +118,13 @@ public:
 
         int pos=0;
         if(m_InnerList.count()>=0) pos=m_InnerList.count();
-        beginInsertRows(QModelIndex(), pos, pos);
+
         m_InnerList.append(item);
+
+        QModelIndex idx=index(pos,0);
+
+        beginInsertRows(idx, pos, pos);
+
         endInsertRows();
 
 

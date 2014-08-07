@@ -5,7 +5,7 @@
 #include <QMetaEnum>
 #include <QObject>
 
-
+#include "opencv2/opencv.hpp"
 
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/nvp.hpp>
@@ -43,6 +43,8 @@ public:
     QTreeWidget *TreeSettings() const;
 
 
+    virtual IplImage* GetImage();
+
 private:
 
 
@@ -55,6 +57,7 @@ private:
 protected:
     QTreeWidget *m_TreeSettings;
     CaptureSourceTypes m_SourceType;
+
 signals:
 
 public slots:

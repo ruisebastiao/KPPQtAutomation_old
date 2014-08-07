@@ -12,7 +12,7 @@ using namespace IDS;
 
 
 ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
-    QWidget(parent),    
+    QWidget(parent),
     ui(new Ui::ConfigurationsWidget)
 {
 
@@ -67,6 +67,10 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
 
 
     connect(ui->list_insp,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
+
+
+
+    connect(ui->list_roi,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
 
     setSelectedProject(0);
@@ -260,6 +264,19 @@ void ConfigurationsWidget::selectionChanged(const QItemSelection &selected, cons
 
 
     }
+    else if(sender()->objectName()==ui->list_roi->objectName()){
+        QModelIndexList selectedlist= ui->list_roi->selectionModel()->selectedRows();
+
+        if (selectedlist.count()>0) {
+            setSelectedROI(selectedlist.at(0).data(Qt::UserRole).value<ROI*>());
+        }
+        else{
+            setSelectedROI(0);
+        }
+
+
+    }
+
 
 }
 
@@ -358,9 +375,36 @@ void ConfigurationsWidget::setSelectedInspection(Inspection* SelectedInspection)
         ui->bt_removeinsp->setVisible(true);
         ui->list_insp->setCurrentIndex(m_SelectedRequest->Inspections()->getItemModelIndex(SelectedInspection));
         ui->tree_inspections->setInspection(m_SelectedInspection);
+        ui->list_roi->setModel(m_SelectedInspection->ROIs());
+        ui->roipage->setDisplayed(true);
     }
     else{
         ui->bt_removeinsp->setVisible(false);
+        ui->roipage->setDisplayed(false);
+        ui->list_roi->setModel(0);
+        setSelectedROI(0);
+    }
+
+
+
+}
+
+void ConfigurationsWidget::setSelectedROI(ROI* SelectedROI)
+{
+    m_SelectedROI= SelectedROI;
+
+
+
+    if(m_SelectedROI!=0){
+        ui->bt_removeroi->setVisible(true);
+        ui->list_roi->setCurrentIndex(m_SelectedInspection->ROIs()->getItemModelIndex(SelectedROI));
+        //ui->tree_inspections->setInspection(m_SelectedInspection);
+
+    }
+    else{
+        ui->bt_removeroi->setVisible(false);
+
+
     }
 
 
@@ -538,7 +582,7 @@ void ConfigurationsWidget::on_bt_addreq_clicked()
     }
 
 
-    m_SelectedProject->Requests()->AddItem(requestname);
+    m_SelectedProject->Requests()->AddItem(requestname,m_SelectedProject);
 }
 
 void ConfigurationsWidget::on_bt_removereq_clicked()
@@ -568,7 +612,7 @@ void ConfigurationsWidget::on_bt_addinsp_clicked()
     }
 
 
-    m_SelectedRequest->Inspections()->AddItem(default_inspname);
+    m_SelectedRequest->Inspections()->AddItem(default_inspname,m_SelectedRequest);
 }
 
 void ConfigurationsWidget::on_bt_removeinsp_clicked()
@@ -580,6 +624,36 @@ void ConfigurationsWidget::on_bt_removeinsp_clicked()
         Inspection* insp=selectedlist.at(0).data(Qt::UserRole).value<Inspection*>();
 
         m_SelectedRequest->Inspections()->removeItem(insp);
+
+
+    }
+}
+
+void ConfigurationsWidget::on_bt_addroi_clicked()
+{
+    QString default_roiname=tr("ROI 1");
+    for (int var = 0; var < m_SelectedInspection->ROIs()->rowCount(QModelIndex()); var++) {
+        QString roi_name=tr("ROI ").append("%1").arg(var+2);
+
+        if(!m_SelectedInspection->ROIs()->getItemsNameList().contains(roi_name)){
+            default_roiname=roi_name;
+            break;
+        }
+    }
+
+
+    m_SelectedInspection->ROIs()->AddItem(default_roiname,m_SelectedInspection);
+}
+
+void ConfigurationsWidget::on_bt_removeroi_clicked()
+{
+    QModelIndexList selectedlist= ui->list_roi->selectionModel()->selectedRows();
+
+    if(selectedlist.count()>0){
+
+        ROI* roi=selectedlist.at(0).data(Qt::UserRole).value<ROI*>();
+
+        m_SelectedInspection->ROIs()->removeItem(roi);
 
 
     }

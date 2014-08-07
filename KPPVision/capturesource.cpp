@@ -22,6 +22,11 @@ QTreeWidget *CaptureSource::TreeSettings() const
     return m_TreeSettings;
 }
 
+IplImage *CaptureSource::GetImage()
+{
+    return 0;
+}
+
 
 CaptureSource::CaptureSourceTypes CaptureSource::getSourceTypeFromString(QString typeString)
 {
@@ -67,4 +72,5 @@ QStringList CaptureSource::getSourceTypes()
 
     return sourcetypes;
 }
+
 

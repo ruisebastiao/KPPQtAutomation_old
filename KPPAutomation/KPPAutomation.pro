@@ -57,6 +57,13 @@ QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
 RESOURCES += \
     resources/res.qrc
 
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249 -lopencv_imgproc249 -lopencv_highgui249
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249d -lopencv_imgproc249d -lopencv_highgui249d
+else:unix: LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249
+
+INCLUDEPATH += $$PWD/../ExternalLibs/OpenCV/include
+DEPENDPATH += $$PWD/../ExternalLibs/OpenCV/include
+
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCored
