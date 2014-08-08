@@ -26,7 +26,6 @@ SOURCES += kppcommon.cpp \
     kpplineedit.cpp \
     kpptreepushbutton.cpp \
     kppanimatedframe.cpp \
-    kppswipebutton.cpp \
     swipegesturerecognizer.cpp
 
     kppadjustablelistview.cpp
@@ -49,7 +48,6 @@ HEADERS += kppcommon.h\
     kpplineedit.h \
     kpptreepushbutton.h \
     kppanimatedframe.h \
-    kppswipebutton.h \
     swipegesturerecognizer.h
 
     kppadjustablelistview.h

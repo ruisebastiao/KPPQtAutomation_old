@@ -133,7 +133,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QGraphicsView" name="graphicsView">
+          <widget class="KPPGraphicsView" name="graphicsView">
            <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
@@ -165,6 +165,11 @@
    <class>VisionTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>visiontreewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPPGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>kppgraphicsview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

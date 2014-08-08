@@ -8,7 +8,7 @@
 #include "kppvision.h"
 #include "kppvisionlist.h"
 #include "kpptreewidgetitem.h"
-#include "kppswipebutton.h"
+#include "kpptreepushbutton.h"
 #include "requestmenu.h"
 #include "inspectionmenu.h"
 
@@ -35,7 +35,7 @@ private:
 
 
     KPPTreeWidgetItem *RequestsItem;
-    KPPSwipeButton *bt_Request;
+    KPPRootTreePushButton *bt_Request;
     QTreeWidgetItem* RequestsSubItem;
     KPPAdjustableListView* list_Requests;
 
@@ -44,7 +44,7 @@ private:
 
 
     KPPTreeWidgetItem *InspectionsItem;
-    QPushButton *bt_Inspections;
+    KPPRootTreePushButton *bt_Inspections;
     QTreeWidgetItem* InspectionsSubItem;
     KPPAdjustableListView* list_Inspections;
 
@@ -53,12 +53,13 @@ private:
 
 
     KPPTreeWidgetItem *ROIItem;
-    QPushButton *bt_ROI;
+    KPPRootTreePushButton *bt_ROI;
     QTreeWidgetItem* ROISubItem;
     KPPAdjustableListView* list_ROIS;
 
     Vision::ROI* m_selectedROI;
     void setSelectedROI(Vision::ROI* value);
+
 
 
     RequestMenu *m_requestmenu;
@@ -96,6 +97,9 @@ private slots:
     void ListItemSwipeRight();
 
     void bt_ROIClicked();
+    void ROIrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
+    void ROIRowsInserted(QModelIndex modelindex, int start, int end);
+    void ROIRowsRemoved(QModelIndex modelindex, int start, int end);
 public slots:
 
 

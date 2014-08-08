@@ -1,64 +1,48 @@
 #include "resizableitem.h"
+
 #include <QDebug>
 #include <QtGui>
 
 namespace
 {
-    class RectResizer : public SizeGripItem::Resizer
-    {
-        public:
-            virtual void operator()(QGraphicsItem* item, const QRectF& rect)
-            {
-                QGraphicsRectItem* rectItem =
-                    dynamic_cast<QGraphicsRectItem*>(item);
-
-                if (rectItem)
-                {
-                    rectItem->setRect(rect);
-                }
-            }
-    };
-
-    class EllipseResizer : public SizeGripItem::Resizer
-    {
-        public:
-            virtual void operator()(QGraphicsItem* item, const QRectF& rect)
-            {
-                QGraphicsEllipseItem* ellipseItem =
-                    dynamic_cast<QGraphicsEllipseItem*>(item);
-
-                if (ellipseItem)
-                {
-                    ellipseItem->setRect(rect);
-                }
-            }
-    };
-}
-
-bool ResizableItem::serialize()
+class KPPVISIONSHARED_EXPORT RectResizer : public SizeGripItem::Resizer
 {
-    setSerialProperty("x", rect().x());
-    setSerialProperty("y", rect().y());
-    setSerialProperty("w", rect().width());
-    setSerialProperty("h", rect().height());
-    return true;
-}
+public:
+    virtual void operator()(QGraphicsItem* item, const QRectF& rect)
+    {
+        QGraphicsRectItem* rectItem =
+                dynamic_cast<QGraphicsRectItem*>(item);
 
-bool ResizableItem::deserialize()
+        if (rectItem)
+        {
+            rectItem->setRect(rect);
+        }
+    }
+};
+
+class KPPVISIONSHARED_EXPORT EllipseResizer : public SizeGripItem::Resizer
 {
-     QRectF *newrect=new QRectF();
-     newrect->setX(getSerialProperty("x").toReal());
-     newrect->setY(getSerialProperty("y").toReal());
-     newrect->setWidth(getSerialProperty("w").toReal());
-     newrect->setHeight(getSerialProperty("h").toReal());
-     //rectSizeGripItem->doResize(newrect);
-    return true;
+public:
+    virtual void operator()(QGraphicsItem* item, const QRectF& rect)
+    {
+        QGraphicsEllipseItem* ellipseItem =
+                dynamic_cast<QGraphicsEllipseItem*>(item);
+
+        if (ellipseItem)
+        {
+            ellipseItem->setRect(rect);
+        }
+    }
+};
 }
 
-ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem)
-    :icXmlSerializable(parent,"ROIRect"),
+
+ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem):
     QGraphicsRectItem(-50,-50,100,100,parentitem)
 {
+    //    QRectF temp=rect();
+    //    temp.adjust(-5,-5,5,5);
+    //    bound(temp);
     //setRect(-50,-50,100,100);
     //this->setOffset( -0.5 * QPointF( boundingRect().width(), boundingRect().height() ));
     QPen blackpen(Qt::black);
@@ -66,10 +50,12 @@ ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem)
     QBrush transparentbrush(Qt::transparent);
     //rectitem = new ResizableItem(0,0,100,100);
 
+
     setAcceptTouchEvents(true);
     setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemIsSelectable);
 
-    //setFlag(QGraphicsItem::ItemIsFocusable);
+    setFlag(QGraphicsItem::ItemIsFocusable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     //setFlag(ItemSendsGeometryChanges, true);
     //setFlag(ItemIgnoresTransformations);
@@ -77,43 +63,50 @@ ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem)
     setPen(blackpen);
     setAcceptHoverEvents(true);
 
-
+    isselected=false;
     rectSizeGripItem =
-              new SizeGripItem(new RectResizer, this);
+            new SizeGripItem(new RectResizer, this);
+
+    Resize(&boundingRect());
+
 
 
 }
 void ResizableItem::Resize(QRectF *NewRect){
-      rectSizeGripItem->doResize(NewRect);
+    rectSizeGripItem->doResize(NewRect);
     //setRect(0,0,500,500);
 }
 
 void ResizableItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
-    if(isselected){
-       painter->setPen(QPen(Qt::red, 0, Qt::DashLine));
-       QRectF bound=QRectF(boundingRect());
-       bound.adjust(-1,-1,1,1);
-       painter->drawRect(bound);
+    if(isSelected()){
+    //if(isselected){
+        painter->setPen(QPen(Qt::red, 1, Qt::DashLine));
+        QRectF bound=QRectF(boundingRect());
+        //bound.adjust(-2,-2,2,2);
+        painter->drawRect(bound);
     }
-      // # Paint rectangle
-       painter->setPen(QPen(Qt::black, 0, Qt::SolidLine));
-       painter->drawRect(rect());
+    //   else{
+    // # Paint rectangle
+    painter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
 
-//      // # If mouse is over, draw handles
-//       if self.mouseOver:
-//           # if rect selected, fill in handles
-//           if self.isSelected():
-//               painter.setBrush(QtGui.QBrush(QtGui.QColor(0,0,0)))
-//           painter.drawRect(self.topLeft)
-//           painter.drawRect(self.topRight)
-//           painter.drawRect(self.bottomLeft)
-//           painter.drawRect(self.bottomRight)
+    painter->drawRect(rect());
+    //  }
+
+    //      // # If mouse is over, draw handles
+    //       if self.mouseOver:
+    //           # if rect selected, fill in handles
+    //           if self.isSelected():
+    //               painter.setBrush(QtGui.QBrush(QtGui.QColor(0,0,0)))
+    //           painter.drawRect(self.topLeft)
+    //           painter.drawRect(self.topRight)
+    //           painter.drawRect(self.bottomLeft)
+    //           painter.drawRect(self.bottomRight)
 
 }
 
 QVariant ResizableItem::itemChange(GraphicsItemChange change,
-                            const QVariant &value){
+                                   const QVariant &value){
 
 
     if (change == ItemPositionChange) {
@@ -125,19 +118,24 @@ QVariant ResizableItem::itemChange(GraphicsItemChange change,
 
         QRectF newrect=QRectF(sceneBoundingRect().translated(diff));
 
+        //qDebug()<<parent();
 
-        if (newrect.left()<-2 || newrect.right()>parentItem()->boundingRect().width()+2) {
+        if(parentItem()){
 
-            newpos.setX(pos().x());
+
+            if (newrect.left()<-2 || newrect.right()>parentItem()->boundingRect().width()+2) {
+
+                newpos.setX(pos().x());
+
+            }
+
+            if (newrect.top()<-2 || newrect.bottom()>parentItem()->boundingRect().height()+2) {
+
+                newpos.setY(pos().y());
+
+            }
 
         }
-
-        if (newrect.top()<-2 || newrect.bottom()>parentItem()->boundingRect().height()+2) {
-
-            newpos.setY(pos().y());
-
-        }
-
         return newpos;
 
     }
@@ -151,7 +149,7 @@ QVariant ResizableItem::itemChange(GraphicsItemChange change,
 void ResizableItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
 
-QGraphicsItem::mouseMoveEvent(event);
+    QGraphicsItem::mouseMoveEvent(event);
 
 }
 
@@ -162,7 +160,60 @@ void ResizableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 
 void ResizableItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
-    isselected=true;
-    update();
+    //    isselected=true;
+    //    update();
     QGraphicsItem::mousePressEvent(event);
+}
+
+
+void ResizableItem::focusInEvent(QFocusEvent *event)
+{
+    //isele
+    setZValue(1000);
+    isselected=true;
+//    setSelected(true);
+//    update();
+    QGraphicsItem::focusInEvent(event);
+
+}
+
+void ResizableItem::focusOutEvent(QFocusEvent *event)
+{
+    setZValue(0);
+    isselected=false;
+    update();
+    QGraphicsItem::focusOutEvent(event);
+}
+
+
+QPainterPath ResizableItem::shape() const
+{
+    //    //QPainterPathStroker p2;
+
+    //    ////p2.setWidth();
+
+    //    QPainterPath path;
+    //    QRectF bound=QRectF(boundingRect());
+    //    bound.adjust(20,20,-20,-20);
+    //      path.addRect(bound);
+
+    //    //  return p2.createStroke(path);
+    //      return path;
+
+    return QGraphicsItem::shape();
+}
+
+
+void ResizableItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    QGraphicsItem::hoverEnterEvent(event);
+}
+
+
+QRectF ResizableItem::boundingRect() const
+{
+    QRectF temp=rect();
+    temp.adjust(-3,-3,3,3);
+    return temp;
+
 }

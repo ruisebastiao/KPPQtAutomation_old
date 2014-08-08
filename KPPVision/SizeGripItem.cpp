@@ -26,22 +26,29 @@
 #include "SizeGripItem.h"
 #include <QtGui>
 #include <QDebug>
-
+#include "QGraphicsScene"
 
 SizeGripItem::HandleItem::HandleItem(int positionFlags, SizeGripItem* parent)
     : QGraphicsRectItem(-2, -2, 4, 4, parent),
       positionFlags_(positionFlags),
       parent_(parent)
 {
-    setBrush(QBrush(Qt::yellow));
+
+    //setBrush(QBrush(Qt::green));
+    //  parent->setFlag(ItemIsSelectable,false);
+    // setFlag(ItemIsSelectable,false);
+    mousehover=false;
     setFlag(ItemIsMovable);
     setFlag(ItemSendsGeometryChanges);
+    //setFlag(ItemStopsFocusHandling);
+    setAcceptHoverEvents(true);
+    //setFlag();
     //setAcceptsHoverEvents(true);
-//    if (positionFlags_ & Center){
-//        setRect(-16,-16,32,32);
-//       // setFlag(ItemIsMovable,false);
-//        //setac
-//    }
+    //    if (positionFlags_ & Center){
+    //        setRect(-16,-16,32,32);
+    //       // setFlag(ItemIsMovable,false);
+    //        //setac
+    //    }
 }
 
 int SizeGripItem::HandleItem::positionFlags() const
@@ -51,17 +58,19 @@ int SizeGripItem::HandleItem::positionFlags() const
 
 void SizeGripItem::HandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
-        QGraphicsItem::mouseMoveEvent(event);
+    QGraphicsItem::mouseMoveEvent(event);
 }
 
 void SizeGripItem::HandleItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
     mousehover=false;
- QGraphicsItem::hoverLeaveEvent(event);
+    //parentItem()->parentItem()->setFlag(QGraphicsItem::ItemIsSelectable,true);
+    //parentItem()->parentItem()->update();
+    QGraphicsItem::hoverLeaveEvent(event);
 }
 
 void SizeGripItem::HandleItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
     //if (positionFlags_ & Top)
-      //  setCursor(Qt::SizeFDiagCursor);
+    //  setCursor(Qt::SizeFDiagCursor);
 
     mousehover=true;
 
@@ -70,25 +79,30 @@ void SizeGripItem::HandleItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
 }
 void SizeGripItem::HandleItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
-    return QGraphicsItem::mousePressEvent(event);
+    parentItem()->parentItem()->setSelected(true);
+    parentItem()->parentItem()->setFlag(QGraphicsItem::ItemIsSelectable,false);
+    //     parentItem()->parentItem()->update();
+    QGraphicsItem::mousePressEvent(event);
 }
 
 void SizeGripItem::HandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    if(mousehover){
+
+    if(parentItem()->parentItem()->hasFocus() && parentItem()->scene()->selectedItems().count()<=1){
+        if(mousehover){
 
             painter->setPen(QPen(Qt::black, 0, Qt::DashLine));
+            painter->setBrush(QBrush(Qt::yellow));
+            painter->drawRect(rect());
+
+        }
+        else{
+
+            painter->setPen(QPen(Qt::black, 0, Qt::SolidLine));
             painter->setBrush(QBrush(Qt::green));
             painter->drawRect(rect());
 
+        }
     }
-    else{
-
-        painter->setPen(QPen(Qt::black, 0, Qt::SolidLine));
-        painter->setBrush(QBrush(Qt::yellow));
-        painter->drawRect(rect());
-
-    }
-
 
 
 }
@@ -102,6 +116,7 @@ QVariant SizeGripItem::HandleItem::itemChange(GraphicsItemChange change,
 
     if (change == ItemPositionChange)
     {
+
         retVal = restrictPosition(value.toPointF());
 
 
@@ -110,48 +125,50 @@ QVariant SizeGripItem::HandleItem::itemChange(GraphicsItemChange change,
     {
 
         QPointF pos = value.toPointF();
-      //  qDebug()<<"Pos:"<<pos;
+        //  qDebug()<<"Pos:"<<pos;
+
+
 
         switch (positionFlags_)
         {
-            case TopLeft:
-                parent_->setTopLeft(pos);
-                break;
-            case Top:
-                parent_->setTop(pos.y());
-                break;
-            case TopRight:
-                parent_->setTopRight(pos);
-                break;
-            case Right:
-                parent_->setRight(pos.x());
-                break;
-            case BottomRight:
+        case TopLeft:
+            parent_->setTopLeft(pos);
+            break;
+        case Top:
+            parent_->setTop(pos.y());
+            break;
+        case TopRight:
+            parent_->setTopRight(pos);
+            break;
+        case Right:
+            parent_->setRight(pos.x());
+            break;
+        case BottomRight:
 
-                parent_->setBottomRight(pos);
-                break;
-            case Bottom:
-                parent_->setBottom(pos.y());
-                break;
-            case BottomLeft:
-                parent_->setBottomLeft(pos);
-                break;
-            case Left:
-                parent_->setLeft(pos.x());
-                break;
-            case Center:
-                parent_->setPos(pos);
+            parent_->setBottomRight(pos);
+            break;
+        case Bottom:
+            parent_->setBottom(pos.y());
+            break;
+        case BottomLeft:
+            parent_->setBottomLeft(pos);
+            break;
+        case Left:
+            parent_->setLeft(pos.x());
+            break;
+        case Center:
+            parent_->setPos(pos);
             break;
         }
     }
-//    qDebug()<<"change:"<<mapToScene(parent_->pos());
-//    if (mapToScene(parent_->pos()).x()<0) {
-//        //QGraphicsItem::itemChange( change, value );
+    //    qDebug()<<"change:"<<mapToScene(parent_->pos());
+    //    if (mapToScene(parent_->pos()).x()<0) {
+    //        //QGraphicsItem::itemChange( change, value );
 
-//    }
+    //    }
 
-    return QGraphicsItem::itemChange( change, retVal );
-//    return retVal;
+    // return QGraphicsItem::itemChange( change, retVal );
+    return retVal;
 }
 
 
@@ -161,8 +178,8 @@ QPointF SizeGripItem::HandleItem::restrictPosition(const QPointF& newPos)
     QPointF mapped=parent_->mapToScene(newPos);
 
     QRectF parentGraphicItemRect=parent_->parentItem()->parentItem()->boundingRect();
-//    qDebug()<<"Pos:"<<mapped.x();
-//    qDebug()<<"Size:"<<parentGraphicItemRect.width();
+    //    qDebug()<<"Pos:"<<mapped.x();
+    //    qDebug()<<"Size:"<<parentGraphicItemRect.width();
 
 
 
@@ -204,6 +221,7 @@ SizeGripItem::SizeGripItem(Resizer* resizer, QGraphicsItem* parent)
     : QGraphicsItem(parent),
       resizer_(resizer)
 {
+    setAcceptHoverEvents(true);
     if (parentItem())
         rect_ = parentItem()->boundingRect();
 
@@ -215,7 +233,8 @@ SizeGripItem::SizeGripItem(Resizer* resizer, QGraphicsItem* parent)
     handleItems_.append(new HandleItem(Bottom, this));
     handleItems_.append(new HandleItem(BottomLeft, this));
     handleItems_.append(new HandleItem(Left, this));
-    handleItems_.append(new HandleItem(Center, this));
+    //handleItems_.append(new HandleItem(Center, this));
+    //handleItems_.at(0)->setAcceptHoverEvents(true);
     updateHandleItemPositions();
     //setFlag(ItemSendsGeometryChanges);
 }
@@ -229,7 +248,10 @@ SizeGripItem::~SizeGripItem()
 QRectF SizeGripItem::boundingRect() const
 {
     //return QRectF(-rect_.width()/2,-rect_.height()/2);
-    return  rect_;
+    QRectF temp=rect_;
+    //temp.adjust(-2,-2,2,2);
+    //return  rect_.adjust(-2,-2,2,2);
+    return  temp;
 }
 
 
@@ -239,29 +261,14 @@ void SizeGripItem::paint(QPainter* painter,
                          QWidget* widget)
 {
 
-    //auto *itObj = std::find_if(handleItems_.begin(),handleItems_.end(),[](HandleItem o) { return o.positionFlags() == Top; }    );
 
-//    HandleItem selectedobject=*std::find_if(handleItems_.begin(), handleItems_.end(),[] (const HandleItem& s) {  return s.positionFlags() == Top; });
-
-//    if (selectedobject!=0) {
-
-//    }
-//    HandleItem *item1=handleItems_.first();
-//    HandleItem *item2=handleItems_.last();
-
-
-//    painter->setPen(QPen(Qt::black, 0, Qt::DashLine));
-//    painter->setBrush(QBrush(Qt::black));
-    //painter->drawLine(mapRectFromParent(FromToParent(item1->sceneBoundingRect()).center(),mapRectFromParent(item2->boundingRect()).center());
-
-    //rect_.
 }
 
 #define IMPL_SET_FN(TYPE, POS)                  \
     void SizeGripItem::set ## POS (TYPE v)      \
-    {                                           \
-        rect_.set ## POS (v);                   \
-        doResize();                             \
+{                                           \
+    rect_.set ## POS (v);                   \
+    doResize();                             \
     }
 
 IMPL_SET_FN(qreal, Top)
@@ -290,18 +297,19 @@ void SizeGripItem::doResize(QRectF *newSize)
 
 
 void SizeGripItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-        //event->accept();
-        QGraphicsItem::mouseMoveEvent(event);
+    //event->accept();
+    QGraphicsItem::mouseMoveEvent(event);
 }
 
 void SizeGripItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
+
 
 
     //event->accept();
     QGraphicsItem::hoverMoveEvent(event);
 }
 void SizeGripItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
-   // event->accept();
+    // event->accept();
     return QGraphicsItem::mousePressEvent(event);
 }
 
@@ -315,39 +323,56 @@ void SizeGripItem::updateHandleItemPositions()
 
         switch (item->positionFlags())
         {
-            case TopLeft:
-                item->setPos(rect_.topLeft());
-                break;
-            case Top:
-                item->setPos(rect_.left() + rect_.width() / 2 - 1,
-                             rect_.top());
-                break;
-            case TopRight:
-                item->setPos(rect_.topRight());
-                break;
-            case Right:
-                item->setPos(rect_.right(),
-                             rect_.top() + rect_.height() / 2 - 1);
-                break;
-            case BottomRight:
-                item->setPos(rect_.bottomRight());
-                break;
-            case Bottom:
-                item->setPos(rect_.left() + rect_.width() / 2 - 1,
-                             rect_.bottom());
-                break;
-            case BottomLeft:
-                item->setPos(rect_.bottomLeft());
-                break;
-            case Left:
-                item->setPos(rect_.left(),
-                             rect_.top() + rect_.height() / 2 - 1);
-                break;
-            case Center:
-                item->setPos(rect_.topRight().x()+15,rect_.topRight().y()-15);
+        case TopLeft:
+            item->setPos(rect_.topLeft());
             break;
+        case Top:
+            item->setPos(rect_.left() + rect_.width() / 2 - 1,
+                         rect_.top());
+            break;
+        case TopRight:
+            item->setPos(rect_.topRight());
+            break;
+        case Right:
+            item->setPos(rect_.right(),
+                         rect_.top() + rect_.height() / 2 - 1);
+            break;
+        case BottomRight:
+            item->setPos(rect_.bottomRight());
+            break;
+        case Bottom:
+            item->setPos(rect_.left() + rect_.width() / 2 - 1,
+                         rect_.bottom());
+            break;
+        case BottomLeft:
+            item->setPos(rect_.bottomLeft());
+            break;
+        case Left:
+            item->setPos(rect_.left(),
+                         rect_.top() + rect_.height() / 2 - 1);
+            break;
+            //            case Center:
+            //                item->setPos(rect_.topRight().x()+15,rect_.topRight().y()-15);
+            //            break;
         }
 
         item->setFlag(ItemSendsGeometryChanges, true);
     }
+}
+
+
+void SizeGripItem::HandleItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    //parentItem()->parentItem()->setFlag(QGraphicsItem::ItemIsSelectable,false);
+}
+
+
+
+void SizeGripItem::HandleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    parentItem()->parentItem()->setFlag(QGraphicsItem::ItemIsSelectable,true);
+    parentItem()->parentItem()->setSelected(true);
+    //parentItem()->parentItem()->update();
+    //    parentItem()->parentItem()->se
+    QGraphicsItem::mouseReleaseEvent(event);
 }

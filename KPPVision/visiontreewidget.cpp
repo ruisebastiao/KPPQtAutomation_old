@@ -21,6 +21,7 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
     setIndentation(0);
     setAnimated(true);
 
+   // setAutoExpandDelay();
 
     updatelayouttimer= new QTimer(this);
     updatelayouttimer->setSingleShot(true);
@@ -31,8 +32,8 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
 
 
     Projectsitem=new KPPTreeWidgetItem(0);
-    bt_Projects= new QPushButton(this);
-    connect(bt_Projects,SIGNAL(clicked()),this,SLOT(bt_projectClicked()));
+    bt_Projects= new KPPRootTreePushButton("Projects",Projectsitem);
+   // connect(bt_Projects,SIGNAL(clicked()),this,SLOT(bt_projectClicked()));
     bt_Projects->setText(tr("Projects"));
     bt_Projects->setAutoFillBackground(true);
     addTopLevelItem(Projectsitem);
@@ -41,10 +42,9 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
 
 
     RequestsItem=new KPPTreeWidgetItem(0);
-    bt_Request= new KPPSwipeButton(this);
-    connect(bt_Request,SIGNAL(clicked()),this,SLOT(bt_RequestClicked()));
-    bt_Request->setText(tr("Requests"));
-    bt_Request->setEnabled(false);
+    bt_Request= new KPPRootTreePushButton("Requests",RequestsItem);
+
+    //bt_Request->setEnabled(false);
 
     addTopLevelItem(RequestsItem);
     bt_Request->setAutoFillBackground(true);
@@ -52,20 +52,18 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
 
 
     InspectionsItem=new KPPTreeWidgetItem(0);
-    bt_Inspections= new QPushButton(this);
-    connect(bt_Inspections,SIGNAL(clicked()),this,SLOT(bt_InspectionsClicked()));
-    bt_Inspections->setText(tr("Inspections"));
-    bt_Inspections->setEnabled(false);
+    bt_Inspections= new KPPRootTreePushButton("Inspections",InspectionsItem);
+
+   // bt_Inspections->setEnabled(false);
 
     addTopLevelItem(InspectionsItem);
     bt_Inspections->setAutoFillBackground(true);
     this->setItemWidget(InspectionsItem,0,bt_Inspections);
 
     ROIItem=new KPPTreeWidgetItem(0);
-    bt_ROI= new QPushButton(this);
-    connect(bt_ROI,SIGNAL(clicked()),this,SLOT(bt_ROIClicked()));
-    bt_ROI->setText(tr("ROIS"));
-    bt_ROI->setEnabled(false);
+    bt_ROI= new KPPRootTreePushButton("ROIS",ROIItem);
+
+    //bt_ROI->setEnabled(false);
 
     addTopLevelItem(ROIItem);
     bt_ROI->setAutoFillBackground(true);
@@ -223,6 +221,34 @@ void VisionTreeWidget::InspectionrowsRowsInserted(QModelIndex modelindex,int sta
     updatelayouttimer->start();
 }
 
+void VisionTreeWidget::ROIrowsAboutToBeInserted(QModelIndex modelindex,int start,int end){
+
+    QSize newsize=itemWidget(ROISubItem,0)->contentsRect().size();
+    newsize.setHeight(newsize.height()+list_ROIS->sizeHintForRow(0));
+    ROISubItem->setSizeHint(0,newsize);
+
+}
+void VisionTreeWidget::ROIRowsInserted(QModelIndex modelindex,int start,int end){
+
+    updatelayouttimer->start();
+}
+
+
+
+void VisionTreeWidget::ROIRowsRemoved(QModelIndex modelindex,int start,int end){
+    QSize newsize=itemWidget(ROISubItem,0)->contentsRect().size();
+    newsize.setHeight(newsize.height()-list_ROIS->sizeHintForRow(0));
+
+    if(list_ROIS->model()!=0){
+        if(list_ROIS->model()->rowCount()==0){
+            newsize.setHeight(0);
+        }
+    }
+    ROISubItem->setSizeHint(0,newsize);
+
+    updatelayouttimer->start();
+}
+
 void VisionTreeWidget::bt_projectClicked(){
     Projectsitem->setExpanded(!Projectsitem->isExpanded());
 }
@@ -284,7 +310,7 @@ void VisionTreeWidget::AddVisionProjectsModel(KPPVisionList<KPPVision> *VisionPr
         QVBoxLayout *lay=new QVBoxLayout(frame);
         frame->setFrameShape(Shape::Box);
         frame->setFrameShadow(Shadow::Plain);
-        lay->setContentsMargins(1,1,1,1);
+        lay->setContentsMargins(4,4,4,4);
         lay->setSpacing(2);
         QPushButton *bt_load=new QPushButton();
         bt_load->sizePolicy().setVerticalPolicy(QSizePolicy::Fixed);
@@ -622,11 +648,11 @@ void VisionTreeWidget::setSelectedInspection(Inspection *value)
         list_ROIS->setModel(value->ROIs());
 
         connect(value->ROIs(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
-                this,SLOT(InspectionrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+                this,SLOT(ROIrowsAboutToBeInserted(QModelIndex,int,int)),Qt::UniqueConnection);
         connect(value->ROIs(),SIGNAL(rowsInserted(QModelIndex,int,int)),
-                this,SLOT(InspectionrowsRowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
+                this,SLOT(ROIRowsInserted(QModelIndex,int,int)),Qt::UniqueConnection);
         connect(value->ROIs(),SIGNAL(rowsRemoved(QModelIndex,int,int)),
-                this,SLOT(InspectionsRowsRemoved(QModelIndex,int,int)));
+                this,SLOT(ROIRowsRemoved(QModelIndex,int,int)));
 
     }
     else{

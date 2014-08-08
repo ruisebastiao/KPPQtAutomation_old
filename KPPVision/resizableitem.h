@@ -3,17 +3,15 @@
 #include <QtGui>
 #include <QGraphicsRectItem>
 #include "SizeGripItem.h"
-#include "icxmlserializable.h"
+#include "kppvision_global.h"
 
-class ResizableItem : public icXmlSerializable,public QGraphicsRectItem
+class KPPVISIONSHARED_EXPORT ResizableItem :public QObject,public QGraphicsRectItem
 {
 Q_OBJECT
 private:
     SizeGripItem* rectSizeGripItem;
-    //QString m_name;
-    virtual bool serialize();
 
-    virtual bool deserialize();
+
 
 public:
 
@@ -33,6 +31,23 @@ protected:
     QVariant itemChange(GraphicsItemChange change,
                                 const QVariant &value);
 
+
+    // QGraphicsItem interface
+protected:
+    void focusInEvent(QFocusEvent *event);
+    void focusOutEvent(QFocusEvent *event);
+
+    // QGraphicsItem interface
+public:
+    QPainterPath shape() const;
+
+    // QGraphicsItem interface
+protected:
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+
+    // QGraphicsItem interface
+public:
+    QRectF boundingRect() const;
 };
 
 #endif // RESIZABLEITEM_H

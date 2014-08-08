@@ -9,7 +9,7 @@
 #include "qgraphicsview.h"
 #include "QGraphicsPixmapItem"
 #include "opencv2/opencv.hpp"
-
+#include "kppgraphicsscene.h"
 #include "kpproi.h"
 
 #include "BoostDef.h"
@@ -39,7 +39,15 @@ public:
     KPPVisionList<ROI> *ROIs() const;
     void setROIs(KPPVisionList<ROI> *ROIs);
 
+    KPPGraphicsScene *InspectionScene() const;
+
+
+    QGraphicsPixmapItem *BackgroundItem() const;
+
+
 private:
+
+    ResizableItem *m_SelectionRect;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
     {
@@ -54,25 +62,27 @@ private:
 
             qDebug()<<ex.what();
         }
-        }
-
-
-                      QGraphicsView* m_view;
-            QGraphicsScene* m_InspectionScene;
-            QGraphicsPixmapItem *m_capturePixmap;
-            CaptureSource *m_capture;
-            QString m_Name;
-            KPPVisionList<ROI> *m_ROIs;
-
-            signals:
-            void CaptureSourceChanging();
-            void CaptureSourceChanged();
-
-            public slots:
-
-
-
-        };
-
     }
+
+
+    QGraphicsView* m_view;
+    KPPGraphicsScene* m_InspectionScene;
+    QGraphicsPixmapItem *m_BackgroundItem;
+    CaptureSource *m_capture;
+    QString m_Name;
+    KPPVisionList<ROI> *m_ROIs;
+
+signals:
+    void CaptureSourceChanging();
+    void CaptureSourceChanged();
+
+public slots:
+
+
+
+private slots:
+    void SceneSelectionChanged();
+};
+
+}
 #endif // INSPECTION_H

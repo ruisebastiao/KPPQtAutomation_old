@@ -29,7 +29,10 @@ SOURCES += kppvision.cpp \
     imagefilecapture.cpp \
     requestmenu.cpp \
     inspectionmenu.cpp \
-    kpproi.cpp
+    kpproi.cpp \
+    resizableitem.cpp \
+    kppgraphicsview.cpp \
+    kppgraphicsscene.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -50,7 +53,10 @@ HEADERS += kppvision.h\
     BoostDef.h \
     requestmenu.h \
     inspectionmenu.h \
-    kpproi.h
+    kpproi.h \
+    resizableitem.h \
+    kppgraphicsview.h \
+    kppgraphicsscene.h
 
 
 

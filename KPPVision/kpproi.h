@@ -6,7 +6,8 @@
 
 #include "BoostDef.h"
 #include "kppvision_global.h"
-#
+#include "resizableitem.h"
+#include "QGraphicsScene"
 
 namespace Vision {
 
@@ -24,8 +25,16 @@ public:
     QString getName() const;
     void setName(const QString &Name);
 
+    QGraphicsScene *Scene() const;
+    void setScene(QGraphicsScene *Scene, QGraphicsPixmapItem *parentItem);
+
+    ResizableItem *ROIRect() const;
+    void setROIRect(ResizableItem *ROIRect);
+
 private:
     QString m_Name;
+    QGraphicsScene* m_Scene;
+    ResizableItem* m_ROIRect;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
     {
@@ -40,6 +49,8 @@ private:
 signals:
 
 public slots:
+ void sceneRectChangedSlot(QRectF newrect);
+private slots:
 
 };
 }

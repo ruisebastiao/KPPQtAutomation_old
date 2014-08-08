@@ -62,7 +62,7 @@
                  void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
                  void mousePressEvent(QGraphicsSceneMouseEvent *event);
                  void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-
+                void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
                  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
                 virtual QVariant itemChange(GraphicsItemChange change,
                                             const QVariant &value);
@@ -73,6 +73,14 @@
                 bool mousehover;
                 int positionFlags_;
                 SizeGripItem* parent_;
+
+                // QGraphicsItem interface
+        protected:
+
+
+                // QGraphicsItem interface
+        protected:
+                void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
         };
 
         class Resizer
