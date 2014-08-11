@@ -137,12 +137,23 @@ static QImage IplImage2QImage(const IplImage *iplImage)
 void Inspection::UpdateScene(){
 
 
-  //  if(!m_capturePixmap->boundingRect().isEmpty()){
+    if(m_capture==0){
+        m_view->setScene(0);
+        return;
+    }
+
+    if(m_BackgroundItem->boundingRect().isEmpty()){
+        m_view->setScene(0);
+        return;
+    }
+
+
     if(m_view->scene()!=m_InspectionScene){
         m_view->setScene(m_InspectionScene);
 
         //m_InspectionScene->backgroundBrush()
     }
+
 
     if(m_InspectionScene->sceneRect()!=m_BackgroundItem->boundingRect()){
         //QRectF r=m_capturePixmap->boundingRect();
@@ -154,13 +165,7 @@ void Inspection::UpdateScene(){
 
 
     }
-//    if(ROIs()->getList().count()>0)
-//        ROIs()->getList().at(0)->ROIRect()->setPos(500,500);
-//    //QGraphicsItemGroup* group=m_InspectionScene->createItemGroup();
-    //group->mo
-    //m_InspectionScene->update(m_capturePixmap->boundingRect());
-        //m_InspectionScene->;
-  //  }
+
 
 }
 KPPVisionList<ROI> *Inspection::ROIs() const

@@ -6,6 +6,7 @@
 #include "kpptreepushbutton.h"
 #include "BoostDef.h"
 #include "kpplineedit.h"
+
 class KPPVISIONSHARED_EXPORT ImageFileCapture : public CaptureSource
 {
     Q_OBJECT

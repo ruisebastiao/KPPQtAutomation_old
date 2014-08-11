@@ -97,3 +97,5 @@ else:unix: LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249
 
 INCLUDEPATH += $$PWD/../ExternalLibs/OpenCV/include
 DEPENDPATH += $$PWD/../ExternalLibs/OpenCV/include
+
+#PRECOMPILED_HEADER +=BoostDef.h

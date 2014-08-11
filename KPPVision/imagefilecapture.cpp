@@ -1,11 +1,9 @@
 #include "imagefilecapture.h"
 #include "kppcommon.h"
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>
 #include "QVBoxLayout"
 #include "qlineedit.h"
 #include "qfiledialog.h"
-#include <boost/filesystem.hpp>
+
 
 
 BOOST_CLASS_EXPORT(ImageFileCapture);

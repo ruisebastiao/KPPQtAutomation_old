@@ -1,3 +1,4 @@
+
 #ifndef BOOSTDEF_H
 #define BOOSTDEF_H
 
@@ -12,6 +13,10 @@
 #include <boost/archive/tmpdir.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/variant.hpp>
 
 namespace boost
 {

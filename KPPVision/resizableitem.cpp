@@ -37,16 +37,52 @@ public:
 }
 
 
+
+
+//template<class Archive>
+// void ResizableItem::save(Archive & ar, const unsigned int version) {
+
+
+//    qreal x=mapRectToParent(this->rect()).x();
+//    ar << make_nvp("X", x);
+//}
+
+//template<class Archive>
+// void ResizableItem::load(Archive & ar, const unsigned int version)
+//{
+//    qreal x;
+//    ar >> make_nvp("X",x);
+//    QRectF newrect=rect();
+//    newrect.setX(x);
+//    this->setRect(newrect);
+//}
+
+
+//    template<class Archive>
+//void ResizableItem::serialize(Archive &ar, const unsigned int file_version)
+//    {
+//        //ar & boost::serialization::make_nvp("Rect", m_rect);
+//        m_rect=this->rect();
+
+//      //  boost::serialization::split_free(ar,file_version);
+//      //  setRect(m_rect);
+////        qDebug()<<"rect:"<<mapRectToParent(m_rect);
+//    }
+
 ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem):
     QGraphicsRectItem(-50,-50,100,100,parentitem)
 {
-    //    QRectF temp=rect();
+
+
+
+   //qDebug()<<
+        //teste.readRawData()
     //    temp.adjust(-5,-5,5,5);
     //    bound(temp);
     //setRect(-50,-50,100,100);
     //this->setOffset( -0.5 * QPointF( boundingRect().width(), boundingRect().height() ));
     QPen blackpen(Qt::black);
-    blackpen.setWidth(2);
+    blackpen.setWidth(1);
     QBrush transparentbrush(Qt::transparent);
     //rectitem = new ResizableItem(0,0,100,100);
 
@@ -217,3 +253,12 @@ QRectF ResizableItem::boundingRect() const
     return temp;
 
 }
+
+
+bool ResizableItem::sceneEvent(QEvent *event)
+{
+    return QGraphicsItem::sceneEvent(event);
+}
+
+
+

@@ -41,6 +41,7 @@ private:
 
         boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_Name),&m_Name), file_version);
 
+        ar & boost::serialization::make_nvp("m_ROIRect", m_ROIRect);
 
     }
 

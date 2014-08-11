@@ -2,15 +2,7 @@
 #include "settings.h"
 
 
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/serialization/assume_abstract.hpp>
-#include <boost/archive/tmpdir.hpp>
-#include <boost/archive/xml_iarchive.hpp>
-#include <boost/archive/xml_oarchive.hpp>
+
 
 
 using namespace Vision;
@@ -53,6 +45,8 @@ KPPVisionList<KPPVision> *Settings::Projects()
 
                //ar &   BOOST_SERIALIZATION_NVP(m_Projects);
         boost::serialization::split_free(ar,QStringSerializable(BOOST_STRINGIZE(m_ProjectsFilePath),&m_ProjectsFilePath), file_version);
+
+
 
 
     }
