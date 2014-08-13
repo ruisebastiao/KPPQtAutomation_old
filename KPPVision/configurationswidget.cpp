@@ -643,7 +643,7 @@ void ConfigurationsWidget::on_bt_addroi_clicked()
 
 
     ROI* roi=m_SelectedInspection->ROIs()->AddItem(default_roiname,m_SelectedInspection);
-    roi->setScene(m_SelectedInspection->InspectionScene() ,m_SelectedInspection->BackgroundItem());
+    //roi->setScene(m_SelectedInspection->InspectionScene() ,m_SelectedInspection->BackgroundItem());
 }
 
 void ConfigurationsWidget::on_bt_removeroi_clicked()

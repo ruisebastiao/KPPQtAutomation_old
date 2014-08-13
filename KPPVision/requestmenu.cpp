@@ -7,7 +7,7 @@ RequestMenu::RequestMenu(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
+    m_SelectedRequest=0;
 
 
 }
@@ -31,6 +31,6 @@ void RequestMenu::setSelectedRequest(Vision::Request *SelectedRequest)
 void RequestMenu::on_bt_processrequest_clicked()
 {
     if(m_SelectedRequest!=0){
-        //m_SelectedRequest.pro
+        m_SelectedRequest->SelectedInspection()->SelectedROI()->Process(0);
     }
 }

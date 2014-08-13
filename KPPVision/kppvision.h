@@ -63,10 +63,13 @@ public:
         ar & boost::serialization::make_nvp("Requests", m_Requests);
     }
 
+    Request *SelectedRequest() const;
+    void setSelectedRequest(Vision::Request *SelectedRequest);
+
 private:
     QGraphicsView *view;
     QGraphicsScene *scene;
-
+    Request* m_SelectedRequest;
     QString m_Name;
     KPPVisionList<Request> *m_Requests;
 

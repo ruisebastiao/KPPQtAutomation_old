@@ -30,7 +30,7 @@ private:
     QTreeWidgetItem* ProjectsSubItem;
     KPPAdjustableListView* list_Projects;
 
-    Vision::KPPVision* m_selectedProject;
+    Vision::KPPVision* m_SelectedProject;
     void setSelectedProject(Vision::KPPVision* value);
 
 
@@ -39,7 +39,8 @@ private:
     QTreeWidgetItem* RequestsSubItem;
     KPPAdjustableListView* list_Requests;
 
-    Vision::Request* m_selectedRequest;
+
+
     void setSelectedRequest(Vision::Request* value);
 
 
@@ -48,7 +49,7 @@ private:
     QTreeWidgetItem* InspectionsSubItem;
     KPPAdjustableListView* list_Inspections;
 
-    Vision::Inspection* m_selectedInspection;
+
     void setSelectedInspection(Vision::Inspection* value);
 
 
@@ -57,7 +58,7 @@ private:
     QTreeWidgetItem* ROISubItem;
     KPPAdjustableListView* list_ROIS;
 
-    Vision::ROI* m_selectedROI;
+
     void setSelectedROI(Vision::ROI* value);
 
 
@@ -100,6 +101,10 @@ private slots:
     void ROIrowsAboutToBeInserted(QModelIndex modelindex, int start, int end);
     void ROIRowsInserted(QModelIndex modelindex, int start, int end);
     void ROIRowsRemoved(QModelIndex modelindex, int start, int end);
+
+    //void ROIPressedSlot(ROI* roi);
+
+    void SceneSelectionChanged();
 public slots:
 
 
@@ -107,6 +112,7 @@ public slots:
 
 
     // QTreeView interface
+
 protected:
     //  void drawRow(QPainter *painter, const QStyleOptionViewItem &options, const QModelIndex &index) const;
 

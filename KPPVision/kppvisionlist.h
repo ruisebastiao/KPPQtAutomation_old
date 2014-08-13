@@ -163,6 +163,8 @@ public:
         return m_InnerList.count();
     }
 
+
+
     QVariant data(const QModelIndex &index, int role) const
     {
         // Check that the index is valid and within the correct range first:
@@ -293,6 +295,14 @@ public slots:
 
 
 
+
+
+    // QAbstractItemModel interface
+public:
+
+
+    // QAbstractItemModel interface
+public:
 
 };
 

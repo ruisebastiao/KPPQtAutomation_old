@@ -122,7 +122,7 @@ protected:
     bool sceneEvent(QEvent *event);
 
 signals:
-    void teste();
+
 };
 
 //BOOST_SERIALIZATION_SPLIT_FREE(ResizableItem)

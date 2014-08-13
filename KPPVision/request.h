@@ -20,6 +20,9 @@ private:
     QString m_Name;
     KPPVisionList<Inspection> *m_Inspections;
 
+    Vision::Inspection* m_SelectedInspection;
+
+
 
 
     template<class Archive>
@@ -50,6 +53,8 @@ public:
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
+    Vision::Inspection *SelectedInspection() const;
+    void setSelectedInspection(Vision::Inspection *SelectedInspection);
 };
 }
 #endif // REQUEST_H

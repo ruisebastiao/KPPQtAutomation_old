@@ -25,3 +25,5 @@ void Instantiations::Instantiate()
     //inst.Loaded(new QObject());
     // other explicit instantiations may follow
 }
+
+

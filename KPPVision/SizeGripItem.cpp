@@ -87,7 +87,7 @@ void SizeGripItem::HandleItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 void SizeGripItem::HandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
-    if(parentItem()->parentItem()->hasFocus() && parentItem()->scene()->selectedItems().count()<=1){
+    if((mousehover || parentItem()->parentItem()->isSelected()) && parentItem()->scene()->selectedItems().count()<=1){
         if(mousehover){
 
             painter->setPen(QPen(Qt::black, 0, Qt::DashLine));

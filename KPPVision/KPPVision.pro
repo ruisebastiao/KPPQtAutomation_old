@@ -32,7 +32,8 @@ SOURCES += kppvision.cpp \
     kpproi.cpp \
     resizableitem.cpp \
     kppgraphicsview.cpp \
-    kppgraphicsscene.cpp
+    kppgraphicsscene.cpp \
+    imageholder.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -56,7 +57,8 @@ HEADERS += kppvision.h\
     kpproi.h \
     resizableitem.h \
     kppgraphicsview.h \
-    kppgraphicsscene.h
+    kppgraphicsscene.h \
+    imageholder.h
 
 
 

@@ -13,9 +13,12 @@
 #include "kpproi.h"
 
 #include "BoostDef.h"
+#include "imageholder.h"
 
 namespace Vision
 {
+
+class Request;
 
 class KPPVISIONSHARED_EXPORT Inspection :public QObject
 {
@@ -42,12 +45,19 @@ public:
     KPPGraphicsScene *InspectionScene() const;
 
 
-    QGraphicsPixmapItem *BackgroundItem() const;
+    ROI *SelectedROI() const;
+    void setSelectedROI(ROI *SelectedROI);
+
+    IplImage *CaptureImage() const;
+
+
+    IplImage *ProcessingImage() const;
 
 
 private:
-
+    ROI* m_SelectedROI;
     ResizableItem *m_SelectionRect;
+
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
     {
@@ -67,10 +77,17 @@ private:
 
     QGraphicsView* m_view;
     KPPGraphicsScene* m_InspectionScene;
-    QGraphicsPixmapItem *m_BackgroundItem;
+
+  //  QGraphicsPixmapItem *m_BackgroundItem;
+
+    ImageHolder *m_ImageHolder;
+
     CaptureSource *m_capture;
     QString m_Name;
     KPPVisionList<ROI> *m_ROIs;
+    IplImage *m_CaptureImage;
+    IplImage *m_ProcessingImage;
+
 
 signals:
     void CaptureSourceChanging();

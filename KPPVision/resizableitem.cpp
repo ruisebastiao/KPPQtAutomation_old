@@ -195,10 +195,9 @@ void ResizableItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void ResizableItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
-
-    //    isselected=true;
-    //    update();
     QGraphicsItem::mousePressEvent(event);
+
+
 }
 
 

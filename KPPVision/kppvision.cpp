@@ -9,7 +9,7 @@ KPPVision::KPPVision(QObject *parent) :
 {
 
     m_Requests=new KPPVisionList<Request>(this);
-
+    m_SelectedRequest=0;
 }
 
 
@@ -58,6 +58,16 @@ KPPVisionList<Request> *KPPVision::Requests() const
 {
     return m_Requests;
 }
+Vision::Request *KPPVision::SelectedRequest() const
+{
+    return m_SelectedRequest;
+}
+
+void KPPVision::setSelectedRequest(Vision::Request *SelectedRequest)
+{
+    m_SelectedRequest = SelectedRequest;
+}
+
 
 
 
@@ -139,12 +149,13 @@ void KPPVision::setView(QGraphicsView *value)
 
 template<class Archive>
 inline  void load(Archive & ar, const unsigned int version)
-   {
+{
 
 }
 
 template<class Archive>
 inline  void save(Archive & ar, const unsigned int version)
-   {
+{
 
 }
+
