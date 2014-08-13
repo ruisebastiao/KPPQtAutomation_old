@@ -60,7 +60,7 @@ ConfigurationsWidget::ConfigurationsWidget(QWidget *parent) :
     ui->bt_cont_capture->hide();
 
     ui->bt_initializecam->setChecked(false);
-    ui->check_morecameraoptions->setVisible(false);
+    //ui->check_morecameraoptions->setVisible(false);
 
     ui->list_req->connect(ui->list_req,SIGNAL(selectionChangedSignal(QItemSelection,QItemSelection)),this,SLOT(selectionChanged(QItemSelection,QItemSelection)));
     ui->bt_removereq->setVisible(false);
@@ -437,7 +437,7 @@ void ConfigurationsWidget::CurrentIndexChanged(int currentIndex)
 
         if(selectedcam!=0){
 
-            ui->check_morecameraoptions->setVisible(true);
+            //ui->check_morecameraoptions->setVisible(true);
             connect(selectedcam,SIGNAL(CameraStateChaged(IDSCamera::CameraState)),this,SLOT(IDSCameraStateChanged(IDSCamera::CameraState)),Qt::UniqueConnection);
             connect(selectedcam,SIGNAL(CameraRunModeChaged(IDSCamera::CameraRunMode)),this,SLOT(IDSCameraRunModeChaged(IDSCamera::CameraRunMode)),Qt::UniqueConnection);
             connect(selectedcam,SIGNAL(ImageAvaibleSignal(QPixmap)),this,SLOT(NewImageSlot(QPixmap)),Qt::QueuedConnection);
@@ -459,7 +459,7 @@ void ConfigurationsWidget::CurrentIndexChanged(int currentIndex)
             }
         }
         else{
-            ui->check_morecameraoptions->setVisible(false);
+            //ui->check_morecameraoptions->setVisible(false);
         }
     }
 }

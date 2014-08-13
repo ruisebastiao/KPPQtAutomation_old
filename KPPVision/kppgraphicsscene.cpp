@@ -6,7 +6,7 @@
 KPPGraphicsScene::KPPGraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
 {
-
+    setSceneRect(0,0,0,0);
 }
 
 

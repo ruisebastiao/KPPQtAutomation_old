@@ -25,7 +25,7 @@ KPPAnimatedFrame::KPPAnimatedFrame(QWidget *parent) :
     animate_geometry->setStartValue(QRect());
     animate_geometry->setEndValue(QRect());
 
-    animate_opacity->setDuration(150);
+    animate_opacity->setDuration(100);
     animate_opacity->setStartValue(1);
     animate_opacity->setEndValue(1);
     m_visible=false;
@@ -33,7 +33,7 @@ KPPAnimatedFrame::KPPAnimatedFrame(QWidget *parent) :
     seq_animations=new QSequentialAnimationGroup(this);
 
     seq_animations->addAnimation(parallel_animations);
-    seq_animations->addPause(10);
+    //seq_animations->addPause(10);
     seq_animations->addAnimation(animate_finalgeometry);
 
 
@@ -84,7 +84,7 @@ void KPPAnimatedFrame::setAlignmentRect(const QRect &alignmentRect)
     animate_finalgeometry->setStartValue(geo_end);
 
     QRect geo_final=QRect(geo_end.topLeft(),geo_end.bottomRight());
-    geo_final.setHeight(geo_final.height()+50);
+    geo_final.setHeight(geo_final.height()+150);
     animate_finalgeometry->setEndValue(geo_final);
 }
 

@@ -35,7 +35,8 @@ public:
 
     CaptureSource *Capture() const;
     void setCapture(CaptureSource *capture);
-    void Process();
+
+    void Process(bool capture=true, bool process=true);
     void setView(QGraphicsView *view);
     QGraphicsView *getView() const;
     void UpdateScene();
@@ -48,16 +49,13 @@ public:
     ROI *SelectedROI() const;
     void setSelectedROI(ROI *SelectedROI);
 
-    IplImage *CaptureImage() const;
 
-
-    IplImage *ProcessingImage() const;
 
 
 private:
     ROI* m_SelectedROI;
     ResizableItem *m_SelectionRect;
-
+    bool CaptureImage();
     template<class Archive>
     void serialize(Archive &ar, const unsigned int file_version)
     {
@@ -85,8 +83,10 @@ private:
     CaptureSource *m_capture;
     QString m_Name;
     KPPVisionList<ROI> *m_ROIs;
-    IplImage *m_CaptureImage;
-    IplImage *m_ProcessingImage;
+
+
+    cv::Mat m_CaptureImage;
+    cv::Mat m_ProcessingImage;
 
 
 signals:
@@ -97,8 +97,9 @@ public slots:
 
 
 
+
 private slots:
-    void SceneSelectionChanged();
+   // void SceneSelectionChanged();
 };
 
 }

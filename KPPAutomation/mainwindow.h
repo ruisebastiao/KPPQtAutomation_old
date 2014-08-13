@@ -28,9 +28,6 @@ private slots:
     void bt_Cliked();
 
 
-
-    void on_pushButton_clicked();
-
     void on_treeWidget_clicked(const QModelIndex &index);
 
     void LoadDone(QObject *Sender);

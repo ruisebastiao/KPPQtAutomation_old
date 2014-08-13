@@ -159,15 +159,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     QMainWindow::mousePressEvent(event);
 }
 
-//void MainWindow::on_pushButton_clicked()
-//{
 
-//    vision= new KPPVision(this);
-//    vision->setView(ui->graphicsView);
-
-
-
-//}
 
 bool MainWindow::IsLineEdit(const QWidget *widget)
 {
@@ -184,12 +176,6 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now)
 }
 
 
-void MainWindow::on_pushButton_clicked()
-{
-
-    ui->treeWidget->collapseAll();
-
-}
 
 void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
 {

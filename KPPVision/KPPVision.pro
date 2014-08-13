@@ -33,7 +33,8 @@ SOURCES += kppvision.cpp \
     resizableitem.cpp \
     kppgraphicsview.cpp \
     kppgraphicsscene.cpp \
-    imageholder.cpp
+    imageholder.cpp \
+    kppvisionauxfunctions.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -41,8 +42,7 @@ HEADERS += kppvision.h\
     configurationswidget.h \
     sidewidget.h \
     SizeGripItem.h \
-    settings.h \
-    uics/ui_configurationswidget.h \
+    settings.h \    
     visiontreewidget.h \
     kppstyleditemdelegate.h \
     kppvisionlist.h \
@@ -58,7 +58,8 @@ HEADERS += kppvision.h\
     resizableitem.h \
     kppgraphicsview.h \
     kppgraphicsscene.h \
-    imageholder.h
+    imageholder.h \
+    kppvisionauxfunctions.h
 
 
 

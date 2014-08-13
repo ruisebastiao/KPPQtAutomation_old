@@ -4,6 +4,7 @@
 #include "qlineedit.h"
 #include "qfiledialog.h"
 
+using namespace cv;
 
 
 BOOST_CLASS_EXPORT(ImageFileCapture);
@@ -100,11 +101,11 @@ void ImageFileCapture::serialize(Archive &ar, const unsigned int file_version)
 
 
 
-IplImage *ImageFileCapture::GetImage()
+Mat ImageFileCapture::GetImage()
 {
 
     if(boost::filesystem::exists(m_imagepath.toStdString().c_str()))
-     return cvLoadImage(m_imagepath.toStdString().c_str());
+     return cv::imread(m_imagepath.toStdString().c_str());
     else
-        return 0;
+        return Mat();
 }

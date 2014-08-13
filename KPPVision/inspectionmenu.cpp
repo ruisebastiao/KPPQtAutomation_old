@@ -24,7 +24,18 @@ void InspectionMenu::setSelectedInspection(Vision::Inspection *SelectedInspectio
 
 }
 
-void InspectionMenu::on_pushButton_clicked()
+
+void InspectionMenu::on_bt_capture_clicked()
 {
-    m_SelectedInspection->Process();
+    m_SelectedInspection->Process(true,false);
+}
+
+void InspectionMenu::on_bt_capture_process_clicked()
+{
+    m_SelectedInspection->Process(true,true);
+}
+
+void InspectionMenu::on_bt_process_clicked()
+{
+    m_SelectedInspection->Process(false,true);
 }

@@ -21,7 +21,12 @@ public:
     Vision::Inspection *SelectedInspection();
     void setSelectedInspection(Vision::Inspection *SelectedInspection);
 private slots:
-    void on_pushButton_clicked();
+
+    void on_bt_capture_clicked();
+
+    void on_bt_capture_process_clicked();
+
+    void on_bt_process_clicked();
 
 private:
     Ui::InspectionMenu *ui;

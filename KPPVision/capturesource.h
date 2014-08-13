@@ -43,7 +43,7 @@ public:
     QTreeWidget *TreeSettings() const;
 
 
-    virtual IplImage* GetImage();
+    virtual cv::Mat GetImage();
 
 private:
 

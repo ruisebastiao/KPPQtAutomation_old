@@ -32,12 +32,12 @@ public:
 
 //    ResizableItem *ROIRect() const;
 //    void setROIRect(ResizableItem *ROIRect);
-    void Process(IplImage *processingImage);
+    void Process(cv::Mat processingImage);
 
 
 
 private:
-    IplImage* m_ProcessingImage;
+    cv::Mat m_ProcessingImage;
 
     QString m_Name;
     QGraphicsScene* m_Scene;
@@ -76,6 +76,7 @@ protected:
  // QGraphicsItem interface
 public:
 
+ void Process();
 };
 }
 #endif // KPPROI_H

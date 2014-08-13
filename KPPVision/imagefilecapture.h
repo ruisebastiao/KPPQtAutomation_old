@@ -26,7 +26,7 @@ private:
 
     // CaptureSource interface
 public:
-    IplImage *GetImage();
+    cv::Mat GetImage();
 };
 
 

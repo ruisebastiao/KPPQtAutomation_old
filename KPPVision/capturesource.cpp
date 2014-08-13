@@ -1,7 +1,7 @@
 #include "capturesource.h"
 #include "kppcommon.h"
 
-
+using namespace cv;
 
 QString CaptureSource::getSourceTypeName()
 {
@@ -22,9 +22,9 @@ QTreeWidget *CaptureSource::TreeSettings() const
     return m_TreeSettings;
 }
 
-IplImage *CaptureSource::GetImage()
+Mat CaptureSource::GetImage()
 {
-    return 0;
+    return Mat();
 }
 
 
