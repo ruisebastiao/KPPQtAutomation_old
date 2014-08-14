@@ -24,8 +24,9 @@ Inspection::Inspection(QObject *parent):
 
 
 
-    m_ImageHolder=new ImageHolder();
-    m_InspectionScene->addItem(m_ImageHolder);
+    m_BackgroundItem=m_InspectionScene->addPixmap(QPixmap());
+    //m_ImageHolder=new ImageHolder();
+    //m_InspectionScene->addItem(m_ImageHolder);
 
 }
 
@@ -73,7 +74,8 @@ void Inspection::setView(QGraphicsView* view)
         for (int var = 0; var < m_ROIs->rowCount(QModelIndex()); ++var) {
             ROI* roi=m_ROIs->data(m_ROIs->index(var,0),Qt::UserRole).value<ROI*>();
             if(roi!=0){
-                roi->setScene(m_InspectionScene,m_ImageHolder);
+                //roi->setScene(m_InspectionScene,m_ImageHolder);
+                roi->setScene(m_InspectionScene,m_BackgroundItem);
 
 
             }
@@ -95,24 +97,23 @@ void Inspection::UpdateScene(){
     }
 
 
-    if(m_InspectionScene->sceneRect()!=m_ImageHolder->boundingRect()){
-        //QRectF r=m_capturePixmap->boundingRect();
-        m_InspectionScene->setSceneRect(m_ImageHolder->boundingRect());
-
-        m_view->updateSceneRect(m_InspectionScene->sceneRect());
-        //m_view->setSceneRect(0, 0, m_capturePixmap->boundingRect().width(), m_capturePixmap->boundingRect().height());
-        m_view->fitInView(m_ImageHolder,Qt::KeepAspectRatio);
-
-
-    }
-
 
     if(m_view->scene()!=m_InspectionScene){
         m_view->setScene(m_InspectionScene);
-
+        m_view->fitInView(m_BackgroundItem,Qt::KeepAspectRatio);
         //m_InspectionScene->backgroundBrush()
     }
 
+//    if(m_InspectionScene->sceneRect()!=m_BackgroundItem->boundingRect()){
+
+//        m_InspectionScene->setSceneRect(m_BackgroundItem->boundingRect());
+
+
+
+//    }
+
+
+   // m_view->fitInView(m_BackgroundItem,Qt::KeepAspectRatio);
 
 
 
@@ -174,9 +175,10 @@ void Inspection::Process(bool capture,bool process)
 
 
 
-    m_ImageHolder->setImage(m_ProcessingImage);
-    m_ImageHolder->update(m_ImageHolder->boundingRect());
-    UpdateScene();
+  //  m_ImageHolder->setImage(m_ProcessingImage);
+   // m_ImageHolder->update(m_ImageHolder->boundingRect());
+
+
 
 
     if(process){
@@ -187,8 +189,8 @@ void Inspection::Process(bool capture,bool process)
         }
     }
 
-
-
+    m_BackgroundItem->setPixmap(QPixmap::fromImage(Vision::cvMat2QImage(m_ProcessingImage)));
+    UpdateScene();
 
 
 }

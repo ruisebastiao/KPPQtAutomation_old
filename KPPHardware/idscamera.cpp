@@ -62,6 +62,8 @@ void IDSCamera::InitializeSettings(){
 
     }
 
+
+
 }
 
 bool IDSCamera::stopThreadFrame(){
@@ -98,7 +100,7 @@ bool IDSCamera::initThreadFrame(){
 
         connect(m_framethread,SIGNAL(started()),m_IDSFrameHandler,SLOT(run()));
 
-        m_framethread->start(QThread::LowPriority);
+        m_framethread->start(QThread::HighPriority);
 
 
     }
@@ -189,6 +191,8 @@ void IDSCamera::setState(const CameraState &State)
                 initThreadFrame();
 
                 InitializeSettings();
+
+                nRet = is_ParameterSet(m_CameraHandler, IS_PARAMETERSET_CMD_LOAD_FILE, L"e:\\param.ini", NULL);
 
                 m_State = Started;
             }

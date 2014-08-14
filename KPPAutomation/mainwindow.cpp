@@ -181,3 +181,9 @@ void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
 {
 
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    //ui->graphicsView->scene()->
+
+}

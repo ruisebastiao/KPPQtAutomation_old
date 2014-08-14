@@ -56,7 +56,7 @@
             public:
                 HandleItem(int positionFlags, SizeGripItem* parent);
                 int positionFlags() const;
-
+                void UpdateRect(QRectF newrect);
             protected:
                  void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
                  void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
@@ -109,6 +109,9 @@
         void doResize(QRectF *newSize=0);
         //void doResize();
 
+        QList<HandleItem *> handleItems() const;
+
+
     protected:
         void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -119,7 +122,7 @@
         //void doResize();
 
 
-        QList<HandleItem*> handleItems_;
+        QList<HandleItem*> m_handleItems;
         QRectF rect_;
         Resizer* resizer_;
 };

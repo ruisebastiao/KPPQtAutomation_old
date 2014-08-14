@@ -180,7 +180,7 @@ void VisionTreeWidget::ListItemSwipeRight()
 
     }
     else  if(sender()->objectName()==list_Inspections->objectName()){
-        m_inspectionmenu->setSelectedInspection(m_SelectedProject->SelectedRequest()->SelectedInspection());
+
 
         m_inspectionmenu->show();
 
@@ -632,7 +632,7 @@ void VisionTreeWidget::setSelectedRequest(Request *value)
 void VisionTreeWidget::setSelectedInspection(Inspection *value)
 {
 
-
+      m_inspectionmenu->setSelectedInspection(value);
     if(m_SelectedProject->SelectedRequest()->SelectedInspection()!=0){
         disconnect(m_SelectedProject->SelectedRequest()->SelectedInspection()->ROIs(),SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
                    this,0);

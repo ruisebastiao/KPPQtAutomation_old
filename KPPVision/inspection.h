@@ -11,7 +11,7 @@
 #include "opencv2/opencv.hpp"
 #include "kppgraphicsscene.h"
 #include "kpproi.h"
-
+#include "kppvisionauxfunctions.h"
 #include "BoostDef.h"
 #include "imageholder.h"
 
@@ -76,9 +76,9 @@ private:
     QGraphicsView* m_view;
     KPPGraphicsScene* m_InspectionScene;
 
-  //  QGraphicsPixmapItem *m_BackgroundItem;
+    QGraphicsPixmapItem *m_BackgroundItem;
 
-    ImageHolder *m_ImageHolder;
+    //ImageHolder *m_ImageHolder;
 
     CaptureSource *m_capture;
     QString m_Name;

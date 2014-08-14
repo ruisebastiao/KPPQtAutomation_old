@@ -27,6 +27,7 @@ private slots:
     void on_bt_capture_process_clicked();
 
     void on_bt_process_clicked();
+    void shortcutActivated();
 
 private:
     Ui::InspectionMenu *ui;

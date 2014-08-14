@@ -11,6 +11,11 @@ ROI::ROI(QObject *parent) :
     m_Name="New ROI";
     m_Scene=0;
     setVisible(false);
+    for (int var = 0; var < getSizeGripItem()->handleItems().count(); ++var) {
+        QRectF rect=getSizeGripItem()->handleItems()[var]->rect();
+        rect.adjust(-10,-10,10,10);
+        getSizeGripItem()->handleItems()[var]->UpdateRect(rect);
+    }
 }
 QString ROI::getName() const
 {
@@ -30,9 +35,14 @@ void ROI::sceneRectChangedSlot(QRectF newrect){
     //   QPointF p=m_ROIRect->pos();
     //   m_ROIRect->setPos(p);
 
-    if(newrect.width()>boundingRect().width() &&
-            newrect.height()>boundingRect().height()){
+    if(!parentItem()->boundingRect().isEmpty()){
+
+
+
+
+
         setVisible(true);
+
 
     }
     else{
@@ -77,7 +87,7 @@ void ROI::Process(Mat processingImage)
     Mat roiImagegray;
     cvtColor(roiImage,roiImagegray,CV_BGR2GRAY);
 
-    threshold(roiImagegray,roiImagegray,100,255,cv::THRESH_BINARY);
+    threshold(roiImagegray,roiImagegray,85,255,cv::THRESH_BINARY);
 
     cv::vector<Mat> channels;
     channels.push_back(roiImagegray);
@@ -85,7 +95,7 @@ void ROI::Process(Mat processingImage)
     channels.push_back(roiImagegray);
 
     merge(channels,roiImage);
-     QRectF temp=rect();
+    QRectF temp=rect();
     //temp.adjust(,2,2,2);
     parentItem()->update(parentItem()->boundingRect());
     //parentItem()->update(mapRectToParent(temp));

@@ -56,6 +56,14 @@ int SizeGripItem::HandleItem::positionFlags() const
     return positionFlags_;
 }
 
+void SizeGripItem::HandleItem::UpdateRect(QRectF newrect)
+{
+    setFlag(ItemSendsGeometryChanges, false);
+    if(rect()!=newrect)
+        this->setRect(newrect);
+    setFlag(ItemSendsGeometryChanges, true);
+}
+
 void SizeGripItem::HandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 
     QGraphicsItem::mouseMoveEvent(event);
@@ -72,7 +80,7 @@ void SizeGripItem::HandleItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event){
     //if (positionFlags_ & Top)
     //  setCursor(Qt::SizeFDiagCursor);
 
-    mousehover=true;
+
 
     //event->accept();
     QGraphicsItem::hoverMoveEvent(event);
@@ -225,14 +233,14 @@ SizeGripItem::SizeGripItem(Resizer* resizer, QGraphicsItem* parent)
     if (parentItem())
         rect_ = parentItem()->boundingRect();
 
-    handleItems_.append(new HandleItem(TopLeft, this));
-    handleItems_.append(new HandleItem(Top, this));
-    handleItems_.append(new HandleItem(TopRight, this));
-    handleItems_.append(new HandleItem(Right, this));
-    handleItems_.append(new HandleItem(BottomRight, this));
-    handleItems_.append(new HandleItem(Bottom, this));
-    handleItems_.append(new HandleItem(BottomLeft, this));
-    handleItems_.append(new HandleItem(Left, this));
+    m_handleItems.append(new HandleItem(TopLeft, this));
+    m_handleItems.append(new HandleItem(Top, this));
+    m_handleItems.append(new HandleItem(TopRight, this));
+    m_handleItems.append(new HandleItem(Right, this));
+    m_handleItems.append(new HandleItem(BottomRight, this));
+    m_handleItems.append(new HandleItem(Bottom, this));
+    m_handleItems.append(new HandleItem(BottomLeft, this));
+    m_handleItems.append(new HandleItem(Left, this));
     //handleItems_.append(new HandleItem(Center, this));
     //handleItems_.at(0)->setAcceptHoverEvents(true);
     updateHandleItemPositions();
@@ -317,7 +325,7 @@ void SizeGripItem::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 void SizeGripItem::updateHandleItemPositions()
 {
-    foreach (HandleItem* item, handleItems_)
+    foreach (HandleItem* item, m_handleItems)
     {
         item->setFlag(ItemSendsGeometryChanges, false);
 
@@ -359,11 +367,21 @@ void SizeGripItem::updateHandleItemPositions()
         item->setFlag(ItemSendsGeometryChanges, true);
     }
 }
+QList<SizeGripItem::HandleItem *> SizeGripItem::handleItems() const
+{
+    return m_handleItems;
+}
+
+
+
 
 
 void SizeGripItem::HandleItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     //parentItem()->parentItem()->setFlag(QGraphicsItem::ItemIsSelectable,false);
+
+    mousehover=true;
+    QGraphicsItem::hoverEnterEvent(event);
 }
 
 

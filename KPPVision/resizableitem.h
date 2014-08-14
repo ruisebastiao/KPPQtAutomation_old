@@ -15,7 +15,7 @@ class KPPVISIONSHARED_EXPORT ResizableItem :public QObject,public QGraphicsRectI
  //
 
 private:
-    SizeGripItem* rectSizeGripItem;
+    SizeGripItem* m_SizeGripItem;
 
 
 
@@ -118,6 +118,9 @@ public:
     QRectF boundingRect() const;
 
     // QGraphicsItem interface
+    SizeGripItem *getSizeGripItem() const;
+
+
 protected:
     bool sceneEvent(QEvent *event);
 

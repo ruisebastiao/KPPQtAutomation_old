@@ -81,7 +81,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Capture</string>
+          <string>Capture (F3)</string>
          </property>
         </widget>
        </item>

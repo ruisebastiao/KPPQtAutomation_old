@@ -35,6 +35,8 @@ private slots:
 
     void InspectionInserted(QModelIndex,int,int);
 
+    void on_pushButton_clicked();
+
 public slots:
     void focusChanged(QWidget* old, QWidget* now);
 protected:

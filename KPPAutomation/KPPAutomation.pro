@@ -65,8 +65,8 @@ INCLUDEPATH += $$PWD/../ExternalLibs/OpenCV/include
 DEPENDPATH += $$PWD/../ExternalLibs/OpenCV/include
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCored
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore -lQxtWidgets
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCored -lQxtWidgetsd
 else:unix: LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
 
 INCLUDEPATH += $$PWD/../ExternalLibs/Qxt/include

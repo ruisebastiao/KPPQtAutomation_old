@@ -101,4 +101,12 @@ else:unix: LIBS += -L$$PWD/../ExternalLibs/OpenCV/lib/ -lopencv_core249
 INCLUDEPATH += $$PWD/../ExternalLibs/OpenCV/include
 DEPENDPATH += $$PWD/../ExternalLibs/OpenCV/include
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore -lQxtWidgets
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCored -lQxtWidgetsd
+else:unix: LIBS += -L$$PWD/../ExternalLibs/Qxt/lib/ -lQxtCore
+
+INCLUDEPATH += $$PWD/../ExternalLibs/Qxt/include
+DEPENDPATH += $$PWD/../ExternalLibs/Qxt/include
+
 #PRECOMPILED_HEADER +=BoostDef.h

@@ -69,14 +69,21 @@ public:
 ////        qDebug()<<"rect:"<<mapRectToParent(m_rect);
 //    }
 
+
+SizeGripItem *ResizableItem::getSizeGripItem() const
+{
+    return m_SizeGripItem;
+}
+
+
 ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem):
     QGraphicsRectItem(-50,-50,100,100,parentitem)
 {
 
 
 
-   //qDebug()<<
-        //teste.readRawData()
+    //qDebug()<<
+    //teste.readRawData()
     //    temp.adjust(-5,-5,5,5);
     //    bound(temp);
     //setRect(-50,-50,100,100);
@@ -100,8 +107,9 @@ ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem):
     setAcceptHoverEvents(true);
 
     isselected=false;
-    rectSizeGripItem =
+    m_SizeGripItem =
             new SizeGripItem(new RectResizer, this);
+
 
     Resize(&boundingRect());
 
@@ -109,7 +117,7 @@ ResizableItem::ResizableItem(QObject *parent, QGraphicsItem *parentitem):
 
 }
 void ResizableItem::Resize(QRectF *NewRect){
-    rectSizeGripItem->doResize(NewRect);
+    m_SizeGripItem->doResize(NewRect);
     //setRect(0,0,500,500);
 }
 

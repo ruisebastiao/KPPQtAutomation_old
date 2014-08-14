@@ -31,7 +31,7 @@
 
 #define QXTGLOBALSHORTCUT_H
 
-#include "qxtglobal.h"
+#include "QxtCore/qxtglobal.h"
 #include <QObject>
 #include <QKeySequence>
 class QxtGlobalShortcutPrivate;
