@@ -77,19 +77,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::ActionButtonClicked(QToolButton *buttonClicked)
 {
-    /*if (buttonClicked->text()==tr("Configurations")) {
+    if (buttonClicked->text()==tr("Configurations")) {
 
-        configs->ToogleState();
+        visionmodule->toogleModuleSettings();
 
     }
-    else*/ if (buttonClicked->text()==tr("Exit")) {
+    else if (buttonClicked->text()==tr("Exit")) {
         this->close();
     }
 }
 
 void MainWindow::bt_Cliked(){
 
-    visionmodule->toogleSideMenu();
+
 
 
 }

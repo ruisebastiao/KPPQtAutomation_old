@@ -17,7 +17,7 @@ class KPPVISIONSHARED_EXPORT VisionWindow : public QFrame
 public:
     explicit VisionWindow(QWidget *parent = 0);
     ~VisionWindow();
-    void toogleSideMenu();
+    void toogleModuleSettings();
 
 private slots:
     void VisionTreeListSelectionChanged(QObject *newselection);

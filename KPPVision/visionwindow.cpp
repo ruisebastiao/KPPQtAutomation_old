@@ -56,9 +56,9 @@ VisionWindow::~VisionWindow()
     delete ui;
 }
 
-void VisionWindow::toogleSideMenu()
+void VisionWindow::toogleModuleSettings()
 {
-
+ configs->ToogleState();
 }
 
 
