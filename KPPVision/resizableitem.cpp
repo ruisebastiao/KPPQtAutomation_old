@@ -125,14 +125,14 @@ void ResizableItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     if(isSelected()){
     //if(isselected){
-        painter->setPen(QPen(Qt::red, 1, Qt::DashLine));
+        painter->setPen(QPen(Qt::red, 2, Qt::DashLine));
         QRectF bound=QRectF(boundingRect());
         //bound.adjust(-2,-2,2,2);
         painter->drawRect(bound);
     }
     //   else{
     // # Paint rectangle
-    painter->setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
+    painter->setPen(QPen(Qt::yellow, 2, Qt::SolidLine));
 
     painter->drawRect(rect());
     //  }

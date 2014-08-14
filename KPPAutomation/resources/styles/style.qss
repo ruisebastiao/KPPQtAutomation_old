@@ -136,6 +136,8 @@ QToolButton:pressed {
         border-left: 1px;
 }
 
+
+
 QPushButton {
         border: 1px solid #6593cf;
         border-radius: 2px;
@@ -149,12 +151,6 @@ QPushButton {
 
 
 
-QPushButton:hover,QPushButton:hover:on{
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
-                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
-}
-
-
 
 QPushButton:pressed {
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
@@ -165,12 +161,20 @@ QPushButton:pressed {
 }
 
 
+
 QPushButton:on {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
         stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
         padding-top: 2px;
         padding-left: 3px;
 }
+
+
+QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
 
 QPushButton:disabled {
         background: transparent #e5e9ee;
@@ -178,6 +182,9 @@ QPushButton:disabled {
         padding-left: 3px;
         color: black;
 }
+
+
+
 
 QCheckBox {
         border: 0px;

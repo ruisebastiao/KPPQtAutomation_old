@@ -4,7 +4,7 @@
 #include "kppvision.h"
 #include "configurationswidget.h"
 #include "QToolButton"
-
+#include "visionwindow.h"
 
 
 
@@ -28,14 +28,8 @@ private slots:
     void bt_Cliked();
 
 
-    void on_treeWidget_clicked(const QModelIndex &index);
-
     void LoadDone(QObject *Sender);
-    void VisionTreeListSelectionChanged(QObject *);
 
-    void InspectionInserted(QModelIndex,int,int);
-
-    void on_pushButton_clicked();
 
 public slots:
     void focusChanged(QWidget* old, QWidget* now);
@@ -43,10 +37,10 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 private:
     Ui::MainWindow *ui;
-    ConfigurationsWidget *configs;
-    KPPVision *vision;
+
     bool FirstRun;
-    //IDSCamera *camera;
+
+    VisionWindow* visionmodule;
 
     void SetupSideMenu();
     bool IsLineEdit(const QWidget *widget);

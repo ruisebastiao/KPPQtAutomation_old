@@ -43,6 +43,7 @@ void SideWidget::setMenuState(const State &value)
     //end=QRect(0, 0, sizeHint().width(), sizeHint().height());
 
     QPropertyAnimation *animation1 = new QPropertyAnimation(this, "maximumWidth");
+    connect(animation1,SIGNAL(finished()),parentWidget(),SLOT(update()));
     //QPropertyAnimation *animation1 = new QPropertyAnimation(this, "geometry");
     animation1->setDuration(250);
     switch (value) {

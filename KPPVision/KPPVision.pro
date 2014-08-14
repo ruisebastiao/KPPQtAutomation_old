@@ -34,7 +34,8 @@ SOURCES += kppvision.cpp \
     kppgraphicsview.cpp \
     kppgraphicsscene.cpp \
     imageholder.cpp \
-    kppvisionauxfunctions.cpp
+    kppvisionauxfunctions.cpp \
+    visionwindow.cpp
 
 HEADERS += kppvision.h\
         kppvision_global.h \
@@ -59,7 +60,8 @@ HEADERS += kppvision.h\
     kppgraphicsview.h \
     kppgraphicsscene.h \
     imageholder.h \
-    kppvisionauxfunctions.h
+    kppvisionauxfunctions.h \
+    visionwindow.h
 
 
 
@@ -75,7 +77,8 @@ unix {
 FORMS += \
     configurationswidget.ui \
     requestmenu.ui \
-    inspectionmenu.ui
+    inspectionmenu.ui \
+    visionwindow.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../KPPCommon/release/ -lKPPCommon
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../KPPCommon/debug/ -lKPPCommon
@@ -110,3 +113,6 @@ INCLUDEPATH += $$PWD/../ExternalLibs/Qxt/include
 DEPENDPATH += $$PWD/../ExternalLibs/Qxt/include
 
 #PRECOMPILED_HEADER +=BoostDef.h
+
+RESOURCES += \
+    resources/visionres.qrc

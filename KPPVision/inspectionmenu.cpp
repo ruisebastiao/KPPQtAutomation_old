@@ -47,17 +47,13 @@ void InspectionMenu::on_bt_capture_clicked()
 
 void InspectionMenu::on_bt_capture_process_clicked()
 {
+ if(m_SelectedInspection!=0)
     m_SelectedInspection->Process(true,true);
 }
 
 void InspectionMenu::on_bt_process_clicked()
 {
-    m_SelectedInspection->Process(false,true);
+    if(m_SelectedInspection!=0)
+        m_SelectedInspection->Process(false,true);
 }
 
-void InspectionMenu::shortcutActivated()
-{
-    if(true){
-
-    }
-}

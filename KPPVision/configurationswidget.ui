@@ -274,19 +274,6 @@
                              </widget>
                             </item>
                             <item>
-                             <widget class="QPushButton" name="bt_idscameras_refresh">
-                              <property name="maximumSize">
-                               <size>
-                                <width>100</width>
-                                <height>16777215</height>
-                               </size>
-                              </property>
-                              <property name="text">
-                               <string>Refresh</string>
-                              </property>
-                             </widget>
-                            </item>
-                            <item>
                              <widget class="QCheckBox" name="check_morecameraoptions">
                               <property name="sizePolicy">
                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -296,6 +283,19 @@
                               </property>
                               <property name="text">
                                <string>CheckBox</string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QPushButton" name="bt_idscameras_refresh">
+                              <property name="maximumSize">
+                               <size>
+                                <width>100</width>
+                                <height>16777215</height>
+                               </size>
+                              </property>
+                              <property name="text">
+                               <string>Refresh</string>
                               </property>
                              </widget>
                             </item>
@@ -703,8 +703,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>706</width>
-                       <height>366</height>
+                       <width>91</width>
+                       <height>97</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -864,8 +864,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>672</width>
-                          <height>412</height>
+                          <width>91</width>
+                          <height>97</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -1009,8 +1009,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>672</width>
-                          <height>412</height>
+                          <width>276</width>
+                          <height>96</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -1272,8 +1272,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>658</width>
-                          <height>398</height>
+                          <width>276</width>
+                          <height>96</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_28">

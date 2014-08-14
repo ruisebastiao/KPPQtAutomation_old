@@ -10,6 +10,7 @@
 #include "QDesktopWidget"
 #include "swipegesturerecognizer.h"
 
+
 using namespace Vision;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -25,22 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
         grabGesture(QGestureRecognizer::registerRecognizer(pRecognizer));
     }
 
-    new Settings(this);
-
-
-
-    //Seet
-
-    if(!(Settings::AppSettings->Load(qApp->applicationDirPath().append("/settings.cfg")))){
-       Settings::AppSettings->Save();
-    }
-
-    //QString teste=Settings::AppSettings->ProjectsFilePath();
 
     ui->actionlayout->setMargin(0);
     ui->actionlayout->setSizeConstraint(QLayout::SetNoConstraint);
 
-    ActionBar* actionBar=new ActionBar(ui->mainWidget);
+    ActionBar* actionBar=new ActionBar(ui->centralWidget);
     //actionBar->setTitle(tr("News"),true);
     //actionBar->addAction(new QAction(tr("Weather"),this));
     //actionBar->addAction(new QAction(tr("Sports"),this));
@@ -60,71 +50,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->actionlayout->addWidget(actionBar);
 
+    visionmodule= new VisionWindow(this);
+    ui->modulelayout->addWidget(visionmodule);
     //connect(Settings::AppSettings->Projects(),SIGNAL(Loaded(QObject*)),this,SLOT(LoadDone(QObject*)));
 
 
-    if(!Settings::AppSettings->Projects()->Load(Settings::AppSettings->ProjectsFilePath())){
-        Settings::AppSettings->Projects()->Save();
-    }
-    ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
 
-    //Settings::AppSettings->Projects()->AddItem("asd");
-
-
-    configs= new ConfigurationsWidget (this);
-
-
-
-    connect(ui->treeWidget,SIGNAL(ListSelectionChanged(QObject*)),this,SLOT(VisionTreeListSelectionChanged(QObject*)));
-
-     Settings::mainwidget=this;
-
-
-     for(KPPVision *project : Settings::AppSettings->Projects()->getList()) {
-         for(Request *request: project->Requests()->getList()) {
-             connect(request->Inspections(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(InspectionInserted(QModelIndex,int,int)));
-             for(Inspection *inspection: request->Inspections()->getList()) {
-
-                 inspection->setView(ui->graphicsView);
-
-             }
-
-         }
-
-     }
-
-     ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-        ui->graphicsView->setCacheMode(QGraphicsView::CacheNone);
 }
 
-void MainWindow::VisionTreeListSelectionChanged(QObject* newselection){
-    if (dynamic_cast<KPPVision*>(newselection)) {
-
-        configs->setSelectedProject(dynamic_cast<KPPVision*>(newselection));
-    }
-    else if (dynamic_cast<Request*>(newselection)) {
-        configs->setSelectedRequest(dynamic_cast<Request*>(newselection));
-    }
-    else if (dynamic_cast<Inspection*>(newselection)) {
-        configs->setSelectedInspection(dynamic_cast<Inspection*>(newselection));
-    }
-}
-
-void MainWindow::InspectionInserted(QModelIndex index, int start, int end)
-{
-
-
-    Inspection* insp=index.data(Qt::UserRole).value<Inspection*>();
-    if(insp!=0)
-        insp->setView(ui->graphicsView);
-}
 
 void MainWindow::LoadDone(QObject* Sender){
 
 
-    if (dynamic_cast<KPPVisionList<KPPVision>*>(Sender)) {
-        ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
-    }
+//    if (dynamic_cast<KPPVisionList<KPPVision>*>(Sender)) {
+//        ui->treeWidget->AddVisionProjectsModel(Settings::AppSettings->Projects());
+//    }
 
 }
 
@@ -137,19 +77,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::ActionButtonClicked(QToolButton *buttonClicked)
 {
-    if (buttonClicked->text()==tr("Configurations")) {
+    /*if (buttonClicked->text()==tr("Configurations")) {
 
         configs->ToogleState();
 
     }
-    else if (buttonClicked->text()==tr("Exit")) {
+    else*/ if (buttonClicked->text()==tr("Exit")) {
         this->close();
     }
 }
 
 void MainWindow::bt_Cliked(){
 
-    ui->sideWidget-> toogleMenuState();
+    visionmodule->toogleSideMenu();
+
 
 }
 
@@ -177,13 +118,3 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now)
 
 
 
-void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
-{
-
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    //ui->graphicsView->scene()->
-
-}

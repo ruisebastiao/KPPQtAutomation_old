@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="next">icons/ic_action_next_item.png</file>
+        <file alias="prev">icons/ic_action_previous_item.png</file>
+    </qresource>
+</RCC>
