@@ -22,7 +22,7 @@ Inspection::Inspection(QObject *parent):
     m_ROIs=new KPPVisionList<ROI>(this);
     m_SelectedROI=0;
 
-
+    m_view=0;
 
     m_BackgroundItem=m_InspectionScene->addPixmap(QPixmap());
     //m_ImageHolder=new ImageHolder();
@@ -90,8 +90,10 @@ QGraphicsView *Inspection::getView() const
 
 void Inspection::UpdateScene(){
 
+    if(m_view==0) return;
 
     if(m_CaptureImage.empty()){
+
         m_view->setScene(0);
         return;
     }
@@ -100,9 +102,11 @@ void Inspection::UpdateScene(){
 
     if(m_view->scene()!=m_InspectionScene){
         m_view->setScene(m_InspectionScene);
-        m_view->fitInView(m_BackgroundItem,Qt::KeepAspectRatio);
+
         //m_InspectionScene->backgroundBrush()
     }
+
+
 
 //    if(m_InspectionScene->sceneRect()!=m_BackgroundItem->boundingRect()){
 
@@ -113,7 +117,7 @@ void Inspection::UpdateScene(){
 //    }
 
 
-   // m_view->fitInView(m_BackgroundItem,Qt::KeepAspectRatio);
+    m_view->fitInView(m_BackgroundItem,Qt::KeepAspectRatio);
 
 
 

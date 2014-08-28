@@ -22,7 +22,7 @@ private:
     bool gestureEvent(QGestureEvent *event);
     bool swipeTriggered(QSwipeGesture *pSwipe);
     void setExpandOthers(bool value);
-    bool m_WasGesture=false;
+    bool m_WasGesture;
 signals:
 
 public slots:

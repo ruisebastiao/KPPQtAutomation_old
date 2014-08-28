@@ -30,18 +30,29 @@ VisionWindow::VisionWindow(QWidget *parent) :
     Settings::mainwidget=this;
 
 
-    for(KPPVision *project : Settings::AppSettings->Projects()->getList()) {
-        for(Request *request: project->Requests()->getList()) {
+    foreach (KPPVision *project, Settings::AppSettings->Projects()->getList()) {
+        foreach (Request *request, project->Requests()->getList()) {
             connect(request->Inspections(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(InspectionInserted(QModelIndex,int,int)));
-            for(Inspection *inspection: request->Inspections()->getList()) {
-
+            foreach (Inspection *inspection, request->Inspections()->getList()) {
                 inspection->setView(ui->graphicsView);
-
             }
 
         }
-
     }
+
+
+//    for(KPPVision *project : Settings::AppSettings->Projects()->getList()) {
+//        for(Request *request: project->Requests()->getList()) {
+//            connect(request->Inspections(),SIGNAL(rowsInserted(QModelIndex,int,int)),this,SLOT(InspectionInserted(QModelIndex,int,int)));
+//            for(Inspection *inspection: request->Inspections()->getList()) {
+
+//                inspection->setView(ui->graphicsView);
+
+//            }
+
+//        }
+
+//    }
 
     ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     ui->graphicsView->setCacheMode(QGraphicsView::CacheNone);

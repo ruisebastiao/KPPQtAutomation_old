@@ -55,7 +55,7 @@
 
 #include <initguid.h>
 
-const char uEyeCaptureInterfaceVersion[] = "3.0.14";
+const char uEyeCaptureInterfaceVersion[] = "3.0.16";
 
 
 // {67030826-2EE0-44e7-BE1A-6A3BDB5B47FE}
@@ -2584,7 +2584,6 @@ interface IuEyeAOI : public IUnknown
      */
     STDMETHOD(AOI_GetMinMaxPosX)(INT* pnMin, INT* pnMax) = 0;
 
-
     /*!
      * \brief Get the minimum and maximum value of the vertical position of the AOI.
      * \param   pnMin   variable containing the smallest possible horizontal position.
@@ -2619,6 +2618,49 @@ interface IuEyeAOI : public IUnknown
      * \note the generic access function is provided for future use.
      */
     STDMETHOD(AOI_Generic)(unsigned long ulCommand, void* pParam, unsigned long ulSize) = 0;
+
+    /*!
+     * \brief Set the current image area of interest in absolute uEye coordinates.
+     * \param   rectAOI   variable of type IS_RECT containing the new AOI coordinates.
+	 * \return	HRESULT	S_OK on success, error code otherwise.
+     */
+    STDMETHOD(AOI_SetImageAOI)(IS_RECT rectAOI) = 0;
+
+    /*!
+     * \brief Get the current image area of interest in absolute uEye coordinates.
+     * \param   pRectAOI   output location containing aoi information (x, y, width, height).
+	 * \return	HRESULT	S_OK on success, error code otherwise.
+     */
+    STDMETHOD(AOI_GetImageAOI)(IS_RECT *pRectAOI) = 0;
+
+    /*!
+     * \brief Get the current area of interest used by auto exposure feature (if not set the actual image AOI is used).
+     * \param   pRectAOI   output location containing aoi information (x, y, width, height).
+	 * \return	HRESULT	S_OK on success, error code otherwise.
+     */
+    STDMETHOD (AOI_GetAutoBrightnessAOI)(IS_RECT *pRectAOI) = 0;
+
+    /*!
+     * \brief Set the current area of interest used by auto exposure feature.
+     * \param   rectAOI   variable of type IS_RECT containing the new AOI coordinates.
+	 * \return	HRESULT	S_OK on success, error code otherwise.
+     */
+    STDMETHOD(AOI_SetAutoBrightnessAOI)(IS_RECT rectAOI) = 0;
+
+    /*!
+     * \brief Get the current area of interest used by auto white balance feature (if not set the actual image AOI is used).
+     * \param   pRectAOI   output location containing aoi information (x, y, width, height).
+	 * \return	HRESULT	S_OK on success, error code otherwise.
+     */
+    STDMETHOD(AOI_GetAutoWBAOI)(IS_RECT *pRectAOI) = 0;
+
+    /*!
+     * \brief Set the current area of interest used by auto white balance feature.
+     * \param   rectAOI   variable of type IS_RECT containing the new AOI coordinates.
+	 * \return	HRESULT	S_OK on success, error code otherwise.
+     */
+    STDMETHOD(AOI_SetAutoWBAOI)(IS_RECT rectAOI) = 0;
+
 };
 /*!
  * \}

@@ -648,6 +648,16 @@ long CuEyeCam::SetPixelClock(long nMhz)
 	return result;
 }
 
+long CuEyeCam::GetNumberOfPixelClocks(UINT* nNumber)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x19F, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+        nNumber);
+	return result;
+}
+
 double CuEyeCam::GetFrameRate()
 {
 	double result;
@@ -1461,6 +1471,66 @@ long CuEyeCam::GetColorDepth(long *pnCol, long *pnColMode)
 		VTS_PI4 VTS_PI4;
 	InvokeHelper(0xC6, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
         pnCol, pnColMode);
+	return result;
+}
+
+long CuEyeCam::IO_GPIO(unsigned long nCommand, long* pnMode)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_UI4 VTS_PI4;
+	InvokeHelper(0x147, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnMode);
+	return result;
+}
+
+long CuEyeCam::IO_Flash(unsigned long nCommand, long* pnMode)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_UI4 VTS_PI4;
+	InvokeHelper(0x148, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnMode);
+	return result;
+}
+
+long CuEyeCam::IO_Flash_Parameters(unsigned long nCommand, long* pnDelay, long* pnDuration)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x149, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnDelay, pnDuration);
+	return result;
+}
+
+long CuEyeCam::IO_PWM(unsigned long nCommand, long* pnMode)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_UI4 VTS_PI4;
+	InvokeHelper(0x14A, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnMode);
+	return result;
+}
+
+long CuEyeCam::IO_PWM_Parameters(unsigned long nCommand, double* pdblFrequencey, double* pdblDutyCycle)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_UI4 VTS_PR8 VTS_PR8;
+	InvokeHelper(0x14B, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pdblFrequencey, pdblDutyCycle);
+	return result;
+}
+
+long CuEyeCam::IO_LED(unsigned long nCommand, long* pnMode)
+{
+	long result;
+    static BYTE parms[] =
+		VTS_UI4 VTS_PI4;
+	InvokeHelper(0x14C, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnMode);
 	return result;
 }
 
@@ -2685,20 +2755,22 @@ long CuEyeCam::GetTriggerStatus()
 	return result;
 }
 
+long CuEyeCam::SetAutoSkipframe(long newVal)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_I4;
+	InvokeHelper(0x14D, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		newVal);
+	return result;
+}
 
 long CuEyeCam::GetAutoSkipframe()
 {
 	long result;
-    GetProperty(0x13F, VT_I4, (void*)&result);
-    return result;
+	InvokeHelper(0x14E, DISPATCH_METHOD, VT_I4, (void*)&result, NULL);
+	return result;
 }
-
-
-void CuEyeCam::SetAutoSkipframe(int newVal)
-{
-	SetProperty(0x13F, VT_I4, newVal);
-}
-
 
 long CuEyeCam::GetAutoSkipframeMinRange()
 {
@@ -2715,20 +2787,22 @@ long CuEyeCam::GetAutoSkipframeMaxRange()
 	return result;
 }
 
+long CuEyeCam::SetAutoHysteresis(long newVal)
+{    	
+	long result;
+    static BYTE parms[] = 
+		VTS_I4;
+	InvokeHelper(0x14F, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		newVal);
+	return result;
+}
 
 long CuEyeCam::GetAutoHysteresis()
 {
 	long result;
-    GetProperty(0x142, VT_I4, (void*)&result);
-    return result;
+	InvokeHelper(0x150, DISPATCH_METHOD, VT_I4, (void*)&result, NULL);
+	return result;
 }
-
-
-void CuEyeCam::SetAutoHysteresis(int newVal)
-{    	
-	SetProperty(0x142, VT_I4, newVal);
-}
-
 
 long CuEyeCam::GetAutoHysteresisMinRange()
 {
@@ -2742,5 +2816,739 @@ long CuEyeCam::GetAutoHysteresisMaxRange()
 {
 	long result;
 	InvokeHelper(0x144, DISPATCH_METHOD, VT_I4, (void*)&result, NULL);
+	return result;
+}
+
+long CuEyeCam::Exposure(UINT nCommand, double* pdblValue)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_UI4 VTS_PR8;
+	InvokeHelper(0x151, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pdblValue);
+	return result;
+}
+
+long CuEyeCam::ExposureRange(UINT nCommand, double* pdblMin, double* pdblMax, double* pdblInc)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_UI4 VTS_PR8 VTS_PR8 VTS_PR8;
+	InvokeHelper(0x152, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pdblMin, pdblMax, pdblInc);
+	return result;
+}
+
+long CuEyeCam::ExposureSupported(UINT nCommand, UINT* pnCap)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x153, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnCap);
+	return result;
+}
+
+long CuEyeCam::Trigger(UINT nCommand, UINT* pnValue)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x154, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::TriggerRange(UINT nCommand, UINT* pnMin, UINT* pnMax, UINT* pnInc)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_UI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x155, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnMin, pnMax, pnInc);
+	return result;
+}
+
+long CuEyeCam::TriggerSupported(UINT nCommand, UINT* pnCap)
+{
+	long result;
+    static BYTE parms[] = 
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x156, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		nCommand, pnCap);
+	return result;
+}
+
+long CuEyeCam::EdgeEnhancement(UINT nCommand, UINT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x157, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::EdgeEnhancementRange(UINT nCommand, UINT* pnMin, UINT* pnMax, UINT* pnInc)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x158, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnMin, pnMax, pnInc);
+	return result;
+}
+
+long CuEyeCam::AutoParameter(UINT nCommand, UINT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x159, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::PixelClock(UINT nCommand, UINT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x15A, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::PixelClockRange(UINT nCommand, UINT* pnMin, UINT* pnMax, UINT* pnInc)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x15B, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnMin, pnMax, pnInc);
+	return result;
+}
+
+VARIANT CuEyeCam::GetPixelClockList(UINT nSizeOfList)
+{
+	VARIANT result;
+	static BYTE parms[] =
+		VTS_UI4;
+	InvokeHelper(0x15C, DISPATCH_METHOD, VT_VARIANT, (void*)&result, parms,
+		nSizeOfList);
+	return result;
+}
+
+long CuEyeCam::ParameterSet(UINT nCommand, LPCTSTR strFileName)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_BSTR;
+	InvokeHelper(0x15D, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, strFileName);
+	return result;
+}
+
+long CuEyeCam::ParameterSetNumber(UINT nCommand, UINT* pnNumber)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x15E, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnNumber);
+	return result;
+}
+
+long CuEyeCam::Transfer(UINT nCommand, UINT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x15F, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::TransferRange(UINT nCommand, UINT* pnMin, UINT* pnMax, UINT* pnInc)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x160, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnMin, pnMax, pnInc);
+	return result;
+}
+
+long CuEyeCam::Configuration(UINT nCommand, UINT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x161, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::HotPixel(UINT nCommand, UINT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x162, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnValue);
+	return result;
+}
+
+long CuEyeCam::AOI(UINT nCommand, INT* pXPos, INT* pYPos, INT* pWidth, INT* pHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x164, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pXPos, pYPos, pWidth, pHeight);
+	return result;
+}
+
+long CuEyeCam::AOI_MultiAxes(UINT nCommand, UINT* pnX1, UINT* pnX2, UINT* pnX3, UINT* pnX4, UINT* pnY1, UINT* pnY2, UINT* pnY3, UINT* pnY4)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x165, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnX1, pnX2, pnX3, pnX4, pnY1, pnY2, pnY3, pnY4);
+	return result;
+}
+
+long CuEyeCam::AOI_MultiMode(UINT nCommand, UINT* pnMode)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x166, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnMode);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence(UINT nCommand, INT* pnAOIIndex, INT* pnNumberOfCycleRepetitions, INT* pnXPos, INT* pnYPos, double* pdblExpsoure, INT* pnGain, INT* pnDetachImageParameters)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4 VTS_PI4 VTS_PI4 VTS_PR8 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x167, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnAOIIndex, pnNumberOfCycleRepetitions, pnXPos, pnYPos, pdblExpsoure, pnGain, pnDetachImageParameters);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence_NumberOfCycleRepetitons(UINT nCommand, INT* pnIndex, INT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x168, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnIndex, pnValue);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence_PosX(UINT nCommand, INT* pnIndex, INT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x169, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnIndex, pnValue);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence_PosY(UINT nCommand, INT* pnIndex, INT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x16A, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnIndex, pnValue);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence_Exposure(UINT nCommand, INT* pnIndex, double* pdblValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PR8;
+	InvokeHelper(0x16B, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnIndex, pdblValue);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence_Gain(UINT nCommand, INT* pnIndex, INT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x16C, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnIndex, pnValue);
+	return result;
+}
+
+long CuEyeCam::AOI_Sequence_DetachImageParameter(UINT nCommand, INT* pnIndex, INT* pnValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x16D, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnIndex, pnValue);
+	return result;
+}
+
+long CuEyeCam::AOI_SequenceMode(UINT nCommand, INT* pnMode)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PI4;
+	InvokeHelper(0x16E, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnMode);
+	return result;
+}
+
+long CuEyeCam::AOI_AbsolutePos(UINT nCommand, UINT* pnAbsPos)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_PUI4;
+	InvokeHelper(0x16F, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		nCommand, pnAbsPos);
+	return result;
+}
+
+long CuEyeCam::Convert(ULONGLONG pSourceBuffer, ULONGLONG pDestBuffer, INT nDestPixelFormat, INT nDestPixelConverter, INT nDestGamma, INT nDestEdgeEnhancement, INT nDestColorCorrectionMode, INT nDestSaturationU, INT nDestSaturationV)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI8 VTS_UI8 VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_I4; 
+	InvokeHelper(0x173, DISPATCH_METHOD, VT_I4, (void*)&result, parms,
+		pSourceBuffer, pDestBuffer, nDestPixelFormat, nDestPixelConverter, nDestGamma, nDestEdgeEnhancement, nDestColorCorrectionMode, nDestSaturationU, nDestSaturationV);
+	return result;
+}
+
+long CuEyeCam::Focus_IsAutoFocusSupported(UINT* puiSupported)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x174, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiSupported);
+	return result;
+}
+
+long CuEyeCam::Focus_SetAutoFocus (BOOL bEnable)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_I4;
+	InvokeHelper(0x175, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		bEnable);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocus (BOOL* pbEnable)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x176, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		pbEnable);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusStatus (INT* pnStatus)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x177, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		pnStatus);
+	return result;
+}
+
+long CuEyeCam::Focus_SetEnableAutoFocusOnce (void)
+{
+	long result;
+	InvokeHelper(0x178, DISPATCH_METHOD, VT_I4, (void*)&result, NULL);
+	return result;
+}
+
+long CuEyeCam::Focus_SetManualFocus (UINT uiManual)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4;
+	InvokeHelper(0x179, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		uiManual);
+	return result;
+}
+
+long CuEyeCam::Focus_GetManualFocus (UINT* puiManual)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x17A, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiManual);
+	return result;
+}
+
+long CuEyeCam::Focus_GetManualFocusRange (UINT* puiMin, UINT* puiMax, UINT* puiInc)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x17B, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiMin, puiMax, puiInc);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZone (UINT* puiPosX, UINT* puiPosY, UINT* puiWidth, UINT* puiHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x17C, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiPosX, puiPosY, puiWidth, puiHeight);
+	return result;
+}
+
+long CuEyeCam::Focus_SetAutoFocusZone (UINT uiPosX, UINT uiPosY, UINT uiWidth, UINT uiHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4 VTS_UI4 VTS_UI4 VTS_UI4;
+	InvokeHelper(0x17D, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		uiPosX, uiPosY, uiWidth, uiHeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneDefault (UINT* puiPosX, UINT* puiPosY, UINT* puiWidth, UINT* puiHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4 VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x17E, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiPosX, puiPosY, puiWidth, puiHeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZonePosMin	(UINT* puiPosX, UINT* puiPosY)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x17F, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiPosX, puiPosY);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZonePosMax	(UINT* puiPosX, UINT* puiPosY)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x180, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiPosX, puiPosY);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZonePosInc	(UINT* puiPosX, UINT* puiPosY)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x181, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiPosX, puiPosY);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneSizeMin (UINT* puiWidth, UINT* puiHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x182, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiWidth, puiHeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneSizeMax (UINT* puiWidth, UINT* puiHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x183, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiWidth, puiHeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneSizeInc (UINT* puiWidth, UINT* puiHeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4 VTS_PUI4;
+	InvokeHelper(0x184, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiWidth, puiHeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneWeight (VARIANT* pvuiWeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PVARIANT;
+	InvokeHelper(0x185, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		pvuiWeight);
+	return result;
+}
+
+long CuEyeCam::Focus_SetAutoFocusZoneWeight (VARIANT* pviWeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PVARIANT;
+	InvokeHelper(0x186, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		pviWeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneWeightDefault (VARIANT* puiWeight)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PVARIANT;
+	InvokeHelper(0x187, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiWeight);
+	return result;
+}
+
+long CuEyeCam::Focus_GetAutoFocusZoneWeightCount (INT* piWeightCount)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x188, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piWeightCount);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetImageEffectModeDefault (INT* piImageEffect)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x189, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piImageEffect);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetImageEffectMode (INT* piImageEffect)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x18A, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piImageEffect);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_SetImageEffectMode (INT iImageEffect)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_I4;
+	InvokeHelper(0x18B, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		iImageEffect);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetJPEGCompressionRange (INT* piMin, INT* piMax, INT* piInc)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4 VTS_PI4 VTS_PI4;
+	InvokeHelper(0x18C, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piMin, piMax, piInc);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetJPEGCompressionDefault (INT* piDefault)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x18D, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piDefault);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetJPEGCompression (INT* piValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x18E, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piValue);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_SetJPEGCompression (INT iValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_I4;
+	InvokeHelper(0x18F, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		iValue);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetNoiseReductionModeSupported (BOOL* pbValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x190, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		pbValue);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetNoiseReductionModeDefault (INT* piValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x191, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piValue);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetNoiseReductionMode (INT* piValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x192, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piValue);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_SetNoiseReductionMode (INT iValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_I4;
+	InvokeHelper(0x193, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		iValue);
+	return result;
+}
+
+long CuEyeCam::ColorTemperature_SetLensShadingModel(UINT uiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4;
+	InvokeHelper(0x194, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		uiValue);
+	return result;
+}
+
+long CuEyeCam::ColorTemperature_GetLensShadingModel (UINT* puiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x195, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiValue);
+	return result;
+}
+
+long CuEyeCam::ColorTemperature_GetLensShadingModelSupported (UINT* puiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x196, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiValue);
+	return result;
+}
+
+long CuEyeCam::ColorTemperature_GetLensShadingModelDefault (UINT* puiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x197, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiValue);
+	return result;
+}
+
+VARIANT CuEyeCam::ImageFormat_GetList (void)
+{
+	VARIANT result;
+	InvokeHelper(0x198, DISPATCH_METHOD, VT_VARIANT, (void*)&result, NULL);
+	return result;
+}
+
+long CuEyeCam::ImageFormat_GetNumberOfEntries (UINT* puiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x199, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiValue);
+	return result;
+}
+
+long CuEyeCam::ImageFormat_SetFormatID (UINT uiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_UI4;
+	InvokeHelper(0x19A, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		uiValue);
+	return result;
+}
+
+long CuEyeCam::ImageFormat_GetArbitraryAOISupported (UINT* puiValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PUI4;
+	InvokeHelper(0x19B, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		puiValue);
+	return result;
+}
+
+long CuEyeCam::ColorConverter (INT iColorMode, INT iConvertMode)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_I4 VTS_I4;
+	InvokeHelper(0x19C, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		iColorMode, iConvertMode);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetTemperature (double* pdblValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PR8;
+	InvokeHelper(0x19D, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		pdblValue);
+	return result;
+}
+
+long CuEyeCam::DeviceFeature_GetTemperatureSupported (INT* piValue)
+{
+	long result;
+	static BYTE parms[] =
+		VTS_PI4;
+	InvokeHelper(0x19E, DISPATCH_METHOD, VT_I4, (void*)&result, parms, 
+		piValue);
 	return result;
 }

@@ -2,7 +2,8 @@
 #include "QDebug"
 
 KPPRootTreePushButton::KPPRootTreePushButton(QString text,QTreeWidgetItem *widgetitem,QWidget *parent) :
-    QPushButton(text,parent)
+    QPushButton(text,parent),
+    m_WasGesture(false)
 {
 
     setObjectName(text);

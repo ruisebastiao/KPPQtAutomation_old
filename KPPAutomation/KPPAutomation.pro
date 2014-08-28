@@ -80,7 +80,8 @@ else:unix: LIBS += -L$$OUT_PWD/../KPPVision/ -lKPPVision
 INCLUDEPATH += $$PWD/../KPPVision
 DEPENDPATH += $$PWD/../KPPVision
 
-INCLUDEPATH += C:/boost/boost_1_55_0/
-LIBS += -LC:/boost/boost_1_55_0/stage/lib/
+
+INCLUDEPATH += C:/boost/boost_1_56_0
+LIBS += -LC:/boost/boost_1_56_0/stage/lib/
 
 QMAKE_CXXFLAGS += /DNOMINMAX
