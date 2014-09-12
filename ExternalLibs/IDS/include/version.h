@@ -1,4 +1,0 @@
-
-#define PROGRAM_VERSION_NUMBER	4, 41, 0, 0
-#define PROGRAM_VERSION_TEXT	"4.41.0.0"
-#define CURRENT_YEAR			"2014"
