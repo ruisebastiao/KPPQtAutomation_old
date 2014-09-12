@@ -20,7 +20,7 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
     setHeaderHidden(true);
     setIndentation(0);
     setAnimated(true);
-
+    parentWidget=parent;
     // setAutoExpandDelay();
 
     updatelayouttimer= new QTimer(this);
@@ -76,8 +76,8 @@ VisionTreeWidget::VisionTreeWidget(QWidget *parent) :
 
 
 
-    m_requestmenu=new RequestMenu(Settings::mainwidget);
-    m_inspectionmenu=new InspectionMenu(Settings::mainwidget);
+    m_requestmenu=new RequestMenu(parent);
+    m_inspectionmenu=new InspectionMenu(parent);
 
 }
 
@@ -158,12 +158,12 @@ void VisionTreeWidget::ListItemPressed(QModelIndex e)
 
     if(sender()->objectName()==list_Requests->objectName()){
         QRect wt=list_Requests->visualRect(e);
-        QRect mappedrect=QRect(list_Requests->mapTo(Settings::mainwidget,wt.topLeft()),list_Requests->mapTo(Settings::mainwidget,wt.bottomRight()));
+        QRect mappedrect=QRect(list_Requests->mapTo(parentWidget,wt.topLeft()),list_Requests->mapTo(Settings::mainwidget,wt.bottomRight()));
         m_requestmenu->setAlignmentRect(mappedrect);
     }
     else if(sender()->objectName()==list_Inspections->objectName()){
         QRect wt=list_Inspections->visualRect(e);
-        QRect mappedrect=QRect(list_Inspections->mapTo(Settings::mainwidget,wt.topLeft()),list_Inspections->mapTo(Settings::mainwidget,wt.bottomRight()));
+        QRect mappedrect=QRect(list_Inspections->mapTo(parentWidget,wt.topLeft()),list_Inspections->mapTo(Settings::mainwidget,wt.bottomRight()));
         m_inspectionmenu->setAlignmentRect(mappedrect);
     }
 

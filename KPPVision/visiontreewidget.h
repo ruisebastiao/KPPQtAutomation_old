@@ -65,6 +65,7 @@ private:
 
     RequestMenu *m_requestmenu;
     InspectionMenu *m_inspectionmenu;
+    QWidget* parentWidget;
 
 protected:
 
