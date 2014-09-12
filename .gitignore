@@ -60,7 +60,7 @@ ehthumbs.db
 
 # Folder config file
 Desktop.ini
-
+ExternalLibs/
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
