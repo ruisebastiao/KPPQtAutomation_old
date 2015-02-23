@@ -11,5 +11,8 @@ UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = objs
 
+INCLUDEPATH += $$PWD/../ExternalLibs/Qxt/include
+DEPENDPATH += $$PWD/../ExternalLibs/Qxt/include
+
 INCLUDEPATH += C:/boost/boost_1_55_0
 LIBS += -LC:/boost/boost_1_55_0/stage/lib/
