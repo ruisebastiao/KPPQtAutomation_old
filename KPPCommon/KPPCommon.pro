@@ -32,7 +32,7 @@ SOURCES += kppcommon.cpp \
 
 
   SOURCES += crashhandler.cpp
-   SOURCES += crashdialog.cpp
+  SOURCES += crashdialog.cpp
 
 
 HEADERS += kppcommon.h\
@@ -69,14 +69,10 @@ win32:QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
 FORMS += \
     crashdialog.ui
 
+
 ! include( ../common.pri ) {
     error( "Couldn't find the common.pri file!" )
 }
-
-! include( kppcommon.pri ) {
-    error( "Couldn't find the kppcommon.pri file!" )
-}
-
 
 
 

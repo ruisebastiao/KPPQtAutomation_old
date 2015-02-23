@@ -35,13 +35,6 @@ unix {
 
 
 
-unix|win32: LIBS += -L$$PWD/../ExternalLibs/IDS/Lib/ -luEye_tools_64
-unix|win32: LIBS += -L$$PWD/../ExternalLibs/IDS/Lib/ -luEye_tools
-unix|win32: LIBS += -L$$PWD/../ExternalLibs/IDS/Lib/ -luEye_api_64
-unix|win32: LIBS += -L$$PWD/../ExternalLibs/IDS/Lib/ -luEye_api
-
-INCLUDEPATH += $$PWD/../ExternalLibs/IDS/include
-DEPENDPATH += $$PWD/../ExternalLibs/IDS/include
 
 
 QMAKE_CFLAGS_RELEASE += -Zi

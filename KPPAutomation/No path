@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="11">
+<Projects class_id="0" tracking_level="0" version="0">
+	<count>1</count>
+	<item_version>0</item_version>
+	<item class_id="1" tracking_level="1" version="0" object_id="_0">
+		<m_Name>Projecto 1</m_Name>
+		<Requests class_id="2" tracking_level="1" version="0" object_id="_1">
+			<count>1</count>
+			<item_version>0</item_version>
+			<item class_id="3" tracking_level="1" version="0" object_id="_2">
+				<m_Name>Request 1</m_Name>
+				<Inspections class_id="4" tracking_level="1" version="0" object_id="_3">
+					<count>1</count>
+					<item_version>0</item_version>
+					<item class_id="5" tracking_level="1" version="0" object_id="_4">
+						<m_Name>Inspeção 1</m_Name>
+						<Capture class_id="7" class_name="ImageFileCapture" tracking_level="1" version="0" object_id="_5">
+							<CaptureSource class_id="6" tracking_level="1" version="0" object_id="_6"></CaptureSource>
+							<m_imagepath>C:/Users/automacao/Pictures/epson_gear.png</m_imagepath>
+						</Capture>
+						<ROIs class_id="8" tracking_level="1" version="0" object_id="_7">
+							<count>1</count>
+							<item_version>0</item_version>
+							<item class_id="9" tracking_level="1" version="0" object_id="_8">
+								<ResizableItem class_id="10" tracking_level="0" version="0">
+									<X>-5.30000000000000000e+001</X>
+									<Y>-5.30000000000000000e+001</Y>
+									<W>1.06000000000000000e+002</W>
+									<H>1.06000000000000000e+002</H>
+								</ResizableItem>
+								<m_Name>ROI 1</m_Name>
+							</item>
+						</ROIs>
+					</item>
+				</Inspections>
+			</item>
+		</Requests>
+	</item>
+</Projects>
+</boost_serialization>
+
